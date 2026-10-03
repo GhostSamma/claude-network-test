@@ -1,0 +1,162 @@
+JOB 3
+TOPIC: editing rhythm (cut rate, shot length, cutting on motion/beat) measured against audience outcomes and perception
+DATE: 2026-10-03
+SECTIONS: 13 (11 findings, 1 NOT FOUND ledger, 1 verdict)
+NOT FOUND SUB-QUESTIONS: 8 (listed in section 12)
+
+1. Shot length and motion trends in film: described, never tied to a viewer outcome
+
+Cutting, Brunick, DeLong, Iricinschi and Candan measured 160 films, 1935-2010. Shot lengths fell: "ASLs of about 10 s in the 1930s and 1940s falling to below 4 s after 2000" (r = -.75). Motion rose, and in recent films shorter shots carry more motion: "for more recent films ... shorter shots tend to have more motion, and longer shots less motion per unit time" (r = -.46 for the shot-length by motion relation across release years). Their explanation is a hypothesis: "Filmmakers have incrementally tried to exercise more control over the attention of filmgoers." They add "These might also increase viewer engagement".
+
+Cutting's 2016 follow-up on 210 movies is blunt that nothing was measured on the audience: "How effective this manipulation is for the viewer is unknown" and "Future research is needed to tie these patterns more directly to viewers' responses."
+
+Cutting, DeLong and Nothelfer 2010 (abstract only, via Crossref) report shot lengths becoming more correlated with neighbors, approaching a 1/f pattern, and that this "may help harness observers' attention to the narrative of a film". That is a hypothesis in the abstract; the abstract reports no audience test.
+
+Applying it: cut rate and ASL come straight from PySceneDetect. The "faster is better" assumption has no viewer-outcome evidence here.
+
+SOURCE: [PEER-REVIEWED] Cutting, Brunick, DeLong, Iricinschi, Candan (2011) "Quicker, faster, darker: Changes in Hollywood film over 75 years", i-Perception, https://pmc.ncbi.nlm.nih.gov/articles/PMC3485803/ ; Cutting (2016) "The evolution of pace in popular movies", Cognitive Research: Principles and Implications, https://pmc.ncbi.nlm.nih.gov/articles/PMC5256470/ ; Cutting, DeLong, Nothelfer (2010) Psychological Science, abstract only, https://doi.org/10.1177/0956797610361679
+SEPARATED FROM TOPIC? no. Descriptive counts of films; no audience outcome at all, so nothing to separate.
+
+2. Same story, different cut rate: faster cutting lowered blink rate (an attention proxy)
+
+Andreu-Sanchez, Martin-Pascual, Gruart and Delgado-Garcia (2017) built "Four stimuli with the same narrative but different video edition style": a one-shot version, a Hollywood-style version ("33 different shots and an ASL of 5.9 seconds") and an MTV-style version ("79 shots ... ASL of 2.4 seconds"), each about 198 s. 40 adults (20 media professionals, 20 not) saw all versions in randomized order while blinks were recorded. Result: "MTV editing style inhibits eyeblinks more than Hollywood style and one-shot style." Overall the three styles differed (Friedman p = 0.027), but "Pairwise comparison showed a substantial statistical difference only between one-shot movie and MTV-style movie (p < 0.05)". Media professionals blinked less in every style.
+
+Caveats. The outcome is blink rate, not watching or sharing. The MTV version also "did not follow classical editing rules", so cut rate and cutting style are tangled. One scripted scene (man juggles, types, eats an apple), small N.
+
+Applying it: lower ASL in the same footage coincided with fewer blinks. A person can test this on their own cut by re-editing one take at two ASLs, but would need an eye or blink measure, not analytics.
+
+SOURCE: [PEER-REVIEWED] Andreu-Sanchez et al. (2017) "Eyeblink rate watching classical Hollywood and post-classical MTV editing styles, in media and non-media professionals", Scientific Reports, https://pmc.ncbi.nlm.nih.gov/articles/PMC5318946/
+SEPARATED FROM TOPIC? yes. Identical narrative and script across versions, within-subject, randomized presentation order; only the edit varies. Partly confounded: editing style and cut rate move together.
+
+3. Cuts trigger orienting responses; cutting between unrelated scenes costs memory (TV lab studies, 1993)
+
+Lang, Geiger, Strickwerda and Sumner (1993), abstract only: "both related and unrelated cuts resulted in cardiac orienting responses. Reaction times were slower immediately following unrelated cuts than when following related cuts, indicating that processing unrelated cuts required more capacity than processing related cuts. Memory was better for information presented after related cuts than it was for information presented after unrelated cuts."
+
+Geiger and Reeves (1993), abstract only: "Unrelated sequences required more attention 1 second after the cut." Attention to related sequences "decreased over the course of the entire sequence, whereas attention to unrelated sequences remained constant over time."
+
+What an editor controls: whether the cut joins related shots (same scene, same audio) or unrelated ones. Cost shows up in the first second after the cut.
+
+Limit stated in the abstract itself: "Unrelated cuts were always associated with a change in content." So cut type and content change are the same variable here.
+
+Applying it: label each cut in your file as within-scene (same subject, same audio bed) or across-scene by hand or by frame-similarity before and after the cut (histogram or embedding distance around PySceneDetect cut times).
+
+SOURCE: [PEER-REVIEWED] Lang, Geiger, Strickwerda, Sumner (1993) Communication Research, abstract only via Crossref, https://doi.org/10.1177/009365093020001001 ; Geiger and Reeves (1993) Communication Research, abstract only via Crossref, https://doi.org/10.1177/009365093020002001
+SEPARATED FROM TOPIC? partly. Lab-built sequences with related vs unrelated cuts, so topic is held constant within a sequence type, but the abstract says content change and cut type were confounded by design.
+
+4. Pacing and memory depend on the viewer: young adults vs older adults (Lang 2015)
+
+Lang, Schwartz and Mayell (2015), abstract only: "Older and younger adults had similar arousal responses but different patterns of attention and memory. Older adults paid more attention to all messages than did younger adults. However, this attention did not translate into greater memory. Older and younger adults had similar levels of memory for slow-paced messages, but younger adults outperformed older adults significantly as pacing increased."
+
+The abstract gives only the age contrast and the point that attention did not equal memory. It gives no pacing-to-memory curve for either group and no cut rates.
+
+Applying it: the audience age mix matters for any pace advice. Not an editor-controlled variable.
+
+SOURCE: [PEER-REVIEWED] Lang, Schwartz, Mayell (2015) "Slow Down You're Moving Too Fast", Journal of Media Psychology, abstract only via Crossref, https://doi.org/10.1027/1864-1105/a000130
+SEPARATED FROM TOPIC? no. The abstract says messages were "selected to vary on two factors, arousing content and valence" (found, not edited), so pacing is confounded with content in the stimulus set.
+
+5. Cuts that follow continuity rules, and cuts at a sudden onset of motion, are missed more often
+
+Smith and Henderson (2008) had viewers press a key at every cut in feature-film excerpts while eye movements were recorded. Abstract: "edits constructed according to the Continuity Editing Rules result in greater edit blindness than edits not adhering to the rules. A quarter of edits joining two viewpoints of the same scene were undetected and this increased to a third when the edit coincided with a sudden onset of motion." Cause: "the majority seem to be due to inattentional blindness as viewers attend to the depicted narrative", not blinks or saccades.
+
+This is the measured basis for "cut on action". What it shows: the cut is less noticed. What it does not show: that unnoticed cuts raise completion or shares. No such link was tested.
+
+Smith's 2012 theory essay (no data) states the editor's rule: match-action cuts should coincide "with the onset of the action" and show "the same action at the same screen location as pre-cut".
+
+Applying it: at each PySceneDetect cut time, compute optical-flow magnitude in the 0.3 s before and after (OpenCV Farneback). "Cut on action" = flow rising across the cut, with the moving object at a similar screen position.
+
+SOURCE: [PEER-REVIEWED] Smith and Henderson (2008) "Edit Blindness: The relationship between attention and global change blindness in dynamic scenes", Journal of Eye Movement Research 2(2), full text via https://ualresearchonline.arts.ac.uk/id/eprint/21208/ ; Smith (2012) "The Attentional Theory of Cinematic Continuity", Projections, author manuscript via https://ualresearchonline.arts.ac.uk/id/eprint/21187/
+SEPARATED FROM TOPIC? partly. Within real film excerpts, cut types compared on the same task, but the cut types come from different scenes, so content differs between conditions. Outcome is cut detection, not audience behavior.
+
+6. Manipulating motion and sound around a cut: post-cut motion and the soundtrack carry the effect
+
+Smith and Martin-Portugues Santacreu took existing Hollywood match-action clips and removed motion before the cut, after it, both, or neither, with or without the original soundtrack. 27 viewers were analysed (of 32 tested). Abstract: "Removing post-cut motion significantly decreased cut detection time and the probability of missing the cut. By comparison, removing pre-cut motion had no effect suggesting, contrary to the editing literature, that the onset of motion before a cut may not be as critical for creating edit blindness as the motion after a cut." And: "Audio played a surprisingly large part in creating edit blindness with edit blindness mostly disappearing without audio."
+
+Numbers (with audio): intact cuts missed M = .141; with post-cut motion removed .078; both removed .067; pre-cut removed .115 (n.s. vs intact). Silent clips were detected faster (618.4 ms vs 650.0 ms with audio).
+
+Reading for an editor: keep movement continuing into the new shot, and keep the sound bed running across the cut. The measured result is lower cut awareness. No watch-time test.
+
+Applying it: check whether audio is continuous across each cut (RMS level or a held music bed across PySceneDetect boundaries) and whether motion continues after it.
+
+SOURCE: [PEER-REVIEWED] Smith and Martin-Portugues Santacreu (2017) "Match-Action: The Role of Motion and Audio in Creating Global Change Blindness in Film", Media Psychology 20(2); fetched the accepted manuscript, https://eprints.bbk.ac.uk/14904/1/CutDetect_MediaPsych_timjsmith_unblind_preprint.pdf
+SEPARATED FROM TOPIC? yes. The same clips are re-rendered with motion and audio removed, within subjects, so footage, subject matter and cut position are identical across conditions. Outcome is cut detection, not watching.
+
+7. The only short-video audience study that includes shots per second: a composite, an inverted U, and no reliable straight-line effect
+
+Xue, Zhang, Wang, Kim and Song (arXiv 2026) scored 1,200 Instagram Reels on a "Message Sensation Value" built from 20 audiovisual features (two are cuts: "shot count per second and shot duration per second"), then regressed engagement on it. Engagement is "the sum of the number of views, likes, and comments". Abstract: "While MSV is positively associated with sensory engagement, it shows an inverted U-shaped relationship with behavioral engagement: Higher MSV elicits stronger sensory stimulation, but moderate MSV optimizes behavioral engagement." Replicated on two other datasets (N = 14,492).
+
+The negative: in the straight-line model "this relationship did not hold significance with covariates adjusted (b = -0.11, SE = 0.11 ... p = .318)". (The text calls the unadjusted sign "positive" while printing b = -0.49; treat the sign as unclear.) The curve appears only with a squared term. They illustrate: "a 60-second video with approximately 12 shots would be ideal, contrasting the high-MSV version with 24 shots on average". This describes score bins, not an isolated cut-rate effect.
+
+Authors say it "remains correlational" and "we captured visual motion with shot changes only". Their first model lists covariates posting time, duration, topic, account popularity; the engagement model says only "covariates adjusted".
+
+Secondhand (their citation of Morgan et al. 2003, not fetched): "shot changes and background music were unrelated to PMSV".
+
+SOURCE: [PREPRINT] Xue, Zhang, Wang, Kim, Song (2026) "A Computational Model of Message Sensation Value in Short Video Multimodal Features that Predicts Sensory and Behavioral Engagement", arXiv 2604.19995, https://arxiv.org/abs/2604.19995
+SEPARATED FROM TOPIC? partly. Topic, duration, posting time and account popularity are in the adjusted models and the sample is stratified by topic and account size; but shot rate is one of 20 features in a composite, not tested alone, and the outcome is views plus likes plus comments, not watch time.
+
+8. TV commercials: second-by-second zapping, with cuts coded frame by frame
+
+Teixeira, Wedel and Pieters ran eye tracking and zapping on "31 commercials for nearly 2,000 participants" (published abstract, via Crossref). Their working-paper text codes pacing frame by frame: "Pacing was measured by the presence of cuts and edits (1) versus not (0) in each frame of the commercials". The model asks what makes a viewer stop watching at each moment, with ad, brand and viewer effects controlled.
+
+Relative sizes (standardized variables): "the order of importance is (1) attention concentration metrics, with a combined posterior (absolute) mean effect of 1.50, (2) the branding variables ... 0.49, (3) the visual complexity measures with 0.10". Visual complexity here is built from image complexity, with the cut/edit flag entering it. And: "None of the other control variables was significant", the controls including cut-versus-edit pacing type. That is the strongest negative result I found: cut presence at a given moment was not what predicted leaving.
+
+What moved zapping was branding timing, which is an editing choice of a different kind: "brand pulsing ... decreases commercial avoidance significantly", confirmed in "a controlled experiment using regular and edited commercials". It is brand placement, not cut rate.
+
+Caveat: I read the 2008 working paper; the published 2010 version may differ. For the abstract-only published version, only the abstract was fetched.
+
+SOURCE: [PREPRINT] Teixeira, Wedel, Pieters (2008 working paper) "Moment-to-Moment Optimal Branding in TV Commercials: Preventing Avoidance by Pulsing", https://marketing.wharton.upenn.edu/wp-content/uploads/2016/10/reixwira_moment_to_moment_optimal_branding.pdf ; published as Marketing Science 2010, abstract only, https://doi.org/10.1287/mksc.1100.0567
+SEPARATED FROM TOPIC? yes, partly by design. Moment-to-moment within the same commercial, so the ad's topic and brand are fixed; plus an experiment that re-edits the same commercials. It does not vary overall cut rate.
+
+9. Short-video watch data exist, but nobody has separated the edit from the content
+
+The VQualA 2025 challenge released SnapUGC: "120,651 short videos, all of which were published on Snapchat Spotlight", 5 to 60 s long. Engagement metric: "Engagement Continuation Rate (ECR): Represents the probability that a viewer watches beyond the initial 5 seconds." Models that see the video and its title scored about SROCC 0.66 (baseline) to 0.707 (best); a text-only entry scored 0.439. The challenge ECR is "derived from normalizing the ranking of real ECR", not the raw rate.
+
+What this says: content as a whole predicts 5-second continuation well above chance, and title and description alone predict far less. What it does not say: how much is the cut rate. No team reported a cut-rate ablation, and the words "cut" and "shot" do not appear in the paper.
+
+Use: if the SnapUGC data are open (the paper points to a GitHub page; I did not verify the download), cut rate from PySceneDetect could be regressed on ECR with category as a control. That analysis was not found in the literature.
+
+SOURCE: [DATASET] Li, Ma, Hua et al. (2025) "VQualA 2025 Challenge on Engagement Prediction for Short Videos: Methods and Results", arXiv 2509.02969, https://arxiv.org/abs/2509.02969 (project page named in the paper: https://github.com/dasongli1/SnapUGC_Engagement, not fetched)
+SEPARATED FROM TOPIC? no. Whole-video models mix subject, people, audio, title and edit; no feature group is isolated.
+
+10. Cutting on the beat: editors do it, nobody has measured whether viewers care
+
+Pretet, Richard and Peeters (ISMIR 2021) interviewed music-video experts and ran shot detection (TransNet) on official music videos with beat and bar tracking. Abstract: "editors favor the co-occurrence of music and video events using strategies such as anticipation. It also highlights that the amount of co-occurrence depends on the music and video genres." Average shot length in their sample: "4.76s". They compared the most common shot duration to beat and bar duration (examples: 2.72 s shots on an 88 bpm track, 1.93 s on a 124 bpm track).
+
+This is a description of practice. It has no viewer measure, no retention, no preference test.
+
+Applying it: from a file, compute beat times with librosa or madmom and the offset from each PySceneDetect cut to the nearest beat or downbeat; the paper's co-occurrence idea is the template. Whether on-beat cuts retain more viewers: NOT FOUND (see ledger).
+
+SOURCE: [PEER-REVIEWED] Pretet, Richard, Peeters (2021) "Is there a 'language of music-video clips'? A qualitative and quantitative study", ISMIR 2021, fetched from arXiv, https://arxiv.org/abs/2108.00970
+SEPARATED FROM TOPIC? no. Observational, no audience outcome.
+
+11. Children's TV: the cut rate doubled in 26 years, and "pace" has two parts
+
+Koolstra et al. (2004), abstract only, scored 49 Dutch Sesame Street episodes from 1977-2003. "Factor analysis indicated that clear pace factors were (a) 'editing,' consisting of a frequent use of different types of shots ... combined with a large number of cuts and (b) speech rate. Over a period of 26 years, the pace of editing increased: the mean number of cuts increased from about 4 to 8 per minute. The mean speech rate decreased from 175 to 139 words per minute."
+
+Two things for a short-video editor. Cut rate and speech rate are separate pace factors that moved in opposite directions here. And the paper's premise that high pace explains the program's success is an assumption stated in the abstract ("with its high pace"), not a test.
+
+Applying it: report cuts per minute and words per minute separately; the second can come from a transcript with timestamps.
+
+SOURCE: [PEER-REVIEWED] Koolstra, van Zanten, Lucassen, Ishaak (2004) "The Formal Pace of Sesame Street over 26 Years", Perceptual and Motor Skills, abstract only via Crossref, https://doi.org/10.2466/pms.99.1.354-360
+SEPARATED FROM TOPIC? no. Counts only; no audience outcome.
+
+12. NOT FOUND LEDGER (each is a claim I could not support from fetched text)
+
+a. Lang, Zhou, Schwartz, Bolls and Potter (2000), edits, arousal, attention, memory. The publisher withheld the abstract (Semantic Scholar returned "abstract": null, fields "elided by the publisher"); tandfonline, PsycNet, Gale and academia.edu returned 403. The lead's claim that memory falls past a threshold of edit rate is therefore NOT FOUND. Search-engine summaries conflicted on this point, so I used none.
+b. Bolls, Muehling and Yoon (2003) commercial pacing and attention and memory; and Lang et al. (2005) pacing and channel changing in TV news. Only titles and DOIs fetched. One mirror of the 2005 PDF (thedocc.com) redirects to an unrelated gambling domain; I did not use it.
+c. The r = -.089 of Cutting, DeLong and Nothelfer (2010) against IMDb ratings: supplied in the brief, not found in any text I fetched (the abstract has no ratings test).
+d. Cutting and Candan (2015) and Detenber, Simons and Bennett (1998) on motion and arousal: no abstract or text fetched.
+e. A study that computes cut rate from short videos and regresses it alone on watch time or completion with channel size controlled: NOT FOUND. Closest is section 7 (composite, views+likes+comments).
+f. Measured effect of cutting on the beat on any audience outcome: NOT FOUND (section 10 is descriptive).
+g. A direct fetched measure of perceived pace or arousal against cut density: NOT FOUND. Closest are blink rate (section 2) and orienting responses at cuts (section 3).
+h. Advertising recall literature on cut rate: NOT FOUND beyond section 8's zapping model; the studies in (b) were not retrievable.
+SOURCE: NOT FOUND (no fetchable text for any item above; see each item for what was and was not retrieved)
+SEPARATED FROM TOPIC? n/a (ledger of unsupported claims)
+
+13. Verdict and how to measure from a file
+
+I found no study that computed cut rate from a short video and tied it to watch time or completion with topic, title, thumbnail and channel size held fixed. The nearest is one composite-feature study of 1,200 Reels (section 7) and it found no reliable straight-line effect once covariates were added. The cleanest edit-only manipulations (sections 2, 6) measure blinking and cut detection, not watching.
+
+Method note. Every quote above was pulled from text fetched in this session (full text, or abstract only where I say so). Where the publisher withheld the text, the claim is in the NOT FOUND ledger, not in a finding. Measuring cut rate from a file: PySceneDetect (ContentDetector) gives cut times; cuts per second = number of cuts / duration; average shot length (ASL) = duration / number of shots. Motion: the Cutting group's "visual activity index" is 1 minus the median correlation between frames two apart, excluding frames across cuts (OpenCV or ffmpeg can compute it).
+
+SOURCE: [PLATFORM DOC] PySceneDetect ContentDetector docs, https://www.scenedetect.com/docs/latest/api/detectors.html ; the verdict itself is a synthesis of sections 1-11 above (see each section for its own links and class tags)
+SEPARATED FROM TOPIC? partly. Only sections 2, 6 and 8 hold footage or the ad fixed while the edit varies; none of them measures watch time on short-form video.
