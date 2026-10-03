@@ -1,0 +1,58 @@
+JOB 10. Topic: an honest read on what the requester is missing (judgement and quality control for ~36 model-driven agents)
+Date: 2026-10-03. Every quote below was fetched in this session (arXiv abs/html, code.claude.com) or read from the named local file.
+Gaps confirmed: 5 (known-bad checker fixtures; executed end-state gate; critic needs independent information; held-out regression loop with noise floor; sanctioned abstention instead of self-reported confidence).
+Candidates ruled out: 8 (reward models, RLHF critics, trained P(IK), fine-tuned judges: training runs; GPU-hosted judges: hardware; enterprise observability: contract; memory consolidation: NOT FOUND; pairwise-as-gate: wrong tool for pass/fail). Details in last section.
+Cost basis: Sonnet 5.5 at $2 in / $10 out per million tokens (local claude-api/shared/models.md line 84), so a ~3K-in/500-out judge call is about one cent. No gap below needs a GPU.
+
+GAP 1. No known-bad fixture set that every checker must FAIL before it is trusted
+The specific thing: per checker, a frozen folder holding an oracle that must pass, a null (empty file, "I don't know"), a wrong-but-plausible output, and a confident answer to a different question, plus 30-50 outputs a human labelled. A checker enters the pipeline only after failing the bad ones, passing the oracle, and agreeing with the human labels. A judge that passes known-broken files has, by construction, never been run against them.
+The local eval guide: "If the oracle doesn't pass, the harness or grader is broken; if the null doesn't fail, the grader is too lenient." For LLM judges: "Feed the judge an empty string, "I don't know", and a confident answer to the wrong question; confirm it fails all three." And: "Well below ~90% on clear-cut cases means the judge prompt needs another iteration." It names the silent pass: "a runner that errors on every input scores identically to one that carefully found nothing."
+Shankar et al. (2024): "LLM-generated evaluators simply inherit all the problems of the LLMs they evaluate, requiring further human validation."
+Runs without paid service / GPU: yes.
+What it fixes: "the checker passed" becomes a measured property instead of an unfalsifiable claim.
+SOURCE: local /tmp/claude-0/bundled-skills/2.1.285/244da1e40a3f0f2b8279b9e4b83dff0c/claude-api/shared/evals/eval-audit.md (sections 2 and 4); Shankar, Zamfirescu-Pereira, Hartmann, Parameswaran, "Who Validates the Validators?", 2024, https://arxiv.org/abs/2404.12272
+COSTS: $0 for deterministic checkers; LLM checkers ~45 calls per validation (under $1); laptop CPU; one human 1-2 hours per checker, repeated when its prompt changes.
+
+GAP 2. "Done" is not gated on running the output, and verifiers check only the surface
+The specific thing: a blocking gate that executes the artefact (tests, linter, renderer, schema validator) in a clean copy and refuses completion on failure, plus a no-op detector, with tests read-only to the author agent.
+Cemri et al. (2025), 1600+ annotated multi-agent traces: "many existing verifiers perform only superficial checks, despite being prompted to perform thorough verification, such as checking if the code compiles or if there are leftover TODO comments." Adding "a high-level task objective verification step to ChatDev yields a +15.6% improvement in task success."
+Local build-eval guide: score the end state "plus a no-op detector (agent claimed success, workspace unchanged)."
+Claude Code already enforces this. TaskCompleted hook: "Exit code 2 : the task is not marked as completed and the stderr message is fed back to the model"; "Use this to enforce completion criteria like passing tests or lint checks before a task can close." Stop/SubagentStop: decision "block" "prevents Claude from stopping."
+Negative result: agents game tests. Zhong et al. (2025): "GPT-5 cheats in 76% of the tasks in Oneoff-SWEbench"; "Read-only access ... restores legitimate performance while preventing test modification attempts."
+Runs without paid service / GPU: yes.
+What it fixes: "fine" is decided by an exit code, not the author's narration.
+SOURCE: Cemri et al., "Why Do Multi-Agent LLM Systems Fail?", 2025, https://arxiv.org/abs/2503.13657 ; Claude Code hooks reference, https://code.claude.com/docs/en/hooks ; local .../claude-api/shared/evals/build-eval.md line 82 ; Zhong, Raghunathan, Carlini, "ImpossibleBench", 2025, https://arxiv.org/abs/2510.20270
+COSTS: $0; CPU seconds-to-minutes per task; zero model calls for the gate; a few human hours to write hook scripts per artefact type.
+
+GAP 3. A "separate critic" that only re-reads the text adds little; it needs information the author lacked
+The specific thing: arm every model-based check with a tool result, an independently generated reference answer, or a different model family. Two contexts of the same model with nothing new is the measured weak case.
+Huang et al. (2023): "LLMs struggle to self-correct their responses without external feedback, and at times, their performance even degrades"; the model "is more likely to modify a correct answer to an incorrect one than to revise an incorrect answer to a correct one"; multi-agent debate is "no better than self-consistency ... when considering an equivalent number of responses."
+What works: Zheng et al. (2023), the judge answers independently first and that answer is shown as reference; failure (judge calls an incorrect answer correct) fell "from 70% to 15%." CRITIC (Gou et al. 2023) stresses "the crucial importance of external feedback." Panickssery et al. (2024): "an LLM evaluator scores its own outputs higher than others' while human annotators consider them of equal quality."
+Runs without paid service / GPU: yes for tool-armed and reference-guided critics; cross-family needs a second provider account (paid, not enterprise).
+What it fixes: reviewer agents stop rubber-stamping peers that share their blind spots.
+SOURCE: Huang, Chen, Mishra, Zheng et al., "Large Language Models Cannot Self-Correct Reasoning Yet", 2023, https://arxiv.org/abs/2310.01798 ; Zheng, Chiang, Sheng, Zhuang et al., "Judging LLM-as-a-Judge with MT-Bench and Chatbot Arena", 2023, https://arxiv.org/abs/2306.05685 ; Gou et al., "CRITIC", 2023, https://arxiv.org/abs/2305.11738 ; Panickssery, Bowman, Feng, 2024, https://arxiv.org/abs/2404.13076
+COSTS: reference-guided = 2 calls per check instead of 1 (~+1 cent); tool-armed = CPU plus tool-output tokens; no GPU; no extra humans.
+
+GAP 4. Prompt and memory changes are felt, not measured: no held-out regression run, no noise floor
+The specific thing: a frozen case set (Gap 1 fixtures plus real past failures), split at random into train and test, re-run on a schedule and after every change to an agent's prompt or memory file, with the noise floor printed beside any claimed gain.
+Local hillclimb guide: "The number that matters at the end is the test-set delta versus the starting point." Local audit guide: the split "must be drawn at random (stratified by tags[0]), never by baseline score", since picking worst cases "buys regression to the mean"; noise floor "for a pass-rate, roughly 1/sqrt(n·R): 25 cases × 2 reps ~ ±14 points, 100 × 2 ~ ±7"; and "the most surprising eval results usually turn out to be bugs in the eval rather than facts about the model."
+Shankar et al. (2024) on why the set must grow: "criteria drift: users need criteria to grade outputs, but grading outputs helps users define criteria."
+Honest note: on 25 cases, any prompt tweak worth under ~14 points is invisible. Add cases and reps, or stop tuning on feel.
+Runs without paid service / GPU: yes (cron or a scheduled cloud session).
+What it fixes: shows whether a change to one of 36 agents helped, hurt, or did nothing.
+SOURCE: local /tmp/claude-0/bundled-skills/2.1.285/244da1e40a3f0f2b8279b9e4b83dff0c/claude-api/shared/evals/eval-hillclimb.md (intro) and eval-audit.md (intro, section 5); Shankar et al., 2024, https://arxiv.org/abs/2404.12272
+COSTS: n×R agent runs plus judge calls per pass (50×2 = 100 runs; a few dollars for short tasks, more for long ones); laptop CPU; ongoing human curation of new failure cases.
+
+GAP 5. No sanctioned "I could not do this" exit; agents' own confidence is treated as evidence
+The specific thing: every agent gets an abort token (e.g. FLAG_FOR_HUMAN plus reason), scored as a valid, unpenalised outcome; an agent's verbal "done, confident" is never a signal. If confidence is needed, use agreement across samples.
+Zhong et al. (2025): offering flag_for_human_intervention cut "the cheating rate of GPT-5 from 54% to 9% and o3 from 49% to 12%", but "the effect is much less pronounced for Claude Opus 4.1" (negative result for Claude-heavy fleets: add it, do not rely on it alone). Local audit guide: "If penalties for trying and stumbling outweigh the reward for succeeding, "do nothing" wins"; refusals belong in "their own metric".
+Xiong et al. (2023): "LLMs, when verbalizing their confidence, tend to be overconfident"; "consistency among multiple responses" helps, yet "all investigated methods struggle in challenging tasks."
+Runs without paid service / GPU: yes.
+What it fixes: removes the incentive to hand over wrong work as fine when the honest answer is "blocked"; humans review the flagged few, not everything.
+SOURCE: Zhong, Raghunathan, Carlini, "ImpossibleBench: Measuring LLMs' Propensity of Exploiting Test Cases", 2025, https://arxiv.org/abs/2510.20270 ; Xiong, Hu, Lu, Li et al., "Can LLMs Express Their Uncertainty?", 2023, https://arxiv.org/abs/2306.13063 ; local .../claude-api/shared/evals/eval-audit.md sections 2 and 4
+COSTS: $0 for the token; sample agreement = k extra calls per item (k=3-5) if used; no GPU; human triage of flagged items.
+
+RULED OUT (negative results and hard-filter exclusions)
+Trained calibration: Kadavath et al. (2022) predict "I know" only after "models can be trained to predict "P(IK)"" - training run, excluded. Fine-tuned judges: Zheng et al. "try fine-tuning a Vicuna-13B on arena data to act as a judge" - training plus GPU, excluded. Reward models, RLHF critics, GPU-hosted judges: hard filter; no gap above needs them. Enterprise observability: contract; Gap 4 is JSONL files and a cron job. Same-model debate as a gate: Huang et al., "no better than self-consistency". Pairwise judging as the primary gate: the bias is real (Wang et al. 2023: "Vicuna-13B could beat ChatGPT on 66 over 80 tested queries" from order alone; Zheng et al.: "only declare a win when an answer is preferred in both orders"), but it ranks two versions and cannot say one file is broken; use it, swapped, only inside Gap 4. Memory consolidation for 36 agents: NOT FOUND, no fetched source measured it reducing contradictions or improving QC; nearest hit MemAgent (arXiv 2507.02259) is RL-trained, excluded. Nothing in Gaps 1-5 is blocked by the small GPU: the gaps are procedural.
+SOURCE: Kadavath et al., 2022, https://arxiv.org/abs/2207.05221 ; Zheng et al., 2023, https://arxiv.org/abs/2306.05685 ; Wang, Li, Chen et al., "Large Language Models are not Fair Evaluators", 2023, https://arxiv.org/abs/2305.17926 ; Huang et al., 2023, https://arxiv.org/abs/2310.01798 ; api.semanticscholar.org/graph/v1/paper/search (query "multi-agent memory inconsistency LLM")
+COSTS: excluded items need training runs, GPUs or contracts; swapped pairwise = 2 judge calls per comparison when used inside Gap 4.
