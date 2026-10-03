@@ -6,8 +6,9 @@ cd "$(git rev-parse --show-toplevel)"
 PASS=""
 for f in "$@"; do
   python3 research/judge/check.py --require "SOURCE:,SEPARATED FROM TOPIC?" "$f"; rc=$?
-  total=$(grep -c "^SOURCE:" "$f"); tagged=$(grep -cE "^SOURCE: *\[(PEER-REVIEWED|PREPRINT|PLATFORM DOC|DATASET|VENDOR)\]" "$f")
-  if [ "$total" = "$tagged" ]; then echo "  tags: $tagged/$total OK"; else echo "  FAIL tags: $tagged/$total untagged:"; grep "^SOURCE:" "$f" | grep -vE "^SOURCE: *\[" | head -3 | sed 's/^/    /'; rc=1; fi
+  # A NOT FOUND ledger has no source class, so it is exempt from the tag rule (check.py already exempts it from the link rule).
+  total=$(grep "^SOURCE:" "$f" | grep -vc "^SOURCE: *NOT FOUND"); tagged=$(grep -cE "^SOURCE: *\[(PEER-REVIEWED|PREPRINT|PLATFORM DOC|DATASET|VENDOR)\]" "$f")
+  if [ "$total" = "$tagged" ]; then echo "  tags: $tagged/$total OK"; else echo "  FAIL tags: $tagged/$total untagged:"; grep "^SOURCE:" "$f" | grep -vE "^SOURCE: *(\[|NOT FOUND)" | head -3 | sed 's/^/    /'; rc=1; fi
   echo "  class mix: $(grep -oE '^SOURCE: *\[[A-Z -]+\]' "$f" | sed 's/SOURCE: *//' | sort | uniq -c | awk '{printf "%s×%s ", $2" "$3, $1}' | sed 's/×/ ×/g')"
   echo "  separated: $(grep -oiE '^SEPARATED FROM TOPIC\? *(yes|no|partly)' "$f" | awk '{print tolower($NF)}' | sort | uniq -c | awk '{printf "%s %s  ", $2, $1}')"
   [ $rc -eq 0 ] && PASS="$PASS $f"
