@@ -1,0 +1,214 @@
+JOB 5
+TOPIC: Why view count might be the wrong thing to learn from (luck, rich-get-richer, repeat posting, measurement of the label)
+DATE: 2026-10-03
+SECTIONS: 16
+NOT FOUND SUB-QUESTIONS: 5 (listed at end of file)
+
+FINDING 1. THE CEILING: CONTENT FEATURES EXPLAIN UNDER 5% OF VARIANCE; EVERYTHING TOGETHER EXPLAINS UNDER HALF
+
+Martin et al. predicted Twitter URL cascade sizes: "Despite an unprecedented volume of information about users, content, and past performance, our best performing models can explain less than half of the variance in cascade sizes." The number: "the best R2 that can be achieved with a state-of-the-art model is 0.48, leaving more than half of the variance in cascade sizes unexplained."
+
+Content alone: "We find that content-based features alone perform poorly ... both basic content and topic features for a tweet lead to a negligibly low R2. Even after including past success of tweets, R2 stays well below 0.05." The poster mattered more: "a model with only basic user features achieves R2 close to 0.2", and "adding a user's past success leads to a large bump in model performance: R2 increases to 0.42 on the unrestricted dataset, and up to 0.48 on the restricted dataset."
+
+An earlier result (Bakshy et al., second-hand via Martin): "even the best performing model was able to explain only about a third of the observed variance (R2 ≈0.34)", while being "extremely well calibrated ... (R2 ≈0.98)—implying that errors in predicting individual outcomes derive at least in part from intrinsic stochasticity".
+
+Simulations: "even a small degree of uncertainty in estimating product quality or slight variation in quality across products leads to substantially more restrictive bounds on predictability."
+
+Caveat: Twitter, not short video.
+SOURCE: [PEER-REVIEWED] Martin, Hofman, Sharma, Anderson, Watts (2016) "Exploring Limits to Prediction in Complex Social Systems", WWW 2016 (read via arXiv) https://arxiv.org/abs/1602.01013
+SEPARATED FROM TOPIC? partly. Content, user and past-success features are separated; topic features added almost nothing.
+
+
+FINDING 2. SALGANIK MUSIC LAB: IDENTICAL SONGS IN IDENTICAL "WORLDS" END UP WITH DIFFERENT OUTCOMES
+
+The study ran parallel copies of the same market so that luck could be measured directly: "an artificial 'music market' in which 14,341 participants downloaded previously unknown songs either with or without knowledge of previous participants' choices. Increasing the strength of social influence increased both inequality and unpredictability of success."
+
+They define unpredictability as "the extent to which two worlds with identical songs, identical initial conditions, and indistinguishable populations generate different outcomes. In the presence of inherent unpredictability, no measure of quality can precisely predict success in any particular realization of the process."
+
+On how far more data can help: "Because these different outcomes occur even with indistinguishable groups of subjects evaluating the same set of songs, this type of unpredictability is inherent to the process and cannot be eliminated simply by knowing more about the songs or market participants."
+
+On how quality relates to success: "Although, on average, quality is positively related to success, songs of any given quality can experience a wide range of outcomes ... the 'best' songs never do very badly, and the 'worst' songs never do extremely well, but almost any other result is possible." And: "measured in terms of market share, the 'best' songs are the most unpredictable."
+
+For the requester, this means a view label can rank clear winners above clear losers, but it is unreliable across the large middle of the distribution.
+
+NUMBERS: the Gini and unpredictability (U) values appear only as bar charts (Figs. 1-2) in the fetched PDF. No numeric value was readable in the text, so none is reported here.
+SOURCE: [PEER-REVIEWED] Salganik, Dodds & Watts (2006) "Experimental Study of Inequality and Unpredictability in an Artificial Cultural Market", Science 311:854 (author PDF incl. SOM) https://www.princeton.edu/~mjs3/salganik_dodds_watts06_full.pdf
+SEPARATED FROM TOPIC? yes. The same 48 songs ran in every world, so content was held constant by design.
+
+
+FINDING 3. "LEADING THE HERD ASTRAY": FAKE EARLY POPULARITY BECOMES REAL POPULARITY FOR MOST ITEMS
+
+Salganik and Watts took the music market and flipped the displayed download counts: "artificially inverting the true popularity of songs in an online 'music market,' in which 12,207 participants listened to and downloaded songs by unknown bands. We found that most songs experienced self-fulfilling prophecies, in which perceived—but initially false—popularity became real over time."
+
+A concrete case: "'She Said' by Parker Theory had the most downloads, 128, and 'Florence' by Post Break Tragedy had the fewest, 9. ... we swapped these counts, giving subsequent participants the false impression that 'She Said' had 9 downloads and 'Florence' had 128."
+
+The limits: "the inversion was not self-fulfilling for the market as a whole, in part because the very best songs recovered their popularity in the long run. Moreover, the distortion of market information reduced the correlation between appeal and popularity, and led to fewer overall downloads." In the body: "'bad' songs benefited from the inversion, while the 'good' songs suffered ... the success of the very 'best' songs was essentially unaffected".
+
+What this means for the label: early displayed counts feed into later counts. Two videos of equal appeal can end with different view counts only because one of them got an early lead. Only content at the top end appears to resist this.
+SOURCE: [PEER-REVIEWED] Salganik & Watts (2008) "Leading the Herd Astray: An Experimental Study of Self-fulfilling Prophecies in an Artificial Cultural Market", Social Psychology Quarterly 71(4):338-355 (author PDF) https://www.princeton.edu/~mjs3/salganik_watts08.pdf
+SEPARATED FROM TOPIC? yes. Songs were fixed, and only the displayed popularity was manipulated at random.
+
+
+FINDING 4. FIELD EXPERIMENTS: AN ARBITRARY EARLY BOOST RAISES LATER SUCCESS, WITH DIMINISHING RETURNS (ABSTRACT-ONLY)
+
+van de Rijt and colleagues gave early success to randomly chosen recipients on live platforms: "we conducted randomized experiments by intervening in live social environments across the domains of funding, status, endorsement, and reputation. In each system we consistently found that early success bestowed upon arbitrarily selected recipients produced significant improvements in subsequent rates of success compared with the control group of nonrecipients."
+
+This also limits how strong the rich-get-richer effect is: "However, success exhibited decreasing marginal returns, with larger initial advantages failing to produce much further differentiation. These findings suggest a lesser degree of vulnerability of reward systems to incidental or fabricated advantages and a more modest role for cumulative advantage in the explanation of social inequality than previously thought."
+
+For a view label: an early random bump, such as a lucky first push from the feed, is causally followed by more success. This was measured on randomized recipients, so it holds independent of quality. The effect saturates, though, and does not explain the whole heavy tail.
+
+Abstract-only. pnas.org returned 403 and the Europe PMC full-text endpoint returned 500. The abstract was read from Europe PMC (PubMed 24778230, PMC4024896). No per-domain effect sizes are reported because none were in the fetched text.
+SOURCE: [PEER-REVIEWED] van de Rijt, Kang, Restivo & Patil (2014) "Field experiments of success-breeds-success dynamics", PNAS 111(19):6934, abstract via https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=EXT_ID:24778230%20AND%20SRC:MED ; DOI https://doi.org/10.1073/pnas.1316836111
+SEPARATED FROM TOPIC? yes. Recipients were selected arbitrarily, i.e. at random, so the boost is independent of quality.
+
+
+FINDING 5. A RANDOMIZED POSITIVE PRIOR RATING INFLATES FINAL RATINGS BY 25% ON AVERAGE (ABSTRACT-ONLY)
+
+Muchnik, Aral and Taylor ran "a large-scale randomized experiment on a social news aggregation Web site" in which prior ratings were manipulated: "Prior ratings created significant bias in individual rating behavior, and positive and negative social influences created asymmetric herding effects. Whereas negative social influence inspired users to correct manipulated ratings, positive social influence increased the likelihood of positive ratings by 32% and created accumulating positive herding that increased final ratings by 25% on average."
+
+The effect varied: "This positive herding was topic-dependent and affected by whether individuals were viewing the opinions of friends or enemies."
+
+For a view label: a random early signal shifted the final aggregate by an amount that is large compared with typical "feature" effects. The asymmetry matters too: negative luck gets corrected and positive luck accumulates. Errors in the label are therefore not symmetric noise.
+
+Caveat: the outcome is ratings on a news aggregator, not views. Abstract-only, read from PubMed via Europe PMC. The science.org full text was not fetched.
+SOURCE: [PEER-REVIEWED] Muchnik, Aral & Taylor (2013) "Social Influence Bias: A Randomized Experiment", Science 341(6146), PubMed 23929980, abstract via https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=EXT_ID:23929980%20AND%20SRC:MED ; DOI https://doi.org/10.1126/science.1240466
+SEPARATED FROM TOPIC? yes. The manipulation was randomized, and topic was examined as a moderator.
+
+
+FINDING 6. ON YOUTUBE, LATE VIEWS ARE MOSTLY A RESCALING OF EARLY VIEWS
+
+Szabo and Huberman: "by modeling the accrual of views and votes ... we can predict the long-term dynamics of individual submissions from initial data ... downloads of Youtube videos need to be followed for 10 days to attain the same performance."
+
+The number for YouTube: "Fig. 5 shows the Pearson correlation coefficients between the logarithmically transformed popularities ... The PCC is 0.92 after about 5 days; however, the untransformed scale shows weaker linear dependence, at 5 days the PCC is only 0.7". The noise model is multiplicative: "the random fluctuations can be expressed as an additive noise term" on the log scale.
+
+There is a limit noted: "predictions are more accurate for submissions for which attention decays quickly, whereas predictions for evergreen content will be prone to larger errors."
+
+What this means for the label: a day-30 view count carries little information beyond the day-5 count. Whatever decided the early trajectory, whether content, distribution, or luck, mostly also decides the final number. This paper does not say how much of the early trajectory is due to content. Two further points: compare videos on log(views) rather than raw views, and compare them at equal age.
+SOURCE: [PREPRINT] Szabo & Huberman (2008) "Predicting the popularity of online content", arXiv 0811.0405 (later published in CACM 2010; published text not verified) https://arxiv.org/abs/0811.0405
+SEPARATED FROM TOPIC? no. Content, channel and topic are not controlled. This shows path dependence only, not that it is independent of quality.
+
+
+FINDING 7. THE SAME PHOTO, UPLOADED SEPARATELY: WITHIN-CONTENT GINI OF 0.787
+
+Cheng, Adamic, Dow, Kleinberg and Leskovec held content fixed on Facebook: "We consider identical photos uploaded to Facebook by different users and pages ... (983 clusters, Nc = 38,073, Nr = 12,755,621). As one might expect, even the same photo uploaded at different times by different users can fare dramatically differently; a cluster typically consists of a few or even a single cascade with a large number of reshares, and many smaller cascades with few reshares. The average Gini coefficient, a measure of inequality, is 0.787 (σ = 0.104) within clusters."
+
+Which copy wins is predicted by early momentum, not content (content is identical by construction): "we can identify the most popular cascade nearly half the time (accuracy 0.497)" against a 10% random baseline, and "best results are obtained using temporal features ... if one upload of the photo is initially spreading more rapidly than other uploads of the same photo, that cascade is also likely to grow to be the largest. This points to the importance of landing in the right part of the network at the right time".
+
+Across different photos, content is weak: "content features ... are weak predictors of how widely disseminated a piece of content would become." The Figure 4 accuracy values list Content at 0.558 against a 0.5 random baseline. This value was read from the figure's extracted text, and the All-features value of 0.795 matches the body text.
+
+For the requester: near-identical content gives very unequal outcomes (Gini about 0.79). One posting's view count is a single draw from a wide distribution.
+SOURCE: [PREPRINT] Cheng, Adamic, Dow, Kleinberg & Leskovec (2014) "Can Cascades be Predicted?", arXiv 1403.4608 (WWW 2014 version not verified) https://arxiv.org/abs/1403.4608
+SEPARATED FROM TOPIC? yes. Identical images are clustered, so content and topic are held constant.
+
+
+FINDING 8. SAME IMAGE RESUBMITTED TO REDDIT: COMMUNITY, TIMING, AND REPEAT ORDER MOVE THE OUTCOME
+
+Lakkaraju, McAuley and Leskovec used resubmissions: "we collect 132,307 images, 16,736 of which are unique ... each of the images we obtain has been submitted 7.9 times on average." Example: "the same image (of a bear riding Abraham Lincoln) is submitted to Reddit 25 times ... The title 'Merica!' (or some variation) is used four times, but is successful only the second time it is used. Thus its success must be due to factors such as the time of day the image was submitted or the community it was submitted to."
+
+Posting again is not a clean replicate: "resubmissions of the same content are naturally less likely to be popular than original submissions" and "on average, content becomes less popular each time it is submitted."
+
+Variance explained (Table 4, R2): "A simple decay model ... achieving an average R2 score ... of only 0.071. Adding per-community decay terms improves this ... to 0.352", then to 0.556 with all community-model terms (which include a per-image term for "the inherent popularity of the image"), and "Combining our language model with our community model further improves the performance by 15%, to 0.639." Title alone: "an average R2 score of only 0.139."
+
+For the requester: about 36% of variance stays unexplained even with a fixed effect for the content itself. Repeat posts decay, so they cannot serve as independent replicates. The dataset is public: SNAP "132,308 reddit.com submissions ... Average number of times an image is resubmitted 7.9".
+SOURCE: [PEER-REVIEWED] Lakkaraju, McAuley & Leskovec (2013) "What's in a name? Understanding the Interplay between Titles, Content, and Communities in Social Media", ICWSM 2013 https://cs.stanford.edu/people/jure/pubs/reddit-icwsm13.pdf ; dataset [DATASET] https://snap.stanford.edu/data/web-Reddit.html
+SEPARATED FROM TOPIC? yes. The image is held fixed, and community, time and title are modelled separately.
+
+
+FINDING 9. A RANDOM SAMPLE OF YOUTUBE: MEDIAN 35 VIEWS; 0.16% OF VIDEOS HOLD OVER HALF OF ALL VIEWS
+
+McGrady, Zheng, Curran, Baumgartner and Zuckerman drew a random sample of YouTube: "The mean number of views of videos in our sample was 5,868.02, with a median of 35. The lowest number of views was 0, and the highest was 4,586,494. Videos with no views whatsoever accounted for 4.88% of our sample".
+
+Concentration: "only 3.67% of our sample had that many [10,000+] views or more, but they account for 93.61% of total views across the sample. In fact, just the 16 most viewed videos in the sample (0.16%) together account for more views (50.52%) than the rest of the sample combined." Also: "86.93% fewer than a thousand." On distribution shape: "it is not quite log-normal due in part to the large number of videos with zero views."
+
+Implications for a view label: (a) A mean-squared-error model on raw views is driven by a handful of videos, so use log(views+1) or ranks. (b) A mean gap between two groups is dominated by whether either group contains one tail video, so compare medians or use rank-based tests. (c) The zero and near-zero mass is large and needs separate handling.
+
+Caveat: this covers all of YouTube, not Shorts specifically, and it is per video, not per creator. A per-creator Gini or top-1% share for TikTok or Shorts was NOT FOUND.
+SOURCE: [PEER-REVIEWED] McGrady, Zheng, Curran, Baumgartner & Zuckerman (2023) "Dialing for Videos: A Random Sample of YouTube", Journal of Quantitative Description: Digital Media 3 https://journalqd.org/article/view/4066 (PDF https://journalqd.org/article/download/4066/3766/13646)
+SEPARATED FROM TOPIC? no. This is descriptive only, with no controls.
+
+
+FINDING 10. TIKTOK: ROUND-NUMBER SPIKES IN PUBLIC VIEW COUNTS, AND RESEARCH-API NUMBERS THAT DISAGREE WITH THE APP
+
+Steel, Schirmer, Ruths and Pfeffer sampled an entire hour of TikTok posts by ID. On how precise the counts are: "Histograms of various statistics in the post metadata ... We speculate that the peaks we see at round numbers on due to interval view count tracking optimization. However, they could also be evidence of inauthentic engagement." On sources disagreeing: "view count and like count show a mode at ∼100 views and ∼50 likes respectively, differing from the distributions reported by Corso et al. (2024). This may be due to the large discrepancies between the Research API and the data returned to the platform interface demonstrated by Pearson et al. (2024)".
+
+Base rates from the same sample: "the mean view count of posts from Ukraine (4.1k) was higher than the global mean (2.2k), it is still lower than the mean view count of posts from the US (6.3k)". Collection timing biases the label: "older posts will accumulate more engagement".
+
+Posting time also mattered: "View counts for posts posted at the zeroth second get significantly more views (p-value: 7e-5), with an mean of 3,899 views at the zeroth second vs. 2,502 views for all other seconds". The authors attribute the zeroth-second posts to likely "scheduled posts, or bot activity".
+
+For the requester: public TikTok counts appear to be quantized at round values. Two videos near the same round number cannot be told apart, and counts read from different tools or on different dates are not comparable.
+SOURCE: [PREPRINT] Steel, Schirmer, Ruths & Pfeffer (2025, rev. 2026) "Just Another Hour on TikTok: ID sampling to obtain a complete slice of TikTok", arXiv 2504.13279v5 https://arxiv.org/abs/2504.13279
+SEPARATED FROM TOPIC? no. This is descriptive measurement only.
+
+
+FINDING 11. THE DEFINITION OF A YOUTUBE "VIEW" CHANGED ON 24 AUGUST 2026, AND SHORTS VIEWS HAVE TWO DEFINITIONS
+
+YouTube Help: "Beginning August 24, 2026, views are counted the moment a video starts to play across all formats, including Shorts, long-form videos (VOD), and live streams. ... YPP earnings will still be based on 'engaged views' and 'engaged watch hours'."
+
+YouTube Data API reference, statistics.viewCount: "The number of times the video has been viewed. Starting August 24, 2026, for all video formats (long-form, Live, and Shorts) on a channel, viewCount will be updated to count views the moment a video begins to play (includes autoplay, hold the pointer over, and click/tap to play)."
+
+For Shorts, the "engaged" count is separate from the public one: "For Shorts, engaged views are used to estimate unique viewers and reflect the people that stayed to watch the content" (Unique viewers help page). For payment, "YouTube uses eligible 'Engaged views'" (Shorts monetization policies).
+
+For a view label: (a) Any dataset that spans 24 Aug 2026 mixes two definitions, so a before/after comparison measures the definition change as well as the videos. (b) The public count now includes autoplay and hover starts, so it partly measures exposure, not a viewer choosing to watch. The engaged-views metric, visible only to the owner in Analytics, is closer to "got watched". (c) The API returns exact integers, so pull counts by API rather than reading the abbreviated display.
+SOURCE: [PLATFORM DOC] YouTube Help "How engagement metrics are counted" https://support.google.com/youtube/answer/2991785?hl=en ; YouTube Data API "Videos" resource https://developers.google.com/youtube/v3/docs/videos ; "Understand your unique viewers data" https://support.google.com/youtube/answer/7577916?hl=en ; "YouTube Shorts monetization policies" https://support.google.com/youtube/answer/12504220?hl=en
+SEPARATED FROM TOPIC? no. These are definitional docs.
+
+
+FINDING 12. YOUTUBE SAYS IT MAY FREEZE, SLOW, OR CHANGE THE PUBLIC COUNT; A STUDY FINDS LATE, BATCHED CORRECTIONS ON 78% OF VIDEOS
+
+YouTube Help: "On some videos and channels, your metric count might seem frozen or not show the metrics that you expect. ... To verify that metrics are accurate, YouTube may temporarily slow down, freeze, or change your metric count, and discard low-quality playbacks." Also: "Realtime activity only shows estimates of potential view activity. It might not match the number you see on the watch page."
+
+Castaldo, Frasca, Venturini and Gargiulo tracked a thousand French channels over 18 months: the corrections "concern the large majority of the channels and over 78% of the videos in our corpus. Our analysis shows that corrections are not done continuously as videos collect new views, but instead occur in batches, generally around 5 p.m. every day. More significantly, most corrections occur relatively late in the life of the videos, after they have reached most of their audience, and the delay in correction is not independent of the final popularity of videos: videos corrected later in their life are more popular on average than those corrected earlier." The paper notes this information is something "which YouTube does not provide through its API."
+
+For a view label: the error is not random noise. It is correlated with popularity and with the date the count was read. A snapshot taken before corrections includes views that will later be removed, and invalid views that went uncorrected can raise a video's recommendations before they are removed.
+
+Abstract-only: the Sci Rep abstract was read via Europe PMC (PubMed 38965242). An earlier arXiv version (2210.01096) gives "more than half the videos", from a different analysis version.
+SOURCE: [PEER-REVIEWED] Castaldo, Frasca, Venturini & Gargiulo (2024) "Fake views removal and popularity on YouTube", Scientific Reports, DOI https://doi.org/10.1038/s41598-024-63649-w (abstract via https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=EXT_ID:38965242%20AND%20SRC:MED) ; [PLATFORM DOC] https://support.google.com/youtube/answer/2991785?hl=en
+SEPARATED FROM TOPIC? no. This is a measurement-error finding.
+
+
+FINDING 13. PUBLIC COUNTS ARE ABBREVIATED TO 3 SIGNIFICANT FIGURES (DOCUMENTED FOR SUBSCRIBERS; NOT FOUND FOR VIEWS)
+
+YouTube documents the display rounding for subscribers: "Your audience can view a shortened version of your subscriber count." The table: "1,234 subscribers 1.23 K ... 12,345 subscribers 12.3 K ... 123,456 subscribers 123 K ... 1,234,567 subscribers 1.23 M". And: "100,000–999,999 subscribers [updates for every] 1,000 new subscribers; 1,000,000–9,999,999 subscribers 10,000 new subscribers".
+
+A help page stating the same rule for public VIEW counts was NOT FOUND in this session. Do not assume views are rounded the same way without checking the actual display. The exact integer is available from the Data API's statistics.viewCount (Finding 11).
+
+The arithmetic for comparisons, which assumes the subscriber-style 3-significant-figure display also applies to views (this is my calculation, not a quote): at "123K" the true value lies somewhere in a 1,000-wide bucket, and at "1.23M" in a 10,000-wide bucket, so the display hides up to about 1% of the value. Two videos that both read "1.23M" cannot be ranked from the display alone. The fix is to scrape exact counts by API, not the displayed string.
+
+TikTok's ads documentation defines paid "Video views" as "Number of times your video started to play. For each video impression, plays are counted separately and replays are excluded", next to separate "2-second" and "6-second" view metrics. A TikTok doc defining the public organic view count was NOT FOUND (the support.tiktok.com analytics page fetched with no definition).
+SOURCE: [PLATFORM DOC] YouTube Help "Check your YouTube subscriber count" https://support.google.com/youtube/answer/6051134?hl=en ; TikTok Ads Manager "Video play metrics" https://ads.tiktok.com/help/article/video-play
+SEPARATED FROM TOPIC? no. These are definitional docs.
+
+
+FINDING 14. YOUTUBE'S OWN A/B TESTER: "IT'S NORMAL NOT TO RECEIVE A 'WINNER'"
+
+YouTube's built-in title and thumbnail experiment randomizes viewers within one video, which is the cleanest comparison available, and it scores on watch time, not views: "At the end of the test, the title or combination of title and thumbnail with the highest watch time will be shown to all viewers."
+
+YouTube's warning about detectability: "It's normal not to receive a 'Winner' test result. When you are running an A/B test, it's common to receive other test results like 'Performed Same' or 'Inconclusive.'" Reasons given: "the difference in the titles or thumbnails chosen for the experiment did not have a measurable impact on video performance" and "your videos are not generating a sufficient amount of impressions. If your video receives a higher number of views, then the more likely a 'Winner' will be declared." Also: "Your A/B test can take a few days or up to 2 weeks to complete".
+
+For the requester: even with randomization inside a single video, which removes luck in distribution, the platform expects most packaging differences to be undetectable at typical traffic. Comparing view counts across two separately posted videos, which adds the between-post luck of Findings 2, 7 and 8, has even less power. No share of tests that end "Inconclusive" was published, so that number is NOT FOUND.
+SOURCE: [PLATFORM DOC] YouTube Help "A/B test titles & thumbnails" https://support.google.com/youtube/answer/16391400?hl=en
+SEPARATED FROM TOPIC? yes. Viewers are randomized within one video, so content and topic are fixed.
+
+
+FINDING 15. THE VIDEOS YOU CAN COLLECT ARE ALREADY FILTERED BY POPULARITY
+
+Jeon, Moy, Téliz, Monzer, Alayón and Freelon compared three TikTok collection tools: "The Research API uses back-end API calls, whereas Apify and Pyktok rely on front-end web scraping, producing systematic differences in the time periods and popularity levels represented in retrieved content." Figure 10: "Apify returns videos with higher view count distributions than API(D) and API(R) across both endpoints." The authors also note "the former [Research API] is biased in favor of lower-engagement videos compared to the latter." They conclude: "Our results question whether these tools can acquire truly random[-ized] samples".
+
+For a view label: a public-scrape dataset, such as hashtag or keyword search through the front end, over-samples videos that already did well. Any model trained on it learns from a sample selected on the outcome, which restricts the range of the label and can reverse feature effects. Write down the collection route, and prefer per-creator complete uploads, where tools agree: "The three tools yielded comprehensive and consistent results only for the user endpoint."
+SOURCE: [PREPRINT] Jeon, Moy, Téliz, Monzer, Alayón & Freelon (2026) "WhichTok? Comparing Three TikTok Data Acquisition Tools", arXiv 2608.09917 https://arxiv.org/abs/2608.09917
+SEPARATED FROM TOPIC? partly. The comparison is across queries such as trump, news, fyp and vaccine, and the tool differences hold across them.
+
+
+NOT FOUND LIST (sub-questions with no fetched source; this is not a finding section)
+NF1. Variance or Gini of outcomes for near-identical content specifically on TikTok, Reels, or YouTube Shorts. Only Facebook photos (Finding 7), Reddit images (Finding 8) and the music lab (Finding 2) were found.
+NF2. A measured experiment of the same short video posted twice, or by two different accounts, on a short-video platform. Searched, not found. The closest are Findings 7 and 8.
+NF3. A YouTube Help page specifying how public VIEW counts (as opposed to subscriber counts) are abbreviated or rounded on screen.
+NF4. Per-creator concentration (Gini or top-1% share of views) for TikTok or Shorts creators. Only per-video, YouTube-wide concentration was found (Finding 9). A widely repeated "top 1% of TikTok videos get 76% of plays" claim surfaced in search snippets, but no fetchable primary source was found, so it is excluded.
+NF5. A TikTok help-center page defining the public organic view count. Only the paid-ads definition was fetched (Finding 13).
+
+
+Verdict
+
+All quotes above were read from text fetched in this session (arXiv PDFs, author PDFs, Europe PMC / PubMed abstracts, support.google.com, developers.google.com, ads.tiktok.com, journalqd.org, snap.stanford.edu). "Abstract-only" is flagged wherever the full text could not be fetched.
+SOURCE: [PEER-REVIEWED] synthesis of Salganik, Dodds & Watts "Experimental Study of Inequality and Unpredictability in an Artificial Cultural Market" (2006) https://www.princeton.edu/~mjs3/salganik_dodds_watts06_full.pdf ; Salganik & Watts "Leading the Herd Astray" (2008) https://www.princeton.edu/~mjs3/salganik_watts08.pdf ; Martin et al. "Exploring Limits to Prediction in Complex Social Systems" (2016) https://arxiv.org/abs/1602.01013 ; Szabo & Huberman "Predicting the popularity of online content" (2010; arXiv 2008) https://arxiv.org/abs/0811.0405 ; van de Rijt et al. "Field experiments of success-breeds-success dynamics" (2014) https://doi.org/10.1073/pnas.1316836111 ; Muchnik, Aral & Taylor "Social Influence Bias: A Randomized Experiment" (2013) https://doi.org/10.1126/science.1240466 ; Cheng et al. "Can Cascades be Predicted?" (2014) https://arxiv.org/abs/1403.4608 ; Lakkaraju, McAuley & Leskovec "What's in a name?" (2013) https://cs.stanford.edu/people/jure/pubs/reddit-icwsm13.pdf ; McGrady et al. "Dialing for Videos: A Random Sample of YouTube" (2023) https://journalqd.org/article/view/4066 ; Steel et al. "Just Another Hour on TikTok" (2025) https://arxiv.org/abs/2504.13279 ; Castaldo et al. "Fake views removal and popularity on YouTube" (2024) https://doi.org/10.1038/s41598-024-63649-w ; Jeon et al. "WhichTok? Comparing Three TikTok Data Acquisition Tools" (2026) https://arxiv.org/abs/2608.09917
+SEPARATED FROM TOPIC? no. This is a sourcing note, not a finding.

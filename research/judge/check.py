@@ -17,7 +17,9 @@ owner/repo sources and quoted YAML (false positives). v3 let an unclosed
 quoted block swallow the next one. v4 fixed that. v5 makes the trailer tags
 a parameter so one checker serves briefs with different closing lines.
 v6 ends the header at the first blank line, so a 6th header line is not
-counted into section 1 (it was, and cost JOB-4 and JOB-5 a false FAIL).
+counted into section 1 (it was, and cost JOB-4 and JOB-5 a false FAIL). v7 stops counting
+SOURCE and trailer lines toward the 300 words: the cap is on prose, and a
+12-paper citation line was failing JOB-5's verdict.
 The self-test runs planted defects (must catch) and planted non-defects
 (must not flag) for every trailer set. A checker is tested both ways.
 """
@@ -122,7 +124,10 @@ def check(path: Path, require: list[str] = DEFAULT_REQUIRE) -> tuple[list[str], 
             if not line.split(":", 1)[-1].strip():
                 problems.append(f"line {i}: {terminator} is empty")
             sections += 1
-            words = sum(len(l.split()) for l in lines[section_start:i])
+            # The cap is on the finding's prose: SOURCE/trailer lines are not counted,
+            # so a thorough citation line is never penalised.
+            tags = [source_tag, terminator, *middle]
+            words = sum(len(l.split()) for l in lines[section_start:i] if not any(_is(l, t) for t in tags))
             if words > WORD_CAP + GRACE:
                 problems.append(f"section ending line {i}: {words} words (cap {WORD_CAP})")
             open_source_at = None
