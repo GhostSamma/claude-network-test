@@ -18,11 +18,16 @@ def run(ctx: Context, script: dict) -> str:
     draw.rectangle([margin, 90, margin + 12, 190], fill=_hex(th["accent"]))
     draw.text((margin + 36, 96), "TODAY IN AI", font=_font(FONT_BOLD, 40), fill=_hex(th["accent"]))
 
-    font = _font(FONT_BOLD, 96)
+    # Shrink the title until it fits in three lines instead of cutting it off.
+    for size in (96, 84, 72, 62):
+        font = _font(FONT_BOLD, size)
+        lines = _wrap(draw, script["title"], font, w - margin * 2)
+        if len(lines) <= 3:
+            break
     y = 220
-    for line in _wrap(draw, script["title"], font, w - margin * 2)[:3]:
+    for line in lines[:3]:
         draw.text((margin, y), line, font=font, fill=_hex(th["text"]))
-        y += 112
+        y += int(size * 1.17)
 
     draw.text((margin, h - 90), ctx.config["channel"]["name"], font=_font(FONT_BOLD, 34), fill=_hex(th["muted"]))
 
