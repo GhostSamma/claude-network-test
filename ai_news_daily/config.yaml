@@ -1,0 +1,75 @@
+# AI News Daily — channel configuration
+# Edit this file, never the code. One config = one channel.
+
+channel:
+  name: "AI News Daily"
+  handle: "@ainewsdaily"          # shown on cards
+  # The attitude. This is the whole personality of the channel — write it like
+  # you'd describe a person. Claude writes every script in this voice.
+  persona: >
+    A sharp, slightly hyped friend who actually reads the AI news so you don't
+    have to. Talks fast, plain English, zero corporate words. Gets genuinely
+    excited about stuff that matters and openly bored by hype. Explains what a
+    release means for a regular person in one sentence. Never says "in today's
+    video" or "let's dive in". Short sentences. Occasional dry joke.
+
+sources:
+  # RSS feeds. Add or remove freely. These are pulled every run, no API keys.
+  - name: TechCrunch AI
+    url: https://techcrunch.com/category/artificial-intelligence/feed/
+  - name: The Verge AI
+    url: https://www.theverge.com/rss/ai-artificial-intelligence/index.xml
+  - name: Ars Technica AI
+    url: https://arstechnica.com/ai/feed/
+  - name: VentureBeat AI
+    url: https://venturebeat.com/category/ai/feed/
+  - name: MIT Technology Review
+    url: https://www.technologyreview.com/feed/
+  - name: Hacker News (AI)
+    url: https://hnrss.org/newest?q=AI&points=100
+  - name: OpenAI
+    url: https://openai.com/news/rss.xml
+  - name: Google DeepMind
+    url: https://deepmind.google/blog/rss.xml
+  - name: Hugging Face
+    url: https://huggingface.co/blog/feed.xml
+  - name: r/artificial
+    url: https://www.reddit.com/r/artificial/top/.rss?t=day
+
+scout:
+  lookback_hours: 36              # only stories newer than this
+  max_candidates: 40              # how many we hand to the picker
+
+pick:
+  stories_per_video: 3
+  model: claude-opus-5-5
+  effort: low                     # ranking is easy — keep it cheap
+
+script:
+  target_seconds: 75              # 60–90 is the Shorts sweet spot
+  model: claude-opus-5-5
+  effort: high                    # the script is the product — spend here
+
+voice:
+  engine: edge                    # edge (free) | elevenlabs (needs key)
+  edge_voice: en-US-GuyNeural     # try: en-US-ChristopherNeural, en-US-AriaNeural
+  rate: "+8%"                     # a little faster than normal reads better
+  elevenlabs_voice_id: ""         # only if engine: elevenlabs
+
+visuals:
+  width: 1080
+  height: 1920
+  fps: 30
+  ken_burns: true                 # slow zoom on each card — static frames kill retention
+  theme:
+    bg_top: "#0f0f12"
+    bg_bottom: "#1c1b22"
+    accent: "#ff6b3d"
+    text: "#f4f2ee"
+    muted: "#9a978f"
+
+publish:
+  enabled: false                  # flip to true once client_secrets.json + token.json exist
+  privacy: private                # private | unlisted | public — start private, check it, then flip
+  category_id: "28"               # Science & Technology
+  made_for_kids: false

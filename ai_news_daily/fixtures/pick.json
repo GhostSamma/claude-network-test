@@ -1,0 +1,37 @@
+{
+  "picks": [
+    {
+      "index": 3,
+      "angle": "A model that beats last year's GPT-4 runs on a cheap laptop. Lead with the 8GB number.",
+      "story": {
+        "source": "Hugging Face",
+        "title": "A 3B open model now beats last year's GPT-4 on coding benchmarks",
+        "link": "https://example.com/small-model",
+        "summary": "The model runs on a laptop with 8GB of RAM. Weights are Apache 2.0. Benchmarks show it ahead on HumanEval and within a point on MBPP.",
+        "published": "2026-10-03T06:00:00+00:00"
+      }
+    },
+    {
+      "index": 2,
+      "angle": "AI in the keyboard means it's in every app at once. The 'no copy-paste' detail is the hook.",
+      "story": {
+        "source": "The Verge AI",
+        "title": "Google puts Gemini inside Android's keyboard for every app",
+        "link": "https://example.com/gemini-keyboard",
+        "summary": "Gboard now rewrites, summarizes and translates text in any app without copy-paste. Free on Pixel first, other Android phones over the next month.",
+        "published": "2026-10-03T07:30:00+00:00"
+      }
+    },
+    {
+      "index": 1,
+      "angle": "An AI that interrupts itself to fix a mistake is a weird, human detail. Good closer.",
+      "story": {
+        "source": "TechCrunch AI",
+        "title": "OpenAI ships a voice mode that can interrupt itself mid-sentence",
+        "link": "https://example.com/openai-voice",
+        "summary": "The update lets the assistant stop talking when it realizes it was wrong and correct course, without the user cutting in. Rolling out to paid tiers this week.",
+        "published": "2026-10-03T08:00:00+00:00"
+      }
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "title": "A laptop model just beat GPT-4, and Google put AI in your keyboard",
+  "hook": "A model that fits on an eight gig laptop just beat last year's GPT-4.",
+  "segments": [
+    {
+      "headline": "3B model beats GPT-4 on code",
+      "kicker": "Runs on a laptop with 8GB of RAM. Free to use.",
+      "spoken": "Hugging Face dropped a three billion parameter model that beats last year's GPT-4 on coding tests. It runs on a laptop with eight gigs of RAM. The weights are Apache licensed, so you can use it for anything. A year ago this needed a server rack.",
+      "source": "Hugging Face",
+      "link": "https://example.com/small-model"
+    },
+    {
+      "headline": "Gemini is in your keyboard now",
+      "kicker": "Rewrite or translate in any app. No copy-paste.",
+      "spoken": "Google put Gemini straight into the Android keyboard. Rewrite a text, summarize an email, translate a message, in any app, without leaving it. Pixel gets it first. Everyone else on Android within a month.",
+      "source": "The Verge AI",
+      "link": "https://example.com/gemini-keyboard"
+    },
+    {
+      "headline": "OpenAI's voice mode interrupts itself",
+      "kicker": "It stops mid-sentence when it realizes it's wrong.",
+      "spoken": "OpenAI's voice mode can now cut itself off. If it realizes it said something wrong, it stops and fixes it, without you jumping in. Paid tiers get it this week. Slightly unsettling. Also kind of great.",
+      "source": "TechCrunch AI",
+      "link": "https://example.com/openai-voice"
+    }
+  ],
+  "outro": "That's the day. Tomorrow there'll be more, there always is.",
+  "description": "Today's three AI stories that actually matter: a tiny open model that beats GPT-4 on code, Gemini living inside the Android keyboard, and OpenAI's voice mode learning to correct itself.",
+  "tags": ["ai", "ai news", "openai", "google gemini", "hugging face", "open source ai", "tech news", "artificial intelligence", "llm", "android"]
+}

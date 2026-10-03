@@ -1,0 +1,30 @@
+[
+  {
+    "source": "TechCrunch AI",
+    "title": "OpenAI ships a voice mode that can interrupt itself mid-sentence",
+    "link": "https://example.com/openai-voice",
+    "summary": "The update lets the assistant stop talking when it realizes it was wrong and correct course, without the user cutting in. Rolling out to paid tiers this week.",
+    "published": "2026-10-03T08:00:00+00:00"
+  },
+  {
+    "source": "The Verge AI",
+    "title": "Google puts Gemini inside Android's keyboard for every app",
+    "link": "https://example.com/gemini-keyboard",
+    "summary": "Gboard now rewrites, summarizes and translates text in any app without copy-paste. Free on Pixel first, other Android phones over the next month.",
+    "published": "2026-10-03T07:30:00+00:00"
+  },
+  {
+    "source": "Hugging Face",
+    "title": "A 3B open model now beats last year's GPT-4 on coding benchmarks",
+    "link": "https://example.com/small-model",
+    "summary": "The model runs on a laptop with 8GB of RAM. Weights are Apache 2.0. Benchmarks show it ahead on HumanEval and within a point on MBPP.",
+    "published": "2026-10-03T06:00:00+00:00"
+  },
+  {
+    "source": "VentureBeat AI",
+    "title": "Startup raises $40M to build AI for insurance claims",
+    "link": "https://example.com/insurance-funding",
+    "summary": "Series B led by a growth fund. No product details beyond 'automating claims'.",
+    "published": "2026-10-03T05:00:00+00:00"
+  }
+]
