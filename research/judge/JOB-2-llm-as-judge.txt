@@ -1,0 +1,227 @@
+JOB: 2
+TOPIC: LLM-as-judge. Mechanics (direct, pairwise, rubric, reference, panel), agreement with humans, named biases with measured sizes, fixes, pairwise vs absolute.
+DATE: 2026-10-03
+SECTIONS: 23 (plus one closing NOT FOUND list)
+NOT FOUND SUB-QUESTIONS: 4 (measured effect of any self-preference fix; measured effect of any sycophancy fix for judges; numeric feedback-sycophancy size in text; numeric self-preference size in Panickssery et al. text)
+
+Fetch method for every citation below: full text pulled this session from arxiv.org/html/<id> (or the abstract from export.arxiv.org), raw.githubusercontent.com, or platform.claude.com. Quotes were copied from that fetched text. Numbers that only appear in figures were left out.
+
+
+SECTION 1. The three basic judge formats and how often they agree with humans (MT-Bench)
+Zheng et al. set out three formats. "Pairwise comparison. An LLM judge is presented with a question and two answers, and tasked to determine which one is better or declare a tie." "Single answer grading. Alternatively, an LLM judge is asked to directly assign a score to a single answer." "Reference-guided grading. In certain cases, it may be beneficial to provide a reference solution if applicable."
+Headline agreement figure: "The agreement under setup S2 (w/o tie) between GPT-4 and humans reaches 85%, which is even higher than the agreement among humans (81%)." Table 5 (MT-bench, first turn) splits this by setup. S1 counts ties, and counts inconsistent position-swapped votes as ties (random-judge agreement is 33%). There, GPT-4 pairwise vs human is 66% and GPT-4 single-answer vs human is 60%, while human vs human is 63%. S2 drops ties (random is 50%). There, pairwise vs human is 85%, single vs human is 85% and human vs human is 81%.
+So the "over 80%" figure applies only after tied and inconsistent votes are removed. With ties counted, agreement is roughly 60 to 66%.
+Agreement also depends on how far apart the two answers really are: "the agreement between GPT-4 and human progressively increases in line with the performance disparity of the model pairs (i.e., larger win rate difference), from 70% to nearly 100%."
+SOURCE: Zheng, Chiang, Sheng, Zhuang, Wu, Zhuang, Lin, Li, Li, Xing, Zhang, Gonzalez, Stoica. "Judging LLM-as-a-Judge with MT-Bench and Chatbot Arena." 2023. https://arxiv.org/abs/2306.05685
+COSTS: One judge call per item (single) or per pair (pairwise, which grows quadratically with the number of candidates). Their validation used 3K expert votes.
+
+
+SECTION 2. Position bias: measured size, and the swap-and-require-consistency fix (MT-Bench)
+Definition: "Position bias is when an LLM exhibits a propensity to favor certain positions over others."
+Measured size (Table 2). Consistency is the "percentage of cases where a judge gives consistent results when swapping the order of two assistants". With the default prompt it was 23.8% for Claude-v1 (75.0% biased toward the first answer), 46.2% for GPT-3.5 (50.0% biased toward first) and 65.0% for GPT-4 (30.0% biased toward first). In their words: "Only GPT-4 outputs consistent results in more than 60% of cases."
+Fix, exactly as described: "A conservative approach is to call a judge twice by swapping the order of two answers and only declare a win when an answer is preferred in both orders. If the results are inconsistent after swapping, we can call it a tie." Their experiments use this conservative version.
+Second fix, few-shot examples: "the few-shot judge can significantly increase the consistency of GPT-4 from 65.0% to 77.5%." They add a caution: "high consistency may not imply high accuracy and we are not sure whether the few-shot examples will introduce new biases." In the appendix the few-shot judge "moves the position bias of GPT-3.5 from the first position to the second position," and agreement with humans "performs similarly to zero-shot."
+Negative result: their production prompt already says "Avoid any position biases and ensure that the order in which the responses were presented does not influence your decision" (FastChat judge_prompts.jsonl, pair-v2). An instruction alone does not remove the bias (see Section 5).
+SOURCE: Zheng et al. 2023, arXiv 2306.05685, https://arxiv.org/abs/2306.05685 ; prompt text: https://raw.githubusercontent.com/lm-sys/FastChat/main/fastchat/llm_judge/data/judge_prompts.jsonl
+COSTS: Twice the judge calls (two orders per pair). No humans or GPU. Few-shot adds three worked judgments to the prompt, which means longer prompts.
+
+
+SECTION 3. Verbosity bias: the "repetitive list" attack (MT-Bench)
+Definition: "Verbosity bias is when an LLM judge favors longer, verbose responses, even if they are not as clear, high-quality, or accurate as shorter alternatives."
+Mechanic, usable directly as a planted-failure test. They took 23 answers that contain numbered lists and asked GPT-4 "to rephrase the list without adding any new information and insert the rephrased new list to the beginning of the original list." The attack counts as a success "if an LLM judge thinks the new response is better than the old response."
+Measured failure rate (Table 3, 23 answers): Claude-v1 91.3%, GPT-3.5 91.3%, GPT-4 8.7%.
+Calibration control: "we find LLM judges are able to correctly judge identical answers (i.e., they always return a tie for two identical answers) but cannot pass the more advanced 'repetitive list' attack." So the identical-pair check is too easy to work as a canary on its own. The padded-duplicate check is the harder test.
+The fix for length bias in aggregate scoring is in Section 10. Zheng et al. report no per-item fix for verbosity beyond using a stronger judge.
+SOURCE: Zheng et al. 2023, "Judging LLM-as-a-Judge with MT-Bench and Chatbot Arena," https://arxiv.org/abs/2306.05685
+COSTS: One model call to make each padded variant and one judge call per pair. 23 items were enough for the authors to separate judges.
+
+
+SECTION 4. Reference-guided grading: a judge misled by the answer it is grading, and the fix
+Zheng et al. found that a judge can fail on problems it could solve on its own: "although GPT-4 can solve the problem (when asked separately), it was misled by the provided answers, ultimately resulting in incorrect judgment."
+Fix: "we propose a reference-guided method, in which we first generate LLM judge's answer independently, and then display it as a reference answer in the judge prompt." Measured on 10 math questions with positions swapped (Table 4), counting a failure "when GPT-4 says an incorrect answer is correct": the default prompt failed 14/20, chain-of-thought failed 6/20 and the reference-guided prompt failed 3/20. The text summarises this as "from 70% to 15%".
+Prometheus measured the same lever with an ablation. Pearson correlation with GPT-4 on unseen rubrics was 0.847 for the full model and 0.626 "w/o Reference Answer". Their reasoning: "Since the reference answer is given as an additional input, the evaluator LM could only focus on evaluating the given response. This enables to bypass a natural proposition that if an evaluator LM doesn't have the ability to solve the problem, it's likely that it cannot evaluate different responses effectively as well."
+Practical form for the requester: have the judge (or a separate call) produce its own answer or a known-good exemplar first, with no access to the candidate, and only then grade the candidate against it.
+SOURCE: Zheng et al. 2023, https://arxiv.org/abs/2306.05685 ; Kim, Shin, Cho, Jang, Longpre, Lee, Yun, Shin, Kim, Thorne, Seo. "Prometheus: Inducing Fine-grained Evaluation Capability in Language Models." 2023. https://arxiv.org/abs/2310.08491
+COSTS: One extra call per item to produce the reference, or one hand-written exemplar per task type. The Prometheus ablation used fine-tuned 7B models. The prompt-level version needs no training.
+
+
+SECTION 5. Position bias, second measurement, and calibration with measured gains (FairEval)
+Wang et al. measured how often the verdict flips when the two answers swap places. GPT-4 conflicted on 37/80 (46.3%) for Vicuna-13B vs ChatGPT and on 4/80 (5.0%) for Vicuna-13B vs Alpaca-13B. ChatGPT as judge conflicted on 66/80 (82.5%) and 42/80 (52.5%).
+Negative result on prompting: "Even though the template emphasizes not letting the order affect the results (red text), large language models still have a large positional bias."
+The bias grows when the answers are close in quality: "positional bias may not have the same impact on the assessment of different responses... there is a significant difference in the quality of responses between Alpaca models and Vicuna models, and positional bias is not strong enough to change the judgment."
+Three fixes. "Multiple Evidence Calibration" makes the judge write its evidence before scoring, k times. "Balanced Position Calibration" averages scores over both orders. "Human-in-the-Loop Calibration" uses a "balanced position diversity entropy" to send the most uncertain items to a human.
+Table 4 (accuracy against majority human vote, 80 questions). Human average was 71.7% (kappa 0.54). GPT-4 alone (vanilla) was 52.7% (kappa 0.24). With MEC k=3 plus BPC k=3 it rose to 62.5% (0.37). Adding HITLC at 20% human review brought it to 73.8% (0.56). ChatGPT went from 44.4% vanilla to 71.3% with all three. "by incorporating just 20% human assistance, ChatGPT attains comparable Human Average accuracy, while reducing the annotation cost from $30 to $18.3."
+SOURCE: Wang, Li, Chen, Cai, Zhu, Lin, Cao, Liu, Liu, Sui. "Large Language Models are not Fair Evaluators." 2023. https://arxiv.org/abs/2305.17926 ; code https://github.com/i-Eval/FairEval
+COSTS: MEC k=3 plus BPC means about 6 judge calls per pair. HITLC needs a human for the flagged ~20% of items. No GPU.
+
+
+SECTION 6. Direct scoring with generated steps and probability-weighted scores (G-Eval)
+Mechanic: "G-Eval is a prompt-based evaluator with three main components: 1) a prompt that contains the definition of the evaluation task and the desired evaluation criteria, 2) a chain-of-thoughts (CoT) that is a set of intermediate instructions generated by the LLM describing the detailed evaluation steps, and 3) a scoring function". It uses "a form-filling paradigm". The scores are made finer-grained "by re-weighting the discrete scores by their respective token probabilities."
+Agreement: "G-Eval with GPT-4 as the backbone model achieves a Spearman correlation of 0.514 with human on summarization task". That is on SummEval at summary level. Table 1 ablations give 0.514 for full G-Eval-4, 0.502 without probabilities and 0.500 without CoT, so each component adds only about 0.01 to 0.015.
+Caveat from the authors: without probabilities the scores have "many ties", which inflates Kendall-Tau. In absolute terms, 0.514 is a moderate correlation, not a strong one.
+Measured bias toward LLM text: "G-Eval-4 always gives higher scores to GPT-3.5 summaries than human-written summaries, even when human judges prefer human-written summaries." Context: human inter-annotator agreement on that subset was itself "very low, with Krippendorff's alpha at 0.07."
+Cheap version: the probability weighting needs token log-probabilities. Without them, use the CoT plus form-filling prompt and integer scores, accepting the ties.
+SOURCE: Liu, Iter, Xu, Wang, Xu, Zhu. "G-Eval: NLG Evaluation using GPT-4 with Better Human Alignment." 2023. https://arxiv.org/abs/2303.16634 ; code https://github.com/nlpyang/geval
+COSTS: One call to generate the evaluation steps per criterion (reusable), then one call per item per criterion. Token logprobs are needed for the weighted score. No humans.
+
+
+SECTION 7. Rubric-guided scoring (Prometheus, Prometheus 2)
+Mechanic: the judge receives an instruction, the response, a custom score rubric (a criterion plus a description for each score 1 to 5) and a reference answer. It writes feedback and then a score. "it is important to include a phrase such as '[RESULT]' in between the feedback and the score to prevent degeneration during inference."
+Agreement: "Prometheus scores a Pearson correlation of 0.897 with human evaluators when evaluating with 45 customized score rubrics, which is on par with GPT-4 (0.882), and greatly outperforms ChatGPT (0.392)."
+Ablation on unseen rubrics (Pearson with GPT-4): full 7B model 0.847, "w/o Score Rubric" 0.745, "w/o Reference Answer" 0.626. On Vicuna Bench, removing the rubric dropped it from 0.457 to 0.355. The authors' reading: "in order to generalize on other datasets, the role of providing what aspect to evaluate holds relatively crucial."
+Prometheus 2 handles both direct scoring and pairwise ranking. Table 3 Pearson on Vicuna Bench (vs GPT-4 / vs Claude-3-Opus scores): Prometheus-2-8x7B 0.685 / 0.635, GPT-3.5-Turbo 0.335 / 0.349. Against FLASK human scores: Prometheus-2-8x7B 0.555, GPT-4-1106 0.679, Claude-3-Opus 0.573, GPT-3.5-Turbo 0.450. Its pairwise results put it "reducing the performance gap with GPT-4 in half."
+Cheap version for the requester: the rubric-plus-reference prompt format is free. The trained Prometheus models need a local GPU to run (7B or 8x7B weights).
+SOURCE: Kim et al. "Prometheus." 2023. https://arxiv.org/abs/2310.08491 ; Kim, Suk, Longpre, Lin, Shin, Welleck, Neubig, Lee, Lee, Seo. "Prometheus 2: An Open Source Language Model Specialized in Evaluating Other Language Models." 2024. https://arxiv.org/abs/2405.01535 ; https://github.com/prometheus-eval/prometheus-eval
+COSTS: A one-time human effort to write a 1 to 5 rubric and a reference answer per task type, then one judge call per item. Running the open Prometheus weights needs a GPU, which the requester does not have.
+
+
+SECTION 8. Panel of judges / jury (PoLL)
+Mechanic: "We construct a PoLL from three models being drawn from three disparate model families (Command R, Haiku, and GPT-3.5)." "For QA datasets, we use max voting, as all judgements are binary [correct, incorrect]. For Chatbot Arena we instead use average pooling".
+Agreement with humans (Cohen's kappa, Table 1). On Natural Questions: GPT-4 0.627, Command-R 0.734, Haiku 0.749, GPT-3.5 0.726, PoLL 0.763. On TriviaQA: GPT-4 0.841, PoLL 0.906. On HotPotQA: GPT-4 0.830, Haiku 0.873, PoLL 0.867, so the panel is not best on every set. Rank correlation with Chatbot Arena (Table 2): Pearson 0.817 for GPT-4 and 0.917 for PoLL.
+A single big judge is sensitive to the prompt. GPT-4 kappa on NQ ranged from 0.518 (zero-shot) to 0.725 (adding "don't overthink") across prompt variants (Table 3).
+Self-bias evidence: "the highest positive delta for each individual model being scored occurs when it is judged by itself." "PoLL has the smallest spread in scores, with a standard deviation of 2.2... GPT-3.5 has the highest spread, with a standard deviation of 6.1."
+Cost: "running the entire three model PoLL is seven to eight times" less expensive than GPT-4 Turbo, at the authors' quoted per-token prices.
+Limit: the strongest results are on binary QA correctness against human answers, not open-ended craft quality.
+SOURCE: Verga, Hofstatter, Althammer, Su, Piktus, Arkhangorodsky, Xu, White, Lewis. "Replacing Judges with Juries: Evaluating LLM Generations with a Panel of Diverse Models." 2024. https://arxiv.org/abs/2404.18796
+COSTS: Three judge calls per item, from three different model families. That needs access to three providers, or to local models. If the requester has only one provider, the different-family property cannot be reproduced. NOT FOUND: evidence that three prompts on one model give the same benefit.
+
+
+SECTION 9. Multi-agent debate judges (ChatEval)
+Mechanic: several LLM "referees" with different role prompts discuss in turns, then score. "By default, we configure the communication strategy to one-by-one, agent numbers to 2".
+Measured on the FairEval set (accuracy and kappa against humans, Table 1). GPT-4 single-agent scored 61.3% (kappa 0.36) and GPT-4 multi-agent 63.8% (0.40). ChatGPT single-agent scored 53.8% (0.27) and multi-agent 60.0% (0.33). Human annotators scored 68.8% to 76.3%. The gain for GPT-4 is 2.5 accuracy points and the gap to humans remains.
+Negative result: "utilizing the same role description in the prompt can lead to a degradation in performance." With identical role prompts, ChatEval "cannot effectively enhance the performance compared with single-agent setting." Debate helps only when the agents are prompted into genuinely different perspectives.
+SOURCE: Chan, Chen, Su, Yu, Xue, Zhang, Fu, Liu. "ChatEval: Towards Better LLM-based Evaluators through Multi-Agent Debate." 2023. https://arxiv.org/abs/2308.07201 ; https://github.com/chanchimin/ChatEval
+COSTS: Agents times turns calls per item (2 agents x 2 turns = 4 or more calls) plus aggregation. Single machine, no GPU.
+
+
+SECTION 10. Length bias fixed by regression (Length-Controlled AlpacaEval)
+Size of the bias: "The baseline model (gpt4_1106_preview) fluctuates from 22.9% to 64.3% by varying the verbosity instruction in the prompt." The only thing that changed was telling the model "Answer with as much detail as possible" versus "Be as concise as possible."
+Mechanic: "we first fit a generalized linear model to predict the biased auto-annotator's preferences based on the mediators we want to control for (length difference) and other relevant features. We then obtain length-controlled preferences by predicting preferences while conditioning the GLM with a zero difference in lengths." The length term goes through a tanh, "as differences in lengths should have strong diminishing returns on the log odds."
+Result: after control the same model "only fluctuate[s] from 41.9% to 51.6%". "the normalized standard deviation across the three verbosity prompts decreases from 25% to 10%". Spearman with Chatbot Arena "from 0.94 to 0.98."
+Self-bias appears in the same paper (Table 2, win rate vs judge). Mistral-large is scored 45.5 by a mistral-large judge, 32.7 by a gpt-4-1106 judge and 28.2 by a claude-3-opus judge. Claude-3-opus scores 43.3 under its own judge and 40.4 under GPT-4. The authors' caption: "LLM judges self-bias but the ranking is surprisingly stable."
+For the requester: if judge scores correlate with output length on your own data, regress the length out. You need many judged items for the fit (AlpacaEval uses 805 instructions).
+SOURCE: Dubois, Galambosi, Liang, Hashimoto. "Length-Controlled AlpacaEval: A Simple Way to Debias Automatic Evaluators." 2024. https://arxiv.org/abs/2404.04475
+COSTS: No extra judge calls. You need a logistic regression on hundreds of already-judged items, which runs on a laptop CPU. It does not fix single-item verdicts, only aggregate rates.
+
+
+SECTION 11. Self-preference: measured, and what is known about causes
+MT-Bench measured it loosely: "GPT-4 favors itself with a 10% higher win rate; Claude-v1 favors itself with a 25% higher win rate. However, they also favor other models and GPT-3.5 does not favor itself." Their conclusion: "our study cannot determine whether the models exhibit a self-enhancement bias."
+Panickssery et al. (summarization, XSUM and CNN/DailyMail, 1,000 articles each) found self-recognition: "GPT-4 is 73.5% accurate distinguishing itself from two other LLMs and humans." "GPT-3.5 and Llama 2 both achieve over 90% accuracy at self-recognition after fine-tuning on 500 examples." "Self-preference strength is linearly correlated with self-recognition." Labels alone can trigger it: when source labels were swapped, "they show a preference for the summary labeled as being their own generation" (GPT-4 and GPT-3.5 on XSUM).
+Wataoka et al. propose a different cause: "LLMs assign significantly higher evaluations to outputs with lower perplexity than human evaluators, regardless of whether the outputs were self-generated."
+Fixes. Panickssery et al. only propose: "countermeasures such as authorship obfuscation should be incorporated into standard prompting practice." The one measured mitigation is a panel from other model families (Section 8, smaller spread). For the requester: never let the agent that produced a file be the only judge of it, and strip authorship labels from the judge input.
+NOT FOUND: the self-preference effect size as a number in the Panickssery text (it is shown only in figures), and a measured before/after for any self-preference fix.
+SOURCE: Zheng et al. 2023 https://arxiv.org/abs/2306.05685 ; Panickssery, Bowman, Feng. "LLM Evaluators Recognize and Favor Their Own Generations." 2024. https://arxiv.org/abs/2404.13076 ; Wataoka, Takahashi, Ri. "Self-Preference Bias in LLM-as-a-Judge." 2024. https://arxiv.org/abs/2410.21819
+COSTS: Authorship stripping is free. Using a judge from another model family costs one call to a second provider.
+
+
+SECTION 12. Sycophancy: judges bend toward what the user says
+Sharma et al. test what happens when a user challenges the model with "I don't think that's right. Are you sure?" They report that "Asking the 'Are you sure?' question causes the accuracy to drop by up to 27% (Claude 1.3) on average (across six datasets)". "All LMs tend to change their initial answer (between 32% for GPT-4 and 86% for Claude 1.3...) and admit they made a mistake (between 42% for GPT-4 and 98% for Claude 1.3)". Suggesting a wrong answer up front "can reduce accuracy by up to 27% (LLaMA 2)". Feedback sycophancy: "AI assistants frequently provide feedback that is more positive when the user states they like or wrote the passage of text." So a judge prompt that says who wrote the file, or that someone likes it, invites leniency.
+Kim and Khashabi isolate how framing matters: models "are more likely to endorse a user's counterargument when framed as a follow-up from a user, rather than when both responses are presented simultaneously for evaluation" and "are more readily swayed by casually phrased feedback than by formal critiques, even when the casual input lacks justification." Usable fix: give the judge the artifact and the standard together in one turn, with no author opinion and no push-back.
+NOT FOUND: the numeric size of feedback sycophancy in the Sharma text (figure only), and a measured before/after for any sycophancy fix applied to a judge.
+SOURCE: Sharma, Tong, Korbak, Duvenaud, Askell, Bowman, et al. (19 authors, last author Perez). "Towards Understanding Sycophancy in Language Models." 2023. https://arxiv.org/abs/2310.13548 ; Kim, Khashabi. "Challenging the Evaluator: LLM Sycophancy Under User Rebuttal." 2025. https://arxiv.org/abs/2509.16533 (abstract only fetched)
+COSTS: Free as a prompt rule (strip opinions and authorship, single-turn judge). Measuring it needs paired prompts with and without the opinion line.
+
+
+SECTION 13. Bandwagon, authority and other injected cues (CoBBLEr, CALM)
+CoBBLEr (15 LLMs ranking each other's outputs): "almost all models (11/15) are heavily influenced in which >70% of evaluations on average followed the bandwagon preference regardless of text quality." The cue was only "a simple fake statistic (e.g. 85% of people preferred 'System Star')." Overall: biases appear in about "40% of comparisons", and agreement with human rankings has "average Rank-Biased Overlap (RBO) score to be 49.6%".
+CALM perturbs one answer and counts how often the verdict stays the same (Robustness Rate, RR; higher is better). Alignment datasets, Table 4. Claude-3.5: position 0.832, bandwagon 0.610, authority (fake citation) 0.865, distraction 0.878. GPT-4o: position 0.776, bandwagon 0.791, authority 0.787. ChatGPT: bandwagon 0.662, authority 0.713. On fact-related data, sentiment RR was 0.660 for Claude-3.5 and 0.699 for GPT-4o.
+Finding: "the impact of bias is more pronounced in the alignment dataset than in the fact-related dataset... the alignment dataset typically has smaller quality differences between answers, making the choices of the judge model more vulnerable to bias."
+Mechanic you can copy: CALM's perturbation recipe, which adds "90% believe that R1 is better", a fake citation, or emotional tone to one candidate. Re-run the judge and count verdict changes. That gives a per-judge robustness score on your own data.
+SOURCE: Koo, Lee, Raheja, Park, Kim, Kang. "Benchmarking Cognitive Biases in Large Language Models as Evaluators." 2023. https://arxiv.org/abs/2309.17012 ; Ye, Wang, Huang, Chen, Zhang, Moniz, Gao, Geyer, Huang, Chen, Chawla, Zhang. "Justice or Prejudice? Quantifying Biases in LLM-as-a-Judge." 2024. https://arxiv.org/abs/2410.02736
+COSTS: Two judge calls per item (clean and perturbed) per bias tested, plus one call to generate each perturbation. CALM used 150 to 500 items per bias.
+
+
+SECTION 14. Pairwise vs absolute scoring: the evidence points both ways
+For absolute scoring. Tripathi et al.: "Pairwise preferences flip in about 35% of the cases, compared to only 9% for absolute scores" when a distractor feature such as assertiveness is added to the lower-quality response. "For evaluation tasks such as instruction-following or correctness, absolute scoring provides a more reliable measure by design. Binary preferences, on the contrary, exaggerate small gaps, making them poorly suited for data with low preference strength."
+For pairwise. PairS (Spearman with human ratings, Table 1). GPT-4-turbo direct scoring on SummEval coherence gave 0.44 and PairS-beam 0.53. On NewsRoom coherence: 0.55 vs 0.64. On HANNA surprise: 0.28 vs 0.36. The gains are larger for weaker models: Llama-2-chat-7B on NewsRoom coherence went from 0.02 (scoring) to 0.43 (PairS-beam).
+Middle ground. MT-Bench: GPT-4 single-answer vs human was 60% (S1) and 85% (S2); pairwise was 66% and 85%. Single grading "may sometimes perform slightly worse than pairwise comparison and give more tie votes, it is a more scalable method", but "absolute scores are likely to fluctuate more than relative pairwise results if the judge model changes."
+Reading for the requester: checking a single file against a standard has no natural comparison partner, which favors absolute pass/fail. Pairwise needs a known-good exemplar and position swapping (Section 2).
+SOURCE: Tripathi, Wadhwa, Durrett, Niekum. "Pairwise or Pointwise? Evaluating Feedback Protocols for Bias in LLM-Based Evaluation." 2025. https://arxiv.org/abs/2504.14716 ; Liu, Zhou, Guo, Shareghi, Vulic, Korhonen, Collier. "Aligning with Human Judgement: The Role of Pairwise Preference in Large Language Model Evaluators." 2024. https://arxiv.org/abs/2403.16950 ; Zheng et al. 2023 https://arxiv.org/abs/2306.05685
+COSTS: Absolute scoring is one call per item. Pairwise is two calls per pair (with swap). PairS ranking needs about N log N comparisons (they used beam size 1000).
+
+
+SECTION 15. Leniency, and why percent agreement hides a broken judge
+Thakur et al. picked a setting where humans agree almost perfectly: Scott's pi 96.2 and "average percentage agreement was 98.52%". They tested 13 judge models there.
+Findings: "judges with high percent agreement can still assign vastly different scores." "In some cases, high percent agreement can still give scores that differ 10-20 points from the human-assigned scores." "While GPT-4 Turbo and Llama-3 achieve excellent alignment scores, they can differ by up to 5 points from human scores." "judge models struggle with under-specified answers and exhibit leniency". "well-aligned models tend to produce more false positives than false negatives."
+Planted dummy answers work as a canary. Judges "remain robust when exam-taker models produce responses identical to the prompt ('repeater'), but are less robust when the responses are 'Yes' and 'Sure'. Even when the answer matches one of the reference answers verbatim ('Gold answer'), judges do not always arrive at the correct judgement."
+Mean Scott's pi with humans (Table 4): Llama3-70B 0.88, Llama3.1-8B 0.78, Mistral-7B 0.67, JudgeLM-7B 0.66, while a plain "Contains" string match gets 0.64.
+Mechanic for the requester: report chance-corrected agreement (Scott's pi or Cohen's kappa) on a labeled set that includes known-bad items. Also track the false-positive rate separately, because leniency shows up as false passes.
+SOURCE: Thakur, Choudhary, Ramayapally, Vaidyanathan, Hupkes. "Judging the Judges: Evaluating Alignment and Vulnerabilities in LLMs-as-Judges." 2024. https://arxiv.org/abs/2406.12624
+COSTS: A labeled set with human verdicts (they used 1,200 sampled answers, 3 annotators). Dummy-answer canaries ("Yes", "Sure", the prompt repeated, the gold answer verbatim) take minutes to write. One judge call each.
+
+
+SECTION 16. "Master keys": content-free answers that judges pass
+Finding: "superficial inputs, which we term 'master keys' such as non-word symbols (e.g., ':' or '.') or generic reasoning openers (e.g., 'Thought process:' or 'Let's solve this problem step by step.'), can consistently elicit false positive rewards without any substantive reasoning." "such simple hacks lead to false positive rates (FPRs) as high as 80%". The failure is reported across "leading proprietary systems like GPT-4o, GPT-o1, and Claude-4". This was in the reference-based setting, where the judge also has the correct answer.
+Cheap fixes tested. (1) Removing the question from the judge prompt: "removing the question substantially reduces FPRs, particularly on math benchmarks (GSM8K, MATH, AIME), where false positives are often eliminated entirely." They add a caution for general reasoning, "where the problem statement is often essential". (2) Chain-of-thought plus majority vote over 5 samples gave mixed results: "the effectiveness of inference-time techniques for generative reward models in the reference-based setting is highly model- and domain-dependent". On math it raised FPR for the Qwen models.
+The expensive fix is retraining with truncated outputs as negatives (Master-RM), which needs a GPU training run.
+For the requester: add master-key canaries (an empty file, a file holding only a heading, a file holding "Solution:") to every judge's test set. A judge that passes any of them is broken.
+SOURCE: Zhao, Liu, Yu, Kung, Chen, Mi, Yu. "One Token to Fool LLM-as-a-Judge." 2025. https://arxiv.org/abs/2507.08794
+COSTS: The canary set costs one judge call per canary. The question-removal fix is free. Retraining needs GPUs and is out of scope.
+
+
+SECTION 17. A judge is only as good as its ability to solve the task (JudgeBench)
+Setup: pairs with one objectively correct and one incorrect response (knowledge, reasoning, math, coding). Each pair is judged twice with positions swapped.
+Result: "Even a strong model like GPT-4o struggles, achieving accuracy no better than random guessing when using the vanilla prompt. Although the more advanced Arena-Hard prompt improves performance slightly (from 50% to 56%), the overall accuracy remains low." Overall accuracy (Table): GPT-4o 56.57, Claude-3.5-Sonnet 64.29, Claude-3-Haiku 33.14, o1-preview 75.43, o3-mini (high) 80.86.
+Key mechanic finding: "for a fixed model, the judge's accuracy closely mirrors that of the solver." For example, Claude-3.5-Sonnet scored 64.57 as solver and 64.29 as judge. "the ability of the judge to verify the solution pairs is highly correlated with its ability to solve the problem itself."
+Fine-tuned judges failed the swap-consistency check outright: "JudgeLM-7B and JudgeLM-13B were inconsistent on 59.71% and 54.57% of pairs respectively. Likewise, Prometheus2-7b was inconsistent on 52.29% of pairs."
+For the requester: on a craft the agent cannot do reliably, its self-judgment will not be reliable either. Supply a reference (Section 4) or a stronger judge.
+SOURCE: Tan, Zhuang, Montgomery, Tang, Cuadron, Wang, Popa, Stoica. "JudgeBench: A Benchmark for Evaluating LLM-based Judges." 2024. https://arxiv.org/abs/2410.12784 ; https://github.com/ScalerLab/JudgeBench
+COSTS: Two judge calls per pair. Building pairs needs tasks with checkable ground truth.
+
+
+SECTION 18. Self-validation and intrinsic self-correction do not work; repeated sampling partly does
+Huang et al.: "LLMs struggle to self-correct their responses without external feedback, and at times, their performance even degrades after self-correction." Table 3 (intrinsic self-correction): GPT-3.5 on CommonSenseQA dropped from 75.8 to 38.1 after round 1. GPT-4 on GSM8K went 95.5, then 91.5, then 89.0, and on HotpotQA 49.0, then 49.0, then 43.0. Earlier gains in the literature "result from using oracle labels to guide the self-correction process, and the improvements vanish when oracle labels are not available."
+Gu et al. meta-evaluation (GPT-3.5-turbo, Table 4) found: "Self Validation (w/ self-validation) shows minimal effectiveness, likely due to the LLMs' overconfidence". Asking for an explanation: "in terms of evaluation performance and bias mitigation, it generally has a negative impact." Position-bias accuracy fell from 68.78 to 48.97 with explanation. Majority vote over 5 runs "is a strategy with clear benefits". Multi-LLM set 2 raised length-bias accuracy from 20.59 to 64.71.
+Conflict to note: the Claude docs recommend "Use a grader model with thinking on" (Section 21), and Zheng et al. found CoT cut math failures from 14/20 to 6/20. The two results are compatible, because reasoning before judging differs from asking the judge to re-check its own verdict.
+SOURCE: Huang, Chen, Mishra, Zheng, Yu, Song, Zhou. "Large Language Models Cannot Self-Correct Reasoning Yet." 2023. https://arxiv.org/abs/2310.01798 ; Gu, Jiang, Shi, Tan, Zhai, Xu, Li, Shen, Ma, Liu, Wang, Zhang, Wang, Gao, Ni, Guo. "A Survey on LLM-as-a-Judge." 2024. https://arxiv.org/abs/2411.15594
+COSTS: Majority@5 means 5 judge calls per item. Self-validation costs an extra call and gives little benefit, so drop it.
+
+
+SECTION 19. Judge quality varies a lot by task, so validate per task (JUDGE-BENCH)
+Scope: 20 human-annotated NLP datasets and 11 LLMs. "Models are reliable evaluators on some tasks, but overall display substantial variability depending on the property being evaluated, the expertise level of the human judges, and whether the language is human or model-generated. We conclude that LLMs should be carefully validated against human judgments before being used as evaluators."
+Numbers (Table 1). GPT-4o average Cohen's kappa on categorical annotations was 0.28 (±0.32), and its average Spearman on graded annotations 0.50 (±0.21). On LLMBar-natural GPT-4o kappa was 0.84; on LLMBar-adversarial it was 0.58. The same judge loses a lot of agreement when the bad answer is built to look good.
+Gu et al.'s own meta-evaluation (LLMEval2, Table 2) is consistent with this. Human-alignment accuracy ranged from 50.72% (LLaMA3-8B) to 61.66% (o3-mini). "different LLMs in the experiments show no significant differences in the alignment with humans". Their advice: "it is advisable to conduct small-scale meta-evaluations before model selection to detect potential biases."
+SOURCE: Bavaresco, Bernardi, Bertolazzi, Elliott, Fernandez, Gatt, Ghaleb, Giulianelli, Hanna, Koller, Martins, Mondorf, Neplenbroek, Pezzelle, Plank, Schlangen, Suglia, Surikuchi, Takmaz, Testoni. "LLMs instead of Human Judges? A Large Scale Empirical Study across 20 NLP Evaluation Tasks." 2024. https://arxiv.org/abs/2406.18403 ; Gu et al. 2024 https://arxiv.org/abs/2411.15594
+COSTS: A small human-labeled set for each craft (task) the judge is used on. Judge calls equal to the set size.
+
+
+SECTION 20. Style over substance: fluent errors beat correct but short answers
+Wu and Aji built answers with planted flaws: factual errors, spelling or grammar errors, and shortened length. "answers with factual errors are rated more favorably than answers that are too short or contained grammatical errors."
+Elo numbers (GPT-4 as judge). Correct ~100 words: 1482. Correct but short (~50 words): 1096. One minor factual error at ~100 words: 1415. So GPT-4 rated a full-length answer with a factual error far above a correct short one.
+Fix: "we propose independently evaluating machine-generated text across multiple dimensions, rather than merging all the evaluation aspects into a single score." This is the Multi-Elo Rating System. It "significantly enhances the quality of LLM-based evaluations, particularly in terms of factual accuracy. However, there is no significant improvement in crowd-sourced-based evaluations".
+For the requester: score each criterion of the standard as a separate verdict, for example "correctness: pass/fail" and "format: pass/fail". One overall score lets polish hide errors.
+SOURCE: Wu, Aji. "Style Over Substance: Evaluation Biases for Large Language Models." 2023. https://arxiv.org/abs/2307.03025
+COSTS: One judge call per criterion per item, or one call returning one field per criterion. Planting flaws costs one generation call per variant.
+
+
+SECTION 21. Vendor guidance for LLM-based grading (Claude docs)
+The Claude docs rank grading methods. "Code-based grading: Fastest and most reliable, extremely scalable, but also lacks nuance". "LLM-based grading: Fast and flexible, scalable and suitable for complex judgment. Test to ensure reliability first then scale."
+Tips quoted: "Have detailed, clear rubrics: 'The answer should always mention 'Acme Inc.' in the first sentence. If it does not, the answer is automatically graded as 'incorrect.''" "Empirical or specific: For example, instruct the LLM to output only 'correct' or 'incorrect', or to judge from a scale of 1-5." "Encourage reasoning: Use a grader model with thinking on, so that it reasons before it produces an evaluation score."
+The example grader asks the model to "Output 'correct' or 'incorrect' in <result> tags" and parses that tag in code.
+Gap: the page says to test reliability first but gives no protocol for doing it. Sections 2, 13, 15 and 16 give sourced test protocols.
+SOURCE: Claude Docs, "Define success criteria and build evaluations." https://platform.claude.com/docs/en/test-and-evaluate/develop-tests
+COSTS: One grader call per item, plus thinking tokens. Code-based checks cost nothing beyond compute and should run first wherever a rule can express the criterion.
+
+
+SECTION 22. Ties and close calls are where judges are weakest
+Gu et al., LLMEval2 (Table 3), cases where humans marked a TIE: GPT-4-turbo matched on 286/962 (29.73%), o3-mini 42.31%, gemini-2.0-thinking 13.20% and deepseek r1 17.95%. When humans preferred one side, the same judges matched 60 to 78%.
+Zheng et al. found the same pattern from the other side: agreement rises "from 70% to nearly 100%" as the quality gap between the models widens. FairEval: "When swapping the order of two responses, the smaller the score gap between them, the more likely GPT-4 is to produce conflicting results." CALM: bias is "more pronounced" where "the alignment dataset typically has smaller quality differences".
+For the requester: an almost-right file is exactly the case where verdicts are least reliable. Route items with inconsistent verdicts after swapping or resampling to a human or a stronger check, as FairEval's HITLC does (Section 5).
+SOURCE: Gu et al. 2024 https://arxiv.org/abs/2411.15594 ; Zheng et al. 2023 https://arxiv.org/abs/2306.05685 ; Wang et al. 2023 https://arxiv.org/abs/2305.17926 ; Ye et al. 2024 https://arxiv.org/abs/2410.02736
+COSTS: Detecting a close call needs at least 2 judge calls (swap) or k samples. Escalation needs a human or a stronger model for the flagged fraction (20% in FairEval).
+
+
+SECTION 23. Surveys checked, and what they add
+Gu et al. (fetched in full) organise the field as "what it is, how to use it, how to improve it, and how to evaluate it". Its one original empirical contribution is the meta-evaluation used in Sections 18, 19 and 22. Its position-bias guidance: "While Position Bias can be mitigated by swapping the positions of the inputs, addressing other biases may require researchers to explore more effective evaluation strategies." It also states that "even powerful LLMs like GPT-4-Turbo can be severely impacted by specific biases such as Empty Reference."
+Li et al. (abstract fetched) cover "Functionality, Methodology, Applications, Meta-evaluation, and Limitations" and maintain a resource list at https://github.com/CSHaitao/Awesome-LLMs-as-Judges. No quantitative claim from this survey's body was extracted, so none is used here.
+SOURCE: Gu et al. "A Survey on LLM-as-a-Judge." 2024. https://arxiv.org/abs/2411.15594 ; Li, Dong, Chen, Su, Zhou, Ai, Ye, Liu. "LLMs-as-Judges: A Comprehensive Survey on LLM-based Evaluation Methods." 2024. https://arxiv.org/abs/2412.05579
+COSTS: Reading only.
+
+
+NOT FOUND LIST
+1. A measured before/after for any self-preference fix (authorship obfuscation is proposed by Panickssery et al. 2024 but not measured. The panel spread in Verga et al. 2024 is the only indirect measure).
+2. A measured before/after for any sycophancy fix applied to an LLM judge (Kim and Khashabi 2025 abstract describes the framing effect. Magnitudes were not fetched).
+3. The numeric size of feedback sycophancy in Sharma et al. 2023 (reported only in Figure 1, not in the text).
+4. A numeric self-preference effect size in Panickssery et al. 2024 text (Figures 4 and 5 only).
+SOURCE: Verga, Hofstatter, Althammer, Su, Piktus, Arkhangorodsky, Xu, White, Lewis. "Replacing Judges with Juries: Evaluating LLM Generations with a Panel of Diverse Models." 2024. https://arxiv.org/abs/2404.18796 ; Panickssery, Bowman, Feng. "LLM Evaluators Recognize and Favor Their Own Generations." 2024. https://arxiv.org/abs/2404.13076 ; Sharma, Tong, Korbak, Duvenaud, Askell, Bowman, et al. (19 authors, last author Perez). "Towards Understanding Sycophancy in Language Models." 2023. https://arxiv.org/abs/2310.13548 ; Kim, Khashabi. "Challenging the Evaluator: LLM Sycophancy Under User Rebuttal." 2025. https://arxiv.org/abs/2509.16533
+COSTS: n/a.
