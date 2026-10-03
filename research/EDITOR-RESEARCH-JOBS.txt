@@ -1,0 +1,339 @@
+EDITOR RESEARCH — 10 JOBS + RULES
+==================================
+
+Written by Content for the AI video editor's taste/judgement layer.
+Saved here so any session with YouTube access can run them as written.
+
+STATUS (2026-10-03): these jobs require pulling YouTube transcripts with
+timestamps. The cloud session cannot — YouTube bot-walls its datacenter IP
+(LOGIN_REQUIRED). Run these from a machine with a residential connection.
+grab.py (the transcript puller) is at research/grab.py.
+
+
+======================================================================
+RULES — APPLY TO EVERY JOB, NOT NEGOTIABLE
+======================================================================
+
+WHAT THIS IS FOR
+I have an AI video editor that knows the mechanics of editing but has no taste
+and no judgement. It cannot look at raw footage and say "this is a car edit, so
+it needs this treatment." It does not know what the best work in a style looks
+like. It does not know where a master would cut or why. You are going to go
+find that out from the people who actually do it, in their own words, and write
+it down.
+
+THE EVIDENCE RULE — THIS IS THE WHOLE JOB
+Every single claim you write must carry ONE of these:
+  - a named creator + the video URL + a timestamp, or
+  - a verbatim quote from a transcript + the video URL + a timestamp.
+No exceptions. If you cannot source a claim, you write the words NOT FOUND and
+move on.
+
+Never write generic editing advice. "Use smooth transitions" and "match the
+beat" are worthless to me — I already have that. I need "at 0:47 in [URL],
+[creator] cuts on the wheel leaving frame, and at 2:13 of [tutorial URL] he
+explains he does that because the eye is already travelling." If a section of
+your output has no URL and no timestamp in it, delete the section.
+
+DO NOT GUESS. DO NOT INFER. DO NOT FILL GAPS.
+If the pros do not say it, it does not go in. An honest "NOT FOUND" is worth
+more to me than a plausible sentence, because a plausible sentence gets taught
+to my editor as fact and I will not be able to tell it apart from the real
+findings later.
+
+OUTPUT FORMAT — plain text only, no markdown tables, no fancy formatting
+  - ONE file per agent. Name it with your job number, e.g.
+    JOB-3-car-shot-breakdown.txt
+  - Each section = ONE idea, under its own plain heading, 300 words maximum.
+  - Tag every section with where it belongs, using exactly one of these:
+        [FOUNDATION]            - a law that is true for every style of edit
+        [CRAFT: transitions]    - or ramps / grade / effects / workflow
+        [STYLE: car]            - or gaming
+  - A section with no tag is unusable. Tag everything.
+
+WHY THE FORMAT MATTERS: a human files these into the editor's memory
+afterwards, one idea per note. A 900-word section covering four ideas has to be
+taken apart by hand. Keep each one to a single idea and it files straight in.
+
+YOUTUBE: you can pull video transcripts. Use that heavily — the pros explain
+themselves in tutorials, streams and podcasts, and the transcript is where
+their actual words are.
+
+
+======================================================================
+JOB 1 of 10 — Car edits: how a pro decides, in order
+(Content's item A — Sean's number one ask)
+======================================================================
+
+Topic: the order a professional CAR-EDIT editor makes decisions in.
+
+Find working car-edit editors explaining their own process - tutorials,
+streams, podcasts, BTS videos, "how I made this" breakdowns. I want their
+decision ORDER, in their words:
+  footage is open in front of them -> how do they decide what TYPE of edit this
+  is? -> how do they pick the style? -> when do they choose the song, before or
+  after? -> what do they plan before touching a cut? -> what order do cuts,
+  effects, grade, polish happen in?
+For EACH step: the creator's name, the video URL, the timestamp, and a verbatim
+quote of them saying it. If two pros contradict each other, write BOTH and say
+they disagree - do not average them into one answer.
+What I specifically need to know and cannot find out myself:
+  - does the song come first or the footage? Do they all agree?
+  - what do they look at in the raw footage in the first 60 seconds?
+  - how do they decide a clip is unusable?
+  - at what point is it too late to change the style?
+Tag sections [FOUNDATION] if the step is true for any edit, [STYLE: car] if it
+is car-specific, [CRAFT: workflow] for ordering.
+
+
+======================================================================
+JOB 2 of 10 — Car: shot-by-shot breakdown of benchmark PHONK MONTAGE edits
+(Content's item B, first half)
+======================================================================
+
+Topic: pull apart 3 to 5 of the best car PHONK MONTAGE edits, cut by cut.
+
+Pick edits that are genuinely benchmark - high views, widely imitated, named
+creators. For each edit give me: creator, URL, view count. Then walk the edit
+cut by cut, in plain text lines, one line per cut:
+  timestamp | what is on screen | what the camera is doing | the transition
+  INTO this shot and how it is built | any effect and HOW LONG IT HOLDS | why
+  this shot follows the last one
+Go for at least the first 30 seconds of each edit, cut by cut. More if you can.
+The three things my editor gets wrong, so dig hardest here:
+  1. WHERE to cut. It cuts on the beat and nothing else. What else are these
+     pros cutting on - a movement finishing, a light passing, the car leaving
+     frame?
+  2. Effects that VANISH. My editor adds an effect and it is gone in 2 frames.
+     How long do the pros actually hold one?
+  3. Shots that do not CONNECT. What makes shot 7 feel like it belongs after
+     shot 6?
+Name the creator and URL and timestamp on every single line. If you cannot see
+what the camera is doing, write UNCLEAR rather than guessing.
+Tag [STYLE: car] and [CRAFT: transitions] / [CRAFT: effects] as appropriate.
+
+
+======================================================================
+JOB 3 of 10 — Car: shot-by-shot breakdown of benchmark CINEMATIC SHOWCASE edits
+(Content's item B, second half)
+======================================================================
+
+Same method as the phonk job, different style.
+
+Pull apart 3 to 5 benchmark CAR CINEMATIC / SHOWCASE edits - the slower,
+moodier, commercial-looking kind, not the fast phonk montages. Named creators,
+URLs, view counts. Same cut-by-cut lines: timestamp | on screen | camera move |
+transition in and how built | effect and how long it holds | why it follows the
+previous shot. At least the first 30 seconds of each.
+What I need from this one specifically: these edits hold shots far longer than
+a montage does. How long? What is happening inside a long shot to keep it alive
+- a slow push, a light moving, a reflection travelling? My editor cannot hold a
+shot without it feeling dead.
+And: how do they get away with so few cuts? What carries the edit when cutting
+is not?
+Name creator, URL, timestamp on every line. UNCLEAR where you cannot tell.
+Tag [STYLE: car] and [CRAFT: transitions] / [CRAFT: ramps] as appropriate.
+
+
+======================================================================
+JOB 4 of 10 — Car: how pros make effects feel INTEGRATED, not pasted on
+(Content's item C)
+======================================================================
+
+Topic: how professional car editors make an effect look like it belongs in the
+shot rather than stuck on top of it.
+
+This is my editor's worst habit - every effect looks pasted on. Find tutorials
+where pros build these, and write down the actual STEPS with timestamps:
+  - rim lights and glows that RIDE the wheel or the body line as the car moves
+    (tracked, not a static overlay)
+  - speed ramps timed to a REAL camera move, not applied at random
+  - the car masked off the background so it pops, with the background graded
+    separately
+  - transitions that go in AND out seamlessly, where you cannot see the join
+  - light leaks, reflections, flares that move with the shot
+For each: creator, tutorial URL, timestamp, and the steps in order. If a pro
+states a VALUE - a frame count, a blur amount, a scale percentage, a duration -
+write the exact number down and where they said it. Those numbers are the most
+useful thing you can bring me and they are almost never in writing.
+Also: anything a pro explicitly says NOT to do. Those are gold.
+Tag [CRAFT: effects] mostly, [STYLE: car] where it only applies to cars.
+
+
+======================================================================
+JOB 5 of 10 — Car: the competition
+(Content's item F)
+======================================================================
+
+Topic: who are the best car-edit creators working right now, and what do they
+each do that is recognisably theirs?
+
+I need to know who my editor is up against. For each creator - aim for 8 to 12
+- give me:
+  - name and channel URL
+  - roughly how big they are
+  - their SIGNATURE: the thing you could identify their work by without being
+    told
+  - 2 or 3 of their best edits, by URL, with what makes each one good
+  - specifically: what do they do that an average car editor does NOT do?
+The last one is the point of this job. I want the gap between good and average
+named concretely, with examples, not described in adjectives.
+Also tell me which of them explain their own methods publicly, with links -
+those channels are where the next round of research goes.
+Every claim gets a URL. Where you cannot verify a follower count or a view
+count, say UNVERIFIED rather than estimating.
+Tag [STYLE: car].
+
+
+======================================================================
+JOB 6 of 10 — Gaming: decision order + shot-by-shot breakdowns
+(Content's A+B for gaming)
+======================================================================
+
+Topic: gaming montage editing - how the pros decide, and how the best ones are
+actually cut.
+
+Two halves.
+HALF ONE: the decision order, from gaming editors' own words. Footage open ->
+how do they decide what kind of montage this is -> song choice, before or after
+the clips -> what gets planned -> what order do cuts, effects, grade happen.
+Creator, URL, timestamp, verbatim quote for each step. Note any disagreement
+between pros rather than resolving it.
+HALF TWO: pull apart 2 to 3 benchmark gaming montages cut by cut, same line
+format as the car jobs: timestamp | on screen | camera or player movement |
+transition in and how built | effect and how long it holds | why it follows the
+last shot. First 30 seconds minimum.
+Gaming-specific things I need: how do they handle the kill moment - cut on it,
+before it, after it? What do they do with the boring footage between kills? How
+do they use the game's own camera movement as part of the edit?
+Everything sourced. NOT FOUND where it is not.
+Tag [STYLE: gaming], plus [CRAFT: transitions] / [CRAFT: workflow].
+
+
+======================================================================
+JOB 7 of 10 — Gaming: integrated effects + the competition
+(Content's C+F for gaming)
+======================================================================
+
+Topic: gaming montage effects that look built-in, and who the best creators
+are.
+
+Two halves.
+HALF ONE: how pro gaming editors make effects feel integrated rather than
+pasted. Tracked elements that follow the player or the crosshair, shake and
+zoom tied to real impacts, transitions hidden inside muzzle flashes or
+explosions, colour grading that sells the mood. Tutorial URLs with timestamps
+and the actual steps. Exact numbers wherever a pro states one - frame counts,
+shake amounts, durations. Also anything they say explicitly not to do.
+HALF TWO: the top gaming montage editors right now. 8 to 12 of them: name,
+channel URL, rough size, their signature look, 2 to 3 best edits by URL, and
+the concrete thing they do that an average gaming editor does not. Name which
+ones teach their methods publicly.
+Same evidence rule throughout. UNVERIFIED for numbers you cannot confirm.
+Tag [STYLE: gaming] and [CRAFT: effects].
+
+
+======================================================================
+JOB 8 of 10 — How a pro recognises a style from the footage alone
+(Content's cross-style job — the one Sean described best)
+======================================================================
+
+Topic: how an experienced editor looks at raw footage and knows what kind of
+edit it wants.
+
+This is the single thing my editor cannot do, so this job matters most. Sean
+described it like this: a master sits down, looks at the footage, and says "ok
+this is this type of video so it needs this type of edit style."
+Find editors - any discipline, not just car and gaming - explaining how they
+make that read. What are they looking at? Shot length? How much camera movement
+there is? Light? Subject? How much coverage they have? Whether the footage is
+handheld or gimbal or static?
+I want the CUES, named, with the creator who named them, the URL and the
+timestamp. A cue is something you can point at in the footage: "if the clips
+are all under two seconds and handheld, it wants a fast cut." Not "you develop
+an instinct for it" - that is useless to me.
+Also: what do pros say about choosing the WRONG style, and how do they realise
+it has happened? Recovery stories are useful.
+This one is likely to be thin and heavily quoted rather than comprehensive.
+That is fine. Depth over breadth, and NOT FOUND where it is not there. Do not
+pad this job.
+Tag [FOUNDATION] for anything true across styles.
+
+
+======================================================================
+JOB 9 of 10 — Overdone vs fresh, and how pros build a signature
+(Content's D+E)
+======================================================================
+
+Topic: what is played out in car and gaming edits right now, what still lands,
+and how named pros twist shared effects into something of their own.
+
+HALF ONE - overdone vs fresh, for 2025 and 2026. I need EVIDENCE, not opinion:
+  - creators saying outright that an effect is overused (quote, URL, timestamp)
+  - comment sections where viewers call something tired - describe the pattern
+    and link it
+  - effects that keep showing up in the newest highly-viewed work
+Say clearly which of these is a creator's stated view and which is your read of
+a comment pattern. Do not blend them.
+HALF TWO - creativity. Take 4 or 5 named pros who use the SAME common effect - a
+speed ramp, a whip transition, a glow - and show how each one does it
+differently enough to be recognisably theirs. URLs and timestamps side by side
+so the difference is visible.
+That second half is the real goal: my editor can copy an effect but cannot vary
+it into a voice. I want proof that the same effect has many correct versions,
+with examples.
+Tag [FOUNDATION] for the signature material, [STYLE: car] / [STYLE: gaming]
+for the overdone lists.
+
+
+======================================================================
+JOB 10 of 10 — Raw transcripts of the named channels
+(Content's transcript job)
+======================================================================
+
+Topic: pull raw video transcripts and hand them over as-is.
+
+This job is mechanical and it is valuable. Pull full transcripts from these
+channels, prioritising videos where they explain, critique or teach editing -
+pro ratings, breakdowns, BTS, tutorials:
+  - Camilo Castañeda  (@camicees)
+  - Jordan Orme
+  - AM Film
+  - The Car Video Guy
+Then find and pull transcripts from any other top car-edit or gaming-edit
+channel you come across that teaches method.
+Format: one block per video. Video title, channel, URL, then the transcript
+with its timestamps intact. Do NOT summarise, do NOT interpret, do NOT clean it
+up. Raw.
+If a video has no captions available, list it under NO CAPTIONS with its URL so
+I know it exists and was skipped.
+Aim for breadth - as many teaching videos as you can get through. This is the
+raw material the other nine jobs are reading from, and anything you pull here
+is reusable later.
+No tags needed on this one - it is source material, not findings.
+
+
+======================================================================
+NOTES FOR SEAN (from Content)
+======================================================================
+
+Why it is shaped this way. Every brief is self-contained — the agent never
+needs to ask us anything.
+
+The one rule doing the heavy lifting is named creator + URL + timestamp, or
+NOT FOUND. Without it, research like this comes back as blog advice that reads
+fine and teaches the editor nothing. With it, a claim that is not real cannot
+survive to the page.
+
+Job 10 is the sleeper. Raw transcripts of the pros teaching, in their own
+words, are reusable for months and cost us nothing to keep.
+
+Job 8 is the one Sean cares most about and the one most likely to come back
+thin, because pros rarely articulate the read. Thin-but-sourced is the right
+outcome there; the brief tells it not to pad.
+
+What was not done: no insect, food, anime or cinematic-AI styles. Content's
+call — those seats are not live.
+
+Returns come back as plain text files. Content has the editor file them into
+its levels.
