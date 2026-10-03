@@ -1,0 +1,239 @@
+JOB 8
+TOPIC: how other people stop an agent forgetting what it learned, and stop it drifting
+DATE: 2026-10-03
+SECTIONS: 18 (17 mechanism/finding sections + 1 NOT FOUND ledger)
+NOT FOUND SUB-QUESTIONS: 6 (listed in the last section)
+
+Note on method: every paper below was fetched this session as PDF/abs and quoted from the fetched text; repo files were fetched from raw.githubusercontent.com; doc pages were fetched from the vendor site. Where I only read an abstract, I say so.
+
+SECTION 1. Claude Code memory: hand-written CLAUDE.md plus agent-written MEMORY.md index with topic files
+
+The doc says: "Claude Code has two complementary memory systems. Both are loaded at the start of every conversation." CLAUDE.md is written by you; auto memory is written by Claude, loaded "Every session (first 200 lines or 25KB)".
+
+Auto memory layout, quoted:
+~/.claude/projects/<project>/memory/
+ MEMORY.md  # Index, one line per memory, loaded into every session
+ user_role.md  # One memory
+ feedback_testing.md  # One memory
+Four note types are stored "as a type field in the memory file's frontmatter": user, feedback, project, reference. Topic files load on demand: "Claude reads them on demand using its standard file tools".
+
+Near the limit, "Claude Code reminds Claude to shorten it: keep one line per entry, move detail into topic files, and merge or drop stale entries." Over the limit "everything past the limit is dropped on the next load." On conflicts: "if two instructions contradict each other, Claude may pick one arbitrarily." Remedy is manual: "/doctor prompt-audit ... files that contradict each other ... nothing in your files changes until you ask Claude to apply them."
+
+Finding: markdown plus index, size-capped, human-triggered contradiction audit, no automatic resolution.
+
+SOURCE: Claude Code docs, Memory page, https://code.claude.com/docs/en/memory (fetched 2026-10-03; sections "CLAUDE.md vs auto memory", "Auto memory", "How it works", "Audit your instruction files")
+COSTS: plain files only. No vector DB, no embedding model. Needs Claude Code itself.
+
+SECTION 2. Anthropic memory tool: client-side /memories directory, with prompt-only conflict handling
+
+API tool, not a store. Doc: "The memory tool operates client-side: Claude requests file operations, and your application executes them." Commands (verified in the page): view, create, str_replace, insert, delete, rename. Handler must confine paths to /memories.
+
+The API injects this system text automatically, quoted: "IMPORTANT: ALWAYS VIEW YOUR MEMORY DIRECTORY BEFORE DOING ANYTHING ELSE. ... As you make progress, record status / progress / thoughts etc in your memory. ASSUME INTERRUPTION: Your context window might be reset at any moment, so you risk losing any progress that is not recorded in your memory directory."
+
+The only anti-clutter and anti-staleness measures are prompt text and operator duties, quoted: "when editing your memory folder, always try to keep its content up-to-date, coherent and organized. You can rename or delete files that are no longer relevant. Do not create new files unless necessary." Operator-side: "Track memory file sizes and cap how large a file can grow" and "Periodically delete memory files that haven't been accessed in a long time."
+
+Multi-session pattern from the same page: an initializer session creates "a progress log ... a feature checklist ... and a reference to any startup or initialization script"; each later session reads them first and updates the progress log before ending. "Mark a feature complete only after end-to-end verification confirms it works, not when the code is written."
+
+Negative: the page defines no dedup, no conflict detection and no consolidation step. It is a file API plus a protocol prompt.
+
+SOURCE: https://platform.claude.com/docs/en/agents-and-tools/tool-use/memory-tool (fetched 2026-10-03; sections "How it works", "Prompting guidance", "Security considerations", multi-session pattern)
+COSTS: plain files / any key-value store you provide. Needs Claude API access (paid) to run the tool; the file protocol itself is copyable to any agent.
+
+SECTION 3. Letta MemFS: git-versioned markdown memory tree with root index, background "dreaming"
+
+Letta's current design (repo README: "Letta (f.k.a. MemGPT) is actively developed. The current source code lives in letta-ai/letta-code"; the old server lives on branch "archive") has moved from DB-backed blocks to files. Doc: "Letta agents use MemFS, a git-backed memory filesystem that they can inspect and edit."
+
+Format, quoted from docs.letta.com/concepts/memfs: "Each memory except a MEMORY.md index is projected as Markdown with YAML frontmatter:
+---
+name: persona
+description: "Who I am, what I value, and how I approach working with people."
+---"
+Loading rule: "Files at the memory root are loaded into the agent's system prompt on every turn." "Directories with their own MEMORY.md index stay out of context until they are needed. The root MEMORY.md lists them, so directory and file names act as signposts." Tree: MEMORY.md, persona.md, human.md, reference/MEMORY.md, skills/my-skill/SKILL.md.
+
+Versioning and consolidation: "Every memory edit is committed to the MemFS git repository. This provides version history, conflict resolution". "Memory subagents such as dreaming and memory doctor use git worktrees so they can update memory concurrently without blocking the main agent." Dreaming page: "background subagents ... review recent conversations, consolidate useful lessons, and update memory"; triggered "after a set number of completed agent steps or when the context window is compacted"; optional "Agent reviews before applying". "/doctor to audit placement, duplication, and system-prompt token usage." "The memory workflow backs up the current repository before splitting large files, merging duplicates".
+
+Search: "MemFS does not include a semantic or vector index by default."
+
+Negative: no measured effect of dreaming is published on these pages.
+
+SOURCE: https://docs.letta.com/concepts/memfs/index.md ; https://docs.letta.com/configuration/memory/index.md ; https://raw.githubusercontent.com/letta-ai/letta/main/README.md
+COSTS: plain files plus git. No vector DB by default (optional QMD mod for semantic search). Dreaming uses extra model tokens.
+
+SECTION 4. MemGPT paper: eviction at 70% context, memory-pressure warning, recursive summary
+
+Packer et al., "MemGPT: Towards LLMs as Operating Systems", 2023, https://arxiv.org/abs/2310.08560. Main context = "system instructions, working context, and FIFO Queue". Working context is "a fixed-size read/write block of unstructured text, writeable only via MemGPT function calls". Overflow policy, quoted: "When the prompt tokens exceed the 'warning token count' ... (e.g. 70% of the context window), the queue manager inserts a system message into the queue warning the LLM of an impending queue eviction (a 'memory pressure' warning) to allow the LLM to use MemGPT functions to store important information ... When the prompt tokens exceed the 'flush token count' (e.g. 100% of the context window), the queue manager flushes the queue ... evicts a specific count of messages (e.g. 50% of the context window), generates a new recursive summary". Evicted messages stay in recall storage.
+
+Measured (Table 2, deep memory retrieval, question about earlier sessions): GPT-4 32.1% accuracy fixed context vs 92.5% with MemGPT; GPT-4 Turbo 35.3% vs 93.4%; GPT-3.5 Turbo 38.7% vs 66.9%. Task and judge are the authors' own, so treat as vendor-adjacent.
+
+Mechanism worth copying: warn the agent before eviction so it saves its own notes first. Mechanism Letta later changed: working-context edits were the agent's only write path; recent Letta code adds memory_rethink: "completely rewrite the contents of a memory block ... condense or reorganize".
+
+SOURCE: https://arxiv.org/abs/2310.08560 (full PDF fetched, sections 2.1-2.2, Table 2); https://raw.githubusercontent.com/letta-ai/letta/archive/letta/functions/function_sets/base.py (archive branch)
+COSTS: plain text store; reference implementation used a DB and embedding search for archival storage. Needs an LLM with function calling.
+
+SECTION 5. Letta memory blocks: size-limited labelled sections with a description field
+
+Archived Letta schema, quoted from letta/schemas/block.py (archive branch): value: str "Value of the block."; limit: int, default CORE_MEMORY_BLOCK_CHAR_LIMIT = 100000 in constants.py; label ("human", "persona"); description; read_only: bool "Whether the agent has read-only access to the block."; tags; metadata.
+
+What the model sees, quoted from docs.letta.com/guides/agents/memory-blocks: "<memory_blocks><persona><description>The persona block: ...</description><metadata>- chars_current=128 - chars_limit=5000</metadata><value>I am a helpful assistant named Sam...</value></persona>". Shared blocks: "Multiple agents can access the same block; update once, visible everywhere." Read-only blocks exist for "shared read-only policies across all agents from a central source".
+
+Edit tools (letta/functions/function_sets/base.py): core_memory_replace ("To delete memories, use an empty string for new_content", exact match required), memory_insert, memory_rethink, archival_memory_insert/search (semantic). Insert docstring advice: "Store self-contained facts or summaries, not conversational fragments".
+
+Relevance for 36 agents with a shared tree: a read-only shared block is Letta's answer to "one policy, many agents".
+
+SOURCE: https://raw.githubusercontent.com/letta-ai/letta/archive/letta/schemas/block.py ; https://raw.githubusercontent.com/letta-ai/letta/archive/letta/functions/function_sets/base.py ; https://docs.letta.com/guides/agents/memory-blocks
+COSTS: blocks are plain text in a DB; archival memory needs an embedding model. Old server is retired (README), so this is legacy code to read, not to depend on.
+
+SECTION 6. Generative Agents: memory stream scored by recency, importance and relevance; reflection on an importance threshold
+
+Park et al., "Generative Agents: Interactive Simulacra of Human Behavior", 2023, https://arxiv.org/abs/2304.03442. Memory object: "a natural language description, a creation timestamp, and a most recent access timestamp". Retrieval formula, quoted: "score = alpha_recency * recency + alpha_importance * importance + alpha_relevance * relevance. In our implementation, all alphas are set to 1." Recency: "exponential decay function ... decay factor is 0.995". Importance: LLM-rated 1-10. Relevance: "cosine similarity between the memory's embedding vector and the query memory's embedding vector". Each score min-max scaled to [0,1].
+
+Reflection trigger: "when the sum of the importance scores for the latest events perceived by the agents exceeds a threshold (150 in our implementation)... roughly two or three times a day." Reflections are stored back in the stream and can cite other reflections ("trees of reflections").
+
+Evidence (TrueSkill believability): full architecture mu=29.89; no reflection 26.88; no reflection or planning 25.64; no memory/planning/reflection 21.21. So reflection helped in a 2-day simulation scored by human raters.
+
+Failure recorded: "At times, the agents hallucinated embellishments to their knowledge", e.g. Isabella adding "he's going to make an announcement tomorrow" that was never discussed. Reflection can store invented content.
+
+SOURCE: https://arxiv.org/abs/2304.03442 (PDF fetched; section 4.1, 4.2, evaluation, hallucination discussion)
+COSTS: needs an embedding model for relevance (runs locally if you swap one in) and an LLM for importance and reflection. The scoring math itself is plain arithmetic over a file.
+
+SECTION 7. Voyager skill library: a skill is a verified code file plus an LLM-written description, indexed by that description
+
+Wang et al., "Voyager: An Open-Ended Embodied Agent with Large Language Models", 2023, https://arxiv.org/abs/2305.16291. Quote: "ever-growing skill library of executable code ... The key is the embedding vector of the program description (generated by GPT-3.5), while the value is the program itself." Retrieval: "top-5 relevant skills". A skill is committed only after "the self-verification module confirms the task completion".
+
+Actual storage, from repo MineDojo/Voyager voyager/agents/skill.py (fetched): directories {ckpt}/skill/code, /skill/description, /skill/vectordb, plus skills.json mapping name to {"code": ..., "description": ...}. The description is stored as a stub: f"async function {program_name}(bot) {{\n    // {description}\n}}". Duplicate handling, quoted code: if program_name in self.skills: print("Skill {program_name} already exists. Rewriting!"); delete old vector entry; then write file as {program_name}V{i}.js with i incrementing. So: overwrite in the index, keep every old version on disk.
+
+Ablation (paper): "VOYAGER w/o skill library exhibits a tendency to plateau in the later stages." Headline: 3.3x more unique items. Limits stated: "the self-verification module may also fail"; GPT-4 hallucinated invalid fuel.
+
+SOURCE: https://arxiv.org/abs/2305.16291 ; https://raw.githubusercontent.com/MineDojo/Voyager/main/voyager/agents/skill.py
+COSTS: as shipped uses OpenAIEmbeddings + Chroma (paid API for embeddings, local Chroma). Skills are executable code verified by the game; the "verified before saving" gate is the transferable idea and needs no vector DB.
+
+SECTION 8. Agent Skills / SKILL.md: the production format for a stored procedure
+
+Anthropic template, quoted verbatim from anthropics/skills template/SKILL.md:
+---
+name: template-skill
+description: Replace with description of the skill and when Claude should use it.
+---
+# Insert instructions below
+
+Claude Code docs: "Every skill needs a SKILL.md file with two parts: YAML frontmatter between --- markers that tells Claude when to use the skill, and markdown content with the instructions Claude follows when the skill runs." Frontmatter example from the doc: name, description, disable-model-invocation: true, allowed-tools: Read Grep. "All fields are optional. Only description is recommended". Spec-portable fields: allowed-tools, compatibility, description, license, metadata, name. Location: .claude/skills/<skill-name>/SKILL.md (project), ~/.claude/skills/<skill-name>/SKILL.md (user).
+
+Progressive disclosure, quoted: "skill descriptions are loaded into context so Claude knows what's available, but full skill content only loads when invoked." Budget: "The budget scales at 1% of the model's context window. When the listing overflows, Claude Code drops descriptions starting with the skills you invoke least". So descriptions are the retrieval key, like Voyager's, but matched by the model reading a list, not by embeddings.
+
+Letta stores agent-owned skills at $MEMORY_DIR/skills/<name>/SKILL.md inside MemFS, versioned with git.
+
+SOURCE: https://raw.githubusercontent.com/anthropics/skills/main/template/SKILL.md ; https://code.claude.com/docs/en/skills (fetched; "Write SKILL.md", "Frontmatter reference", "Skill descriptions are cut short")
+COSTS: plain files. No vector DB or embeddings; retrieval is the model scanning a description list.
+
+SECTION 9. mem0: LLM chooses ADD/UPDATE/DELETE/NONE per fact, then the project dropped UPDATE/DELETE
+
+Old algorithm, quoted from mem0/configs/prompts.py DEFAULT_UPDATE_MEMORY_PROMPT: "Compare newly retrieved facts with the existing memory. For each new fact, decide whether to: ADD ... UPDATE ... DELETE ... NONE: Make no change (if the fact is already present or irrelevant)". Delete rule: "If the retrieved facts contain information that contradicts the information present in the memory, then you have to delete it." Output schema: {"memory":[{"id":"0","text":"...","event":"UPDATE","old_memory":"I really like cheese pizza"}]}.
+
+Current algorithm (README, "New Memory Algorithm (April 2026)"): "Single-pass ADD-only extraction -- one LLM call, no UPDATE/DELETE. Memories accumulate; nothing is overwritten." New prompt ADDITIVE_EXTRACTION_PROMPT: existing memories are "your primary deduplication reference", "If new information ... is semantically equivalent to an Existing Memory with no meaningful new context, skip it", and related items get "linked_memory_ids". Retrieval: "semantic, BM25 keyword, and entity matching scored in parallel and fused", plus "time-aware retrieval ... for queries about current state". So contradiction is handled at read time via dates, not by deleting.
+
+Claims: LoCoMo 71.4 to 92.5, LongMemEval 67.8 to 94.4. Caveat in README itself: "Scores reflect Mem0's managed platform, which includes proprietary optimizations not available in the open-source SDK". Vendor-reported; I found no independent replication (see ledger).
+
+SOURCE: https://raw.githubusercontent.com/mem0ai/mem0/main/mem0/configs/prompts.py ; https://raw.githubusercontent.com/mem0ai/mem0/main/README.md ; https://docs.mem0.ai/migration/oss-v2-to-v3
+COSTS: needs an LLM call per add (default gpt-5-mini) and an embedding model (default OpenAI text-embedding-3-small) plus a vector store; README says other LLMs/embedders are supported, local use not verified by me.
+
+SECTION 10. CrewAI: similarity-triggered consolidation, plus hierarchical scope paths
+
+CrewAI memory doc, quoted: "When saving new content, the encoding pipeline automatically checks for similar existing records in storage. If the similarity is above consolidation_threshold (default 0.85), the LLM decides what to do: keep ... update ... delete — The existing record is outdated, superseded, or contradicted. insert_new". Batch rule: "If two items have cosine similarity >= batch_dedup_threshold (default 0.98), the later one is silently dropped ... (pure vector math)." Recall ranking: "composite score (semantic + recency + importance)", configurable "recency_half_life_days = 7". Scopes: "Memories are organized into a hierarchical tree of scopes, similar to a filesystem ... /project/alpha, /agent/researcher/findings", and "when you recall within a scope, you only search that branch". Storage backend noted in the page: LanceDB.
+
+Same idea as Generative Agents scoring, plus a two-threshold dedup: cheap vector dedup at 0.98, LLM adjudication at 0.85.
+
+LangGraph (LangChain) docs state the trade-off directly: profile (one JSON doc rewritten each time) "can become error-prone as the profile gets larger"; collection is "easier for an LLM to generate new objects for new information than reconcile new information with an existing profile ... higher recall", but "some models may default to over-inserting and others may default to over-updating." Store layout: "organized under a custom namespace (similar to a folder) and a distinct key (like a file name)".
+
+SOURCE: https://docs.crewai.com/en/concepts/memory ; https://docs.langchain.com/oss/python/concepts/memory
+COSTS: CrewAI needs an LLM plus an embedding model (default embedder in the page is OpenAI text-embedding-3-large) and local LanceDB. LangGraph store: dict/DB, embeddings optional.
+
+SECTION 11. Independent counter-claim: a plain filesystem matched or beat dedicated memory tools on LoCoMo
+
+Letta research blog, 2025-08-12: "Letta agents running on gpt-4o-mini achieve 74.0% accuracy on LoCoMo by simply storing conversation histories in files ... significantly above Mem0's reported 68.5% score for their top-performing graph variant." Their conclusion: "memory is more about how agents manage context than the exact retrieval mechanism used" and "simpler tools are more likely to be in the training data of an agent and therefore more likely to be used effectively."
+
+Conflict of interest: Letta sells a competing product, and the 68.5% figure is an older Mem0 figure; Mem0 later claimed higher (section 9). Treat both as vendor claims. The useful point is the mechanism: an agent that can issue its own repeated searches over files beats single-shot retrieval.
+
+SOURCE: https://www.letta.com/blog/benchmarking-ai-agent-memory
+COSTS: plain files plus the agent's search tool. No vector DB.
+
+SECTION 12. ExpeL: lesson extraction with ADD/EDIT/UPVOTE/DOWNVOTE and an importance count that deletes bad lessons
+
+Zhao et al., "ExpeL: LLM Agents Are Experiential Learners", AAAI 2024, https://arxiv.org/abs/2308.10144. This is the most direct published answer to "contradicting its own notes". Quote: "The operations the LLM can perform are: ADD a new insight, EDIT the content of an existing insight, DOWNVOTE to disagree with an existing insight, or UPVOTE to agree with an existing insight. A newly added insight will have an initial importance count of two ... the count will increment if subsequent operators UPVOTE or EDIT are applied to it and will decrement when DOWNVOTE is applied to it. If an insight's importance count reaches zero, it will be removed. This particular design choice robustifies the process since even successful trajectories can be suboptimal and mislead the generated insights." Input is fail/success pairs of the same task, or lists of successes.
+
+Measured (Table 3, HotpotQA success rate): ReAct 28.0; ExpeL 39.0; hand-crafted insights 32.0; insights with Reflexion-style reflections added 29.0 ("adding reflections to the insight-generating process hurt performance ... reflections sometimes outputting hallucinations"); gpt-3.5 as extractor 32.0. ALFWorld: ReAct 40.0, ExpeL 59.0, random example retrieval 42.5. Insights-only vs retrieval-only: 36%/31% HotpotQA, 50%/55% ALFWorld.
+
+Limit stated: insights fit in context so no retrieval of insights was needed; "extra retrieval steps for insights might be needed for truly lifelong learning agents".
+
+SOURCE: https://arxiv.org/abs/2308.10144 (PDF fetched; section 4.2, Table 3, Limitations)
+COSTS: gpt-4-0613 as extractor (paid); trajectory retrieval used Faiss + all-mpnet-base-v2 (local). The vote-count rule itself is plain bookkeeping.
+
+SECTION 13. Reflexion: measured gains, the task they were measured on, and where it did not help
+
+Shinn et al., "Reflexion: Language Agents with Verbal Reinforcement Learning", 2023, https://arxiv.org/abs/2303.11366. Mechanism: after a failed trial the agent writes a verbal reflection that is appended to memory; "we bound mem by a maximum number of stored experiences, Omega (usually set to 1-3)". Memory is a sliding window of the last 1-3 reflections.
+
+Gains (all with an external pass/fail signal, repeated trials on the SAME task): ALFWorld 134 tasks, "130 out of 134 tasks", "absolute 22% in 12 iterative learning steps"; HotPotQA +20%; HumanEval Python 0.80 to 0.91 pass@1 with GPT-4.
+
+Negatives, from the same paper: MBPP Python got worse: base 0.80, Reflexion 0.77, because of false-positive tests (16.3% of tests pass on wrong code vs 1.4% on HumanEval). Appendix Table 4, StarChat-beta on HumanEval: baseline 0.26, Reflexion 0.26. Stated: "the ability to specify self-corrections is an emergent quality of stronger, larger models." Own limitation: "it may still succumb to non-optimal local minima". Memory capped at a window; the authors suggest vector or SQL stores as future work.
+
+Caution: gains depend on a reliable success signal. Huang et al., "Large Language Models Cannot Self-Correct Reasoning Yet" (ICLR 2024, https://arxiv.org/abs/2310.01798, abstract only read): "LLMs struggle to self-correct their responses without external feedback, and at times, their performance even degrades after self-correction."
+
+SOURCE: https://arxiv.org/abs/2303.11366 (PDF fetched: sections 3, 4.1, 4.3, Limitations, Appendix A Table 4) ; https://arxiv.org/abs/2310.01798
+COSTS: plain text list of last 1-3 reflections. No vector DB. Needs a trustworthy test or score per trial.
+
+SECTION 14. Drift cause 1: position in a long context (Lost in the Middle, Context Rot)
+
+Liu et al., "Lost in the Middle: How Language Models Use Long Contexts", TACL 2023, https://arxiv.org/abs/2307.03172: "performance can degrade significantly when changing the position of relevant information ... highest when relevant information occurs at the beginning or end of the input context, and significantly degrades when ... in the middle". Concrete: "when relevant information is placed in the middle ... GPT-3.5-Turbo's performance on the multi-document question task is lower than its performance when predicting without any documents (i.e., the closed-book setting; 56.1%)." Also "extended-context models are not necessarily better at using their input context."
+
+Chroma technical report, Hong, Troynikov, Huber, "Context Rot", July 2025: "LLMs do not maintain consistent performance across input lengths", on 18 LLMs, even for non-lexical retrieval and text replication. Conclusion: "what matters more is how that information is presented."
+
+Direct implication for notes: put standing rules at the start or end of the prompt, keep the always-loaded index short. Claude Code's doc takes the same line: "target under 200 lines per CLAUDE.md file. Longer files consume more context and reduce adherence."
+
+Caveat: both are retrieval tasks, not long agent runs. Next section shows a long-run study that disputes length as the main cause.
+
+SOURCE: https://arxiv.org/abs/2307.03172 (PDF fetched) ; https://research.trychroma.com/context-rot (fetched)
+COSTS: none; this is a design constraint, not a tool.
+
+SECTION 15. Negative result: agent decay tracks step count, not context length
+
+"How Fast Do Agents Rot? An Empirical Study of Long-Horizon Degradation in LLM Agents for Production Decision-Making", arXiv 2609.01660 (2026). Only the abstract was read. Quotes: "Task success follows a geometric law governed by a single per-step reliability parameter ... saturates well below 1 even for the strongest models, guaranteeing eventual collapse at sufficiently long horizons." "every model tested ... falls from near-perfect success to near zero within sixteen steps" on the agentic task (n=10,664 trajectories, nine models). "Degradation is driven by step count rather than context length: bounding the context window steepens decay rather than easing it (logit slope -0.69 vs. -0.44), p=3x10-6), contradicting a lost-in-the-middle explanation and warning against a common production shortcut."
+
+Meaning: truncating or windowing history to fight drift made it worse in this study. The remedy implied is fewer dependent steps per run and reliability budgeting, i.e. fresh sessions that restart from written state rather than one ever-longer run. Flag: new preprint in a physics.soc-ph listing, not yet replicated; task families are the authors' own.
+
+SOURCE: https://arxiv.org/abs/2609.01660
+COSTS: none (finding). Authors state code and trajectories are released.
+
+SECTION 16. Drift cause 2: summarization and compaction silently delete standing rules (Governance Decay)
+
+Chen, "Governance Decay: How Context Compaction Silently Erases Safety Constraints in Long-Horizon LLM Agents", arXiv 2606.22528 (2026). Quote: "violation rises from 0% with the policy in full context to 30% after compaction, reaching 59% for some models; when the constraint survives the summary, violation remains 0%, but when it is dropped, violation reaches 38%." 1,323 episodes, seven model families. Mitigation: "Constraint Pinning, a simple training-free mitigation that quarantines governance constraints from lossy compaction and restores violation to 0% in our benchmark."
+
+Related survey claim (The Horizon Gap, arXiv 2608.06663, fetched): a compression policy "optimized for task-relevant information has no reason to preserve constraints that never come up again until they are violated."
+
+Mirrors Anthropic's note that compaction is lossy: "This happens even with compaction, which doesn't always pass perfectly clear instructions to the next agent." And Claude Code's doc: instructions given only in conversation vanish after /compact; "Project-root CLAUDE.md survives compaction", so rules belong in a file that is re-read, not in chat.
+
+Note: this is a benchmark by one author on synthetic scenarios (ConstraintRot); the fix is to re-inject rules from a file outside the summarized history.
+
+SOURCE: https://arxiv.org/abs/2606.22528 ; https://arxiv.org/abs/2608.06663 ; https://code.claude.com/docs/en/memory (section "Instructions seem lost after /compact")
+COSTS: none; pinning is re-injecting a rules file. No vector DB.
+
+SECTION 17. Goal drift is measured, and what has actually held it back
+
+Arike et al., "Technical Report: Evaluating Goal Drift in Language Model Agents", arXiv 2505.02709 (2025): "the best-performing agent (a scaffolded version of Claude 3.5 Sonnet) maintains nearly perfect goal adherence for more than 100,000 tokens in our most difficult evaluation setting, all evaluated models exhibit some degree of goal drift. We also find that goal drift correlates with models' increasing susceptibility to pattern-matching behaviors as the context length grows." Follow-up, Menon et al., arXiv 2603.03258 (ICLR 2026 workshop): models "inherit drift when conditioned on prefilled trajectories from weaker agents" and drift "correlates poorly with instruction hierarchy following". Implication for a 36-agent fleet: one agent reading another's bad notes or transcript can import its drift.
+
+What fixed it in practice, documented:
+1. Anthropic, "Effective harnesses for long-running agents": two failure modes named, an agent "declare the job done" after partial progress, and "tendency to do too much at once". Fix: initializer writes init.sh, claude-progress.txt and a feature list in JSON, every feature starting "passes": false; "We prompt coding agents to edit this file only by changing the status of a passes field"; JSON chosen "as the model is less likely to inappropriately change or overwrite JSON files compared to Markdown files"; one feature per session; commit with descriptive messages so git can revert.
+2. SWE-agent (Yang et al., arXiv 2405.15793): lint-gated edits fixed repeated-bad-edit loops ("without linting, 15.0% down 3.0" resolved rate), and "observations preceding the last 5 are each collapsed into a single line".
+
+SOURCE: https://arxiv.org/abs/2505.02709 ; https://arxiv.org/abs/2603.03258 ; https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents ; https://arxiv.org/abs/2405.15793
+COSTS: plain files and git. No vector DB. Needs a way to run end-to-end checks per feature.
+
+SECTION 18. NOT FOUND ledger (negative results worth more than positives)
+
+1. NOT FOUND: any measured effect of Letta "dreaming" or the /doctor consolidation pass on forgetting or contradiction rate. Letta pages describe it; none quantify it.
+2. NOT FOUND: an independent replication of Mem0's April 2026 numbers (LoCoMo 92.5, LongMemEval 94.4). Only vendor README, and README says managed platform has proprietary optimizations absent from open source.
+3. NOT FOUND: any published contradiction rate or staleness rate for file-based note systems like CLAUDE.md or MEMORY.md. Anthropic's own doc says Claude "may pick one arbitrarily" and offers a manual audit only.
+4. NOT FOUND: evidence that auto memory reduces repeated mistakes. Docs describe behavior, no measurement.
+5. NOT FOUND: OpenHands trajectory analysis of drift. I fetched SWE-agent instead; I did not locate or read an OpenHands paper this session.
+6. NOT FOUND: evidence that reflection-style lesson extraction works when there is no external pass/fail signal. Reflexion's gains all had one; ExpeL found reflections added to extraction hurt (29.0 vs 39.0); Huang et al. found self-correction without external feedback can degrade. Evidence leans against ungrounded reflection.
+
+SOURCE: NOT FOUND items; basis is the fetches cited in sections 1-17.
+COSTS: n/a

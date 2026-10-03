@@ -48,10 +48,14 @@ def _quoted_frontmatter_lines(lines: list[str]) -> set[int]:
     while i < len(lines):
         if lines[i].strip() == "---" and i + 1 < len(lines) and YAML_KEY.match(lines[i + 1].strip()):
             j = i + 1
-            while j < len(lines) and lines[j].strip() != "---":
+            # A quoted block ends at its closing --- OR at the first blank line
+            # (an agent may quote only the opener). Never run past a blank line,
+            # or an unclosed block swallows the next block's opener.
+            while j < len(lines) and lines[j].strip() != "---" and lines[j].strip() != "":
                 j += 1
-            inside.update(range(i, min(j + 1, len(lines))))
-            if j + 1 < len(lines) and lines[j + 1].lstrip().startswith("#"):
+            closed = j < len(lines) and lines[j].strip() == "---"
+            inside.update(range(i, min(j + 1, len(lines)) if closed else j))
+            if closed and j + 1 < len(lines) and lines[j + 1].lstrip().startswith("#"):
                 inside.add(j + 1)
             i = j + 1
         else:
@@ -137,7 +141,7 @@ SOURCE: Real Paper, Author 2021, https://example.org/real
 
 GOOD_FIXTURE = """JOB Y. Topic: planted non-defects
 Date: today
-Sections: 3
+Sections: 4
 NOT FOUND: 3
 Nothing below may be flagged.
 
@@ -155,6 +159,20 @@ description: Replace with description.
 # Insert instructions below
 That is the quoted file, not the author's markdown.
 SOURCE: anthropics/skills template/SKILL.md
+COSTS: none
+
+An unclosed quoted frontmatter (opener only) followed by a blank line, then a closed one
+Letta MemFS, quoted from docs:
+---
+name: persona
+description: the agent persona block
+
+That blank line ended the quote. Now a second, closed block with a # line after it:
+---
+name: second
+---
+# quoted template line
+SOURCE: letta-ai/letta README.md
 COSTS: none
 
 A NOT FOUND list, which the brief allows to have no link
