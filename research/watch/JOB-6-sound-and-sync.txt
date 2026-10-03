@@ -1,0 +1,204 @@
+JOB 6 - AUDIO SIDE, MEASURED
+TOPIC: sound, music, cut-to-beat sync, trending audio, loudness/silence, voice and speech rate - what is measured, and what the editor controls
+DATE: 2026-10-03
+SECTIONS: 17
+NOT FOUND SUB-QUESTIONS: 8 (each flagged inside its section; list at the end of the file)
+
+All quotes below were taken from text fetched this session. Where only an abstract could be fetched, the section says "abstract-only".
+
+CUT-TO-BEAT 1: cuts on the accented beat vs between beats raised pleasure ratings, and viewers did not notice
+
+Lin, Yeh and Shams (UCLA) showed the same video with the same music in two versions. In one, scene cuts landed on the accented first beat of a measure. In the other, the cuts were shifted to fall "a little less than halfway between the first beats of two consecutive measures". Abstract: "Despite the subliminal nature of this manipulation, a higher perceptual pleasure was found for temporal congruency compared with incongruency."
+
+Numbers from the preprint full text. Experiment 1: the text says 143 participants, but later says "out of 145", so the n is inconsistent in the preprint. Six 30-40 s clips of Los Angeles time-lapses, between-subjects. "t=2.07, p<.05, Cohen's d=0.33". Experiment 2: 30 undergraduates, 30 varied clips of 30 s with cuts 2-3 s apart, within-subject. "t (29) = 2.16, p = 0.019, Cohen's dz=0.395". "With one exception, none of the participants reported noticing a difference... The one participant... had extensive experience in video editing."
+
+What it does NOT show: the only outcome is a pleasure rating. The authors say "the measurements in the present study were restricted to subjective reports of pleasure rating". There is no watch time, no swipe-away, no memory. Participants were psychology undergraduates, and Experiment 2 ran online. The effect is small to medium (about a third of a standard deviation).
+
+Editor control: fully. Where the cut falls relative to the beat is the editor's decision.
+
+SOURCE: [PEER-REVIEWED] Lin, Yeh, Shams, "Subliminal audio-visual temporal congruency in music videos enhances perceptual pleasure", Neuroscience Letters 2022. Abstract confirmed at https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=DOI:10.1016/j.neulet.2022.136623&format=json&resultType=core (PMID 35398533). Numbers and quotes are from the preprint PDF (OSF/PsyArXiv dsg45, 2021): https://osf.io/preprints/psyarxiv/dsg45 . The published version may differ from the preprint.
+SEPARATED FROM TOPIC? Yes. Video and audio were identical across conditions. Only the timing offset between cuts and beats changed, done by sliding the soundtrack relative to the video. Content, music, cut count and pace were held constant. Clips and version varied across participants (Experiment 1) or within participants (Experiment 2). Limit: outcome is a rating, not viewing behavior.
+
+CUT-TO-BEAT 2: a second on-beat vs off-beat study exists, but only its abstract was reachable. No study found links beat-synced cuts to watch time or retention.
+
+Swenberg and Carlgren (Projections, 2021) report: "we have studied human visual responses to video editing with regard to musical beats... We present empirical evidence of cognitive effects, as well as perceptual differences with attentional effects, for viewers watching music videos cut on-beat and off-beat." The journal page returned HTTP 403, so the sample size, measures, effect sizes and direction of the effects are not available to me. I cannot say what the "attentional effects" are.
+
+NOT FOUND: a measured effect of beat-aligned cuts on view duration, completion, swipe-away rate or shares in short-form video, from any lab, platform or dataset. Arxiv papers that mention beat alignment (for example "Let Your Video Listen to Your Music!", arXiv 2506.18881) are generation-method papers, and their statement that aligning motion to beats "enhances viewer engagement" is motivation, not a measurement. I did not verify a measurement behind it.
+
+Related negative note, not fetched: a paper titled "Saccades predict and synchronize to visual rhythms irrespective of musical beats" (Batten and Smith, Visual Cognition 2018) returned 403. I cannot report its content.
+
+SOURCE: [PEER-REVIEWED] Swenberg and Carlgren, "On-Beat/Off-Beat", Projections 15(1), 2021, abstract-only via Crossref API https://api.crossref.org/works?query.bibliographic=On-Beat/Off-Beat (DOI 10.3167/proj.2021.150103); page https://www.berghahnjournals.com/view/journals/projections/15/1/proj150103.xml (403)
+SEPARATED FROM TOPIC? Partly, unverifiable. The abstract says cut timing relative to beats was the contrast, but the design, sample and any controls are unknown because only the abstract was available.
+
+MUSIC 1: meta-analysis of background music finds a null overall effect, a small negative effect on ad memory, a positive effect on emotion
+
+Kämpfe, Sedlmeier and Renkewitz (2010) pooled lab studies of music vs no music. Abstract: "A global analysis shows a null effect"; "background music disturbs the reading process, has some small detrimental effects on memory, but has a positive impact on emotional reactions and improves achievements in sports."
+
+Advertising subset: "Seven studies examined the impact of background music on how well potential customers memorized the contents of advertisements... Four of these studies used the radio as a medium... two employed TV commercials... and one used mobile message advertisements". "the effect over all seven studies was slightly negative but negligibly small (r-weighted = -.05, N = 7 studies, n = 930, rmin = -.22, rmax = .46)". Excluding the mobile study: "r-weighted = -.08, N = 6 studies". The authors also note that studies are scarce and of uneven quality: "effort should be made to develop more specific theories... and to increase the methodological quality of relevant studies."
+
+Read plainly: across the studies they could pool, adding music did not help people remember ad content. If anything it hurt slightly. It did tend to help emotional reaction. None of the pooled studies is short vertical video, and the youngest is from 2006. No other music-in-advertising meta-analysis was found in this session. A search returned a claim attributed to Allan (2007), but I could not fetch it.
+
+SOURCE: [PEER-REVIEWED] Kämpfe, Sedlmeier, Renkewitz, "The impact of background music on adult listeners: A meta-analysis", Psychology of Music, 2010 (Crossref issued date 2010-11-08). Full text at https://gwern.net/doc/psychology/music/distraction/2010-kampfe.pdf ; abstract at DOI 10.1177/0305735610376261
+SEPARATED FROM TOPIC? Yes for music vs no music: pooled studies compare the same material with and without music. But they are lab studies, mostly radio and TV, with no editing manipulated, and no measure of whether people kept watching.
+
+AUDIO EVENTS 1: sudden audio changes trigger an orienting response and better recognition of what follows (radio, not video)
+
+Potter, Lang and Bolls (2008): "This study tested the ability of nine different auditory structural features to elicit orienting responses from radio listeners. It further tested the effect of the orienting response on listeners memory for information presented immediately following the orienting-eliciting structural feature. Results show that listeners do have significant decelerating cardiac patterns suggestive of orienting for eight of the nine features. Taken as a categorical whole, these features also increase recognition memory for the information presented after their onset compared to information presented immediately before."
+
+The abstract does not name the nine features, and I could not fetch the full text, so I cannot list which eight worked or which one failed. Heart-rate deceleration is the measure of orienting. The memory effect is recognition memory for items right after the audio event.
+
+Caveats: the medium is radio and the sample sizes are not available to me (abstract-only). Whether silence is among the nine features is not stated in the abstract. An audio change (voice change, sound effect, music sting) is an edit decision, so this is the nearest measured link between audio editing and attention. It has not been tested on short-form video.
+
+SOURCE: [PEER-REVIEWED] Potter, Lang, Bolls, "Identifying Structural Features of Audio: Orienting Responses During Radio Messages and Their Impact on Recognition", Journal of Media Psychology 2008, abstract-only via Crossref API (DOI 10.1027/1864-1105.20.4.168): https://api.crossref.org/works?query.bibliographic=Identifying+Structural+Features+of+Audio
+SEPARATED FROM TOPIC? Partly. Memory for items just after a feature's onset is compared with memory for items just before it, inside the same listeners and messages. That isolates the audio event from content. But the study is radio, lab, and the abstract does not say how content was balanced across positions.
+
+AUDIO EVENTS 2: the orienting response to repeated audio events habituates in some conditions and not others
+
+Potter, Sites, Jamison-Koenig and Zheng (2018): "Structural features such as voice changes, jingle onsets, and production effects in a radio broadcast elicit cardiac orienting responses." The paper summarizes earlier work (Potter et al. 2015): "listeners habituated to onsets of jingles and production effects" in passive listening, "unlike voice changes". And "Potter (2000) demonstrated that orienting to voice changes in audio messages failed to habituate after six occurrences in 2-minute radio dialogs."
+
+New in this paper: when listeners were doing a task, "robust orienting to all three repetitions of the structural features in both the Hard and the Easy trials". Study 1 n=27, Study 2 n=59. The authors say heart rate may be insensitive to load effects, and the radio stimulus allowed only three repetitions per feature.
+
+For the editor: repeating the same sting or sound effect is expected to wear off when the viewer is only listening. A voice change (a different speaker) is the audio event that did not wear off. When viewers are doing something else, the effect held across three repeats. This comes from radio with heart-rate measures. It says nothing about viewers swiping away. This paper reports no memory data: "Those data are not reported here."
+
+SOURCE: [PEER-REVIEWED] Potter, Sites, Jamison-Koenig, Zheng, "The Impact of Cognitive Load on the Cardiac Orienting Response to Auditory Structural Features during Natural Radio Listening Situations", Journal of Cognition 2018. https://pmc.ncbi.nlm.nih.gov/articles/PMC6634355/ (quotes are from the fetch tool's extraction of the page text; the 2015 habituation quotes are the paper's description of earlier work, not new data)
+SEPARATED FROM TOPIC? Partly. Within-person design compares repeated onsets of the same feature, and Study 2 manipulates task difficulty. The audio event itself is the manipulated variable. Content was not matched to a no-event control in this paper.
+
+MUSIC IN SHORT VIDEO 1: an observational study of 12,842 Douyin videos finds an inverted-U between audio emotional arousal and engagement (abstract-only)
+
+Abstract: "this study applies multimodal machine learning to analyze 12,842 short videos from Douyin, integrating text analysis, sound recognition, and image processing. The results reveal an inverted U-shaped relationship between auditory emotional arousal and consumer engagement, where moderate arousal maximizes interaction while excessively high or low arousal reduces engagement. Visual variation, however, exhibits a positive linear effect, with greater variation driving higher engagement. Notably, audiovisual congruence significantly enhances engagement, as high alignment between arousal and visual variation optimizes consumer information processing."
+
+This is the only study found that measures audio features against engagement on real short videos. I could only read the abstract (the journal site returned 403). So I do not know: which engagement metric (likes, comments, shares, watch time), the effect sizes, what was controlled (follower count, topic, posting time), or how "visual variation" was operationalized (it may include cut rate). The audio arousal measure came from a sound-recognition model, so it mixes voice tone and music.
+
+Treat as a correlation across videos made by different creators. It cannot tell the editor that raising or lowering arousal would change anything for the same video.
+
+SOURCE: [PEER-REVIEWED] Yang, Wang, Wang, Jiang, Li, "Harmonizing Sight and Sound...", Journal of Theoretical and Applied Electronic Commerce Research 2025, abstract-only via Crossref API https://api.crossref.org/works/10.3390/jtaer20020069 ; page https://www.mdpi.com/0718-1876/20/2/69 (403)
+SEPARATED FROM TOPIC? No, as far as the abstract shows. Observational, across different videos and creators. Audio is separated from visual variation statistically (both in one model), but not from creator, topic or content, as far as the abstract states.
+
+MUSIC IN VIDEO 2: in a lab experiment, edit pace and music arousal were varied independently; both made time feel faster; editing did not change emotional involvement
+
+Sam and Reddy (2023): 39 participants, 3x2 repeated-measures design, editing density (master shot, low, high) crossed with music arousal (high, low), eye-tracked. Abstract: "Fast-paced editing was associated with the feeling of time passing faster, a relationship mediated by fixation durations. High-arousal background music was also associated with the feeling of time passing faster."
+
+Negative results from the text: "Editing density did not predict emotional involvement, in contrast with existing research". "There was also no interaction between editing density and arousal". "Fixation durations did not mediate the relationship between editing density and DJs [duration judgments] or emotional involvement." The authors' own limitation: "the sample size was small compared to previous studies on editing density and time perception. As a result, it had less statistical power and might not have detected some small effects." They also concede it "was not a true retrospective timing task".
+
+The outcome is felt time passing, not attention or retention. The authors speculate that "music 'drives' the experience of time more than visual information like pace of editing", labelled as a possible auditory driving effect, not a tested result. High-arousal music also produced larger pupils (F(2,213)=123.6, p<.001).
+
+SOURCE: [PEER-REVIEWED] Sam and Reddy, "The Effect of Music and Editing Style on Subjective Perception of Time When Watching Videos: An Eye-tracking Study", Projections 17(2), 2023, doi 10.3167/proj.2023.170203; full PDF fetched from https://labocinemedias.ca/wp-content/uploads/2024/10/The_Effect_of_Music_and_Editin.pdf
+SEPARATED FROM TOPIC? Yes. Editing density and music arousal were crossed in one design, so each effect is estimated with the other held fixed. But the stimuli are a small set of lab clips and the outcomes are time-perception ratings.
+
+SOUND ON VS SOUND OFF 1: same footage with sound vs without sound (subtitles on in both), 161 viewers
+
+Szarkowska et al. (2024): participants watched two 6-minute clips from a Netflix series with English subtitles, "one video was presented with sound, the other without", counterbalanced. Reported: "participants had higher comprehension when they watched videos with sound (81.30%) than without (77.70%)". Cognitive load was higher without sound, and "participants reported enjoying the videos more with sound (5.52) than without sound (4.47)" on a 7-point scale. Sample: 161 (43 British, 53 Australian L1-English, 65 Polish L2-English). Eye-tracking was also collected.
+
+Size of the effect: about 3.6 percentage points of comprehension, about 1 point of 7 on enjoyment. These are large enough to be significant in a within-person design, but small in practice for comprehension.
+
+Not short-form: the clips were six minutes of drama dialogue, with subtitles on in both conditions. This answers "does a viewer who can hear lose anything", not "does adding sound raise watch time". The paper measures no retention or swipe-away behavior. The viewers were recruited and watched under study instruction, so it says nothing about what happens when feed viewers choose.
+
+SOURCE: [PEER-REVIEWED] Szarkowska et al., "Watching subtitled videos with the sound off affects viewers' comprehension, cognitive load, immersion, enjoyment, and gaze patterns: A mixed-methods eye-tracking study", PLoS One 2024. https://pmc.ncbi.nlm.nih.gov/articles/PMC11458047/ (abstract-level numbers as returned by the fetch)
+SEPARATED FROM TOPIC? Yes. The sound track is the only manipulated variable. Same viewers, content-matched, order counterbalanced. Limits: not short-form, subtitled in both conditions, and this is not voice vs no voice (dialogue was present in the sound-on condition).
+
+THE "85% WATCHED WITHOUT SOUND" CLAIM: traced to publisher self-reports in a 2016 Digiday article, not to Facebook
+
+Origin: Marketing Dive (2016-05-18): "According to Digiday, both LittleThings... and Mic... report that around 85% of those views happen with the sound turned off. PopSugar pegged its silent video views at between 50% and 80%." Tubefilter (2016-05-17): "A report in Digiday surmises that 85% of Facebook video views today take place without the volume turned on. (Facebook videos autoplay silently within users news feeds, and the company counts a view as just three seconds of watch time.)" Nieman Lab's headline: "Publishers say 85 percent of Facebook video is watched without sound".
+
+So the figure is: two publishers said about 85% of their own views, and a third said 50-80%. It was then generalized to all Facebook video. It is 2016, tied to a feed where video autoplayed muted and a "view" was 3 seconds.
+
+Also reported secondhand in the same pieces: "Noah Mallin, MEC North America head of social, told Digiday that engagement metrics, such as intent to purchase and brand lift, were unaffected by whether the video was viewed with the sound turned on or off." That is an agency executive's statement, with no method published.
+
+NOT FOUND: the Digiday original (my attempted URLs returned 404, so I rely on the two trade-press retellings, which agree), and any Facebook/Meta statement of the 85% figure. The Marketing Dive piece contains no statement from Facebook.
+
+SOURCE: [VENDOR] Marketing Dive, "Most of Facebook's 8B daily video views happen without sound", 2016-05-18, https://www.marketingdive.com/news/most-of-facebooks-8b-daily-video-views-happen-without-sound/419407/ ; Tubefilter 2016-05-17, https://www.tubefilter.com/2016/05/17/85-percent-facebook-video-views-without-volume/ ; both retell Digiday (publisher self-reports)
+SEPARATED FROM TOPIC? No. A self-reported share of views with sound off. Nothing about what sound does to watching. Not an edit-vs-content study of any kind.
+
+THE TIKTOK/KANTAR "SOUND ON" STUDY: TikTok-commissioned, self-reported, no sample size on the page
+
+TikTok page (June 8, 2021): "we partnered with Kantar to learn more about the impact of sound on digital advertising. They compared the user experience on TikTok vs. other digital platforms". Claims: "73% of respondents said they would 'stop and look' at ads on TikTok with audio, which is significantly higher than the rate on any other platform." "Kantar found that 88% of TikTok users said that sound is essential to the TikTok experience." "TikTok is the only platform where ads with audio generate significant lifts in both purchase intent and brand favorability. For some competitors, sound actually had a negative effect on favorability." And: "people experience sound on TikTok as 'fun'—a 66% increase compared to other platforms with the audio turned off."
+
+What is missing from the page: sample size, country, fieldwork dates, wording of questions, and the Kantar report itself. The 73% and 88% are stated intentions and opinions ("said they would", "said that"), not measured behavior. The page's causal sentence, "sound stops the scroll", is TikTok's wording, not a quoted Kantar finding. The comparison is TikTok vs other platforms, so it mixes platform context with sound. I could not find the Kantar document itself. The "120% awareness lift" figure that appears in secondary sources is not on this page, so I did not use it.
+
+SOURCE: [VENDOR] TikTok For Business blog, "Kantar report: How brands are making noise and driving impact with sound on TikTok", 2021-06-08, https://ads.tiktok.com/business/en/blog/kantar-report-how-brands-are-making-noise-and-driving-impact-with-sound-on-tiktok (redirected from tiktok.com/business/...). Commissioned marketing research, not peer-reviewed.
+SEPARATED FROM TOPIC? No. Self-reported attitudes from a commissioned survey comparing platforms. It does not isolate sound from content, platform, or edit.
+
+TRENDING AUDIO 1: TikTok's own recommendation page lists sounds as an input and says the feed avoids repeating the same sound. Nothing in it says a trending sound gets more reach.
+
+TikTok Newsroom, "How TikTok recommends videos #ForYou" (June 18, 2020, as shown by the fetch): factors include "Video information, which might include details like captions, sounds, and hashtags." Also: "For example, your For You feed generally won't show two videos in a row made with the same sound or by the same creator."
+
+Read plainly: the sound is one of the descriptors of a video, with no stated weight. And the diversity rule goes against stacking many videos on one sound in one person's feed. Another TikTok sentence: browsing "hashtags, sounds, effects, and trending topics on the Discover tab" refines a user's recommendations. That is about the viewer's interests, not a bonus for the video.
+
+NOT FOUND: any TikTok, Instagram/Meta or YouTube doc that says using a trending sound raises reach. I fetched the TikTok page; for Instagram I found only third-party blogs in search and no first-party page. The TikTok "Introduction to the TikTok recommendation system" transparency page returned only its title to my fetch, so it is not used.
+
+SOURCE: [PLATFORM DOC] TikTok Newsroom, "How TikTok recommends videos #ForYou", https://newsroom.tiktok.com/en-us/how-tiktok-recommends-videos-for-you
+SEPARATED FROM TOPIC? No. A description of inputs, not a measurement. It cannot tell how large the sound signal is, or whether it matters once watch behavior is known.
+
+TRENDING AUDIO 2: the numbers circulating are vendor claims with no method; the one transparent test found is a single account and is negative
+
+Claims such as "21 percent higher impressions", "3.5x more views in 48 hours", "68% more views" appear on growth-tool and agency blogs. I could not trace any of them to a method. Shortimize (a TikTok analytics vendor): its article "provides no quantified data, sample sizes, or measurement methodologies". Outfame (a growth-service seller): the "21%" sentence was not in the fetched page. TTS Vibes states: "TikTok has published no view-lift figure for trending audio." That last sentence is itself a vendor's assertion and I did not independently verify it, but my own check of TikTok's newsroom page agrees (previous section).
+
+The one test that shows its numbers: Emily Hessney Lynch (Serve Me the Sky) made 14 videos with trending sounds in a week on one account: "13k views the week of the experiment, compared to 15k the week before and 10k the week after"; "841 likes ... compared to 753 the week before and 642 the week after"; shares "46 ... compared with 151 the week before". Her conclusion: "should you start incorporating trending sounds more often on TikTok? It's a no from me." One account, one week, no control for topic, and confounded by also using three CapCut templates.
+
+NOT FOUND: any independent, controlled measurement of trending-audio vs other-audio reach. Not found: the origin of the 21% claim.
+
+SOURCE: [VENDOR] Serve Me the Sky Digital (agency blog), "The TikTok Experiments, Volume 9: Using Trending Sounds on Every Video for a Week", https://www.servemethesky.com/blog/tiktok-experiments-trending-sounds ; claims checked: https://www.shortimize.com/blog/analyze-tiktok-video-how-your-audio-choices-affect-viewer-retention , https://www.outfame.com/blog/trending-sounds-boost-engagement , https://insights.ttsvibes.com/tiktok-sound-adoption-speed-statistics
+SEPARATED FROM TOPIC? No. Before-and-after on one account, with a content change that also moved. The vendor numbers have no stated design.
+
+LOUDNESS AND SILENCE 1: what the platform docs say; the commonly quoted "-14 LUFS, quiet uploads get no boost" is NOT in any platform doc I could fetch
+
+YouTube Help ("Control video volume on your device"): "Stable volume balances the range between quiet and loud, continuously adjusting volume levels to reduce variations in sound." "By default, stable volume is turned on when you're watching videos on YouTube." "Stable volume isn't available for all videos." "This feature is turned off for YouTube Music and official music videos." This is a viewer-side setting that compresses the range, so large loud-quiet contrast in an edit may be reduced for viewers with it on. That is my inference, not a statement in the doc.
+
+Google Display & Video 360 help (ads only): "Loudness aligned with IAB US spec of -24LKFS +/- 2LKFS (Campaign Manager 360 will normalize to target loudness of -24 LKFS)". This applies to ads served through Google's ad products, not to organic uploads.
+
+NOT FOUND (platform doc): the target loudness YouTube, TikTok or Instagram apply to ordinary uploads, and whether quiet uploads are boosted. Third-party "-14 LUFS" pages exist, and one of them (criticallisteninglab.com) says itself that "Each platform has its own (often undocumented) loudness normalization" and cites no source. Other third-party pages contradict one another on whether TikTok normalizes in-feed. I do not use any of these figures.
+
+NOT FOUND: a measured effect on attention or retention of silence, a sudden drop in volume, or loudness level, in short-form video. A search found auditory-neuroscience work on sound-offset responses in cortex; none of it was on video viewing and none was fetched, so none is cited.
+
+SOURCE: [PLATFORM DOC] YouTube Help, https://support.google.com/youtube/answer/14106294?hl=en&co=GENIE.Platform%3DAndroid ; Google Display & Video 360 Help, https://support.google.com/displayvideo/answer/3129957?hl=en-GB
+SEPARATED FROM TOPIC? No. These are playback-setting descriptions with no measured viewer effect.
+
+LOUDNESS 2: across 27,000 TV ads, more "energetic" ads were less likely to be tuned out, and the authors say the finding is about more than loudness
+
+Yang, Xie, Krishnamurthi and Papatla (Journal of Marketing Research, 2022). Abstract: "Using a data set of over 27,000 TV commercials delivered to U.S. homes between 2015 and 2018... more energetic commercials are more likely to be tuned in or less likely to be avoided by viewers. The positive association between energy levels in ad content and ad tuning is statistically significant after controlling for placement and other aspects of commercials. However, the association varies across product categories and program genres. The main implication of this study is that advertisers should pay attention to components of ad content other than loudness, which has been regulated by law."
+
+Energy is measured by an algorithm "from the video of ads" and "is related to the level of arousal stimulated by ad content". The University of Notre Dame release describes the audio energy feature as "a perceptual measure of intensity and powerful activity released throughout the track. Typical energetic tracks feel fast, loud, and noisy". It also notes the CALM Act limits ad loudness.
+
+Limits: TV ads, not short video; outcome is viewers changing channel, not swiping; observational. I read the abstract and the press release only, so I do not know how much of the effect comes from the audio component alone as opposed to the visuals.
+
+SOURCE: [PEER-REVIEWED] Yang, Xie, Krishnamurthi, Papatla, "High-Energy Ad Content: A Large-Scale Investigation of TV Commercials", Journal of Marketing Research 2022, abstract via Crossref API https://api.crossref.org/works/10.1177/00222437211067802 ; Notre Dame release https://news.nd.edu/news/loud-and-clear-high-energy-ads-keep-viewers-tuned-in-study-shows/
+SEPARATED FROM TOPIC? Partly. Placement and other ad aspects were controlled statistically, but this is observational and not randomized. Audio energy and visual energy are measured together from the ad.
+
+SPEECH RATE 1: fast speech raised persuasion in two field experiments (449 participants); abstract-only
+
+Miller, Maruyama, Beaber and Valone (1976): "The relationship between speaking rate and attitude change was investigated in 2 field experiments with 449 Ss. Manipulations of speech rate were crossed with (a) credibility of the speaker and (b) complexity of the spoken message. Results suggest that speech rate functions as a general cue that augments credibility; rapid speech enhances persuasion, and therefore argues against information-processing interpretations of the effects of a fast speaking rate."
+
+Persuasion here means attitude change toward a message, and the manipulated stimulus is a spoken message, not video. It says nothing about whether a faster voice keeps people watching. The abstract does not give the words-per-minute used or the effect sizes, and I could not fetch the full text. The authors conclude that perceived credibility, not better processing, explains the effect.
+
+SOURCE: [PEER-REVIEWED] Miller, Maruyama, Beaber, Valone, "Speed of speech and persuasion", Journal of Personality and Social Psychology 34(4), 1976, abstract-only: https://experts.umn.edu/en/publications/speed-of-speech-and-persuasion
+SEPARATED FROM TOPIC? Yes for speech rate. Rate was manipulated and crossed with speaker credibility and message complexity, so rate is separated from content. It is a 1976 study of spoken persuasion, not of edited video.
+
+SPEECH RATE 2: a faster voice did not always persuade more; it cut both ways depending on whether the listener agreed
+
+Smith and Shaffer (1991): participants "heard either a proattitudinal or a counterattitudinal message on an involving topic, delivered at a slow (144 words per minute), an intermediate (182 wpm), or a rapid (214 wpm) rate of speech." Result: "rapid speech suppressed the tendency to rebut the counterattitudinal message and enhanced persuasion, whereas the same rapid speech rate inhibited favorable elaboration of the proattitudinal message while undermining its persuasive impact. Thus, a distinctly faster than normal rate of speech on an involving topic can either promote or inhibit persuasion by its impact on message elaboration."
+
+This is the negative half of the Miller result. The effect of speaking fast depended on whether the audience already agreed. The sample size is not in the abstract (abstract-only, via Crossref). The topic was "involving", so the result may not carry over to low-involvement entertainment video. Comprehension was not the outcome.
+
+SOURCE: [PEER-REVIEWED] Smith and Shaffer, "Celerity and Cajolery: Rapid Speech May Promote or Inhibit Persuasion through its Impact on Message Elaboration", Personality and Social Psychology Bulletin 17(6), 1991, abstract via Crossref API https://api.crossref.org/works/10.1177/0146167291176009 (journal page returned 403)
+SEPARATED FROM TOPIC? Yes. Speech rate was randomly assigned at three levels, with message direction crossed. Audio-only, and persuasion is the outcome.
+
+SPEECH RATE 3: in 6.9 million edX video sessions, faster-speaking instructors were watched longer, but the authors say speaking rate is a stand-in for enthusiasm
+
+Guo, Kim and Rubin (2014) measured "how long students are watching each video, and whether they attempt to answer post-video assessment problems" across "6.9 million video watching sessions across four courses on the edX MOOC platform". Speaking rate was computed from subtitles: words divided by speaking time. "Speaking rates range from 48 to 254 words per minute (mean = 156 wpm, sd = 31 wpm)." "Within a particular length range, engagement usually increases (up to 2x) with speaking rate." But: "for 6-12 minute videos, engagement dips in the middle bucket (145-165 wpm); slower-speaking videos are more engaging than mid-speed ones." And: "speaking rate is merely a surface feature that correlates with enthusiasm and thus engagement. Thus, speeding up an unenthusiastic instructor might not improve engagement." They found "no significant differences in the numbers of play and pause events" across rates. They report that edX producers "tightly edit in post-production to remove instances of 'umm', 'uhh', filler words, and other pauses", but the paper does not test that practice.
+
+This is long educational video (median engagement is minutes, with a 6-minute peak), with a motivated audience. It does not apply directly to entertainment shorts.
+
+NOT FOUND: any randomized or matched test of voice-over vs no voice-over, or of speech rate, in short-form feed video.
+
+SOURCE: [PEER-REVIEWED] Guo, Kim, Rubin, "How video production affects student engagement: An empirical study of MOOC videos", ACM Learning at Scale 2014. https://pg.ucsd.edu/publications/edX-MOOC-video-production-and-engagement_LAS-2014.pdf
+SEPARATED FROM TOPIC? No. Observational. Length was split into buckets, so rate is compared within length, but instructor enthusiasm, course and topic are uncontrolled, and the authors name enthusiasm as the likely cause. The editing (pause removal) is not isolated.
+
+SUMMARY OF NOT FOUND (8)
+1. Any measurement of beat-aligned cuts on watch time, retention or swipe-away in short-form video (section CUT-TO-BEAT 2).
+2. Full text of Swenberg and Carlgren (2021): only the abstract was reachable.
+3. Any independent, controlled measurement of trending-audio reach effects; and the source of the "21% higher impressions" figure (TRENDING AUDIO 2).
+4. Any TikTok/Meta/YouTube first-party doc saying a trending sound boosts reach (TRENDING AUDIO 1).
+5. Platform-doc loudness targets for organic uploads on YouTube, TikTok, Instagram; and any doc saying quiet uploads are or are not boosted (LOUDNESS AND SILENCE 1).
+6. Any measured effect of silence, sudden quiet or loudness level on attention in short-form video (LOUDNESS AND SILENCE 1).
+7. Facebook/Meta first-party statement of the "85% without sound" figure; and the original Digiday article (the 85% section).
+8. Any randomized or matched test of voice-over vs no voice-over, or of speech rate, in short-form feed video (SPEECH RATE 3).
