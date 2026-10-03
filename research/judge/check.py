@@ -16,6 +16,8 @@ History: v1 missed a section with no trailer (false negative). v2 flagged
 owner/repo sources and quoted YAML (false positives). v3 let an unclosed
 quoted block swallow the next one. v4 fixed that. v5 makes the trailer tags
 a parameter so one checker serves briefs with different closing lines.
+v6 ends the header at the first blank line, so a 6th header line is not
+counted into section 1 (it was, and cost JOB-4 and JOB-5 a false FAIL).
 The self-test runs planted defects (must catch) and planted non-defects
 (must not flag) for every trailer set. A checker is tested both ways.
 """
@@ -85,12 +87,19 @@ def check(path: Path, require: list[str] = DEFAULT_REQUIRE) -> tuple[list[str], 
         if i not in quoted and MARKDOWN.match(line):
             problems.append(f"line {i + 1}: markdown formatting ({line.strip()[:40]!r})")
 
+    # The header ends at the first blank line after the 5 required lines, so a
+    # 6th or 7th header line is not charged to section 1's word count.
+    header_end = HEADER_LINES
+    for k in range(HEADER_LINES, min(len(lines), 10)):
+        if not lines[k].strip():
+            header_end = k
+            break
     sections = 0
     open_source_at = None
     seen_middle: dict[str, int] = {}
-    section_start = HEADER_LINES
+    section_start = header_end
     for i, line in enumerate(lines, 1):
-        if i <= HEADER_LINES:
+        if i <= header_end:
             continue
         if _is(line, source_tag):
             if open_source_at is not None:
@@ -166,6 +175,7 @@ Date: today
 Sections: 4
 NOT FOUND: 3
 Nothing below may be flagged.
+Sixth header line: every quote below was fetched this session. This line must not be charged to section 1.
 
 A source in owner/repo plus path form
 Quoted config from the repo.
