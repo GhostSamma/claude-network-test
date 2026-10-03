@@ -1,0 +1,173 @@
+JOB 4
+TOPIC: Study designs that isolate one variable (the edit) in video performance: matched pairs, within-creator controls, A/B tests, channel-vs-video decomposition, observational controls
+DATE: 2026-10-03
+SECTIONS: 16
+NOT FOUND SUB-QUESTIONS: 5 (listed inside sections 1, 8, 10, 13 and 16, each marked NOT FOUND)
+
+All quotes below were taken from text fetched in this session (arXiv PDFs, ACL Anthology, author or institutional PDFs, PubMed, nature.com, plos.org, support.google.com). Where only an abstract was available, the section says so.
+
+
+1. SAME IMAGE, DIFFERENT TITLES: RESUBMISSION SETS (Lakkaraju, McAuley, Leskovec 2013)
+Design: Reddit images that were posted many times with different titles, to different communities, at different times. Each image acts as its own control. A "community model" first predicts how well a submission should do from the image's built-in popularity, a resubmission penalty, the community and the time of day. A title model then explains what is left over.
+Scale: "In total, we collect 132,307 images, 16,736 of which are unique."
+Result: the community model reaches R2 0.556. "Combining our language model with our community model further improves the performance by 15%, to 0.639." So the presentation layer adds about 0.08 R2 once content and context are modelled.
+Negative result: titles without the content control fail. Trying to predict title success with the language model alone "leads to extremely poor performance, with an average R2 score of only 0.139."
+Warning for re-upload tests: "an image is far less likely to be popular the twentieth time it is submitted regardless of how well the other factors are accounted for." A second upload of the same video with a new edit starts at a disadvantage.
+NOT FOUND (sub-question: matched pairs for video): no published field study was found in which the same footage was edited two ways (cuts, pacing, music, captions) and both versions were measured on real audiences. Every matched-pair study fetched varies the title or wording, not the edit.
+Copyable at a few hundred videos? Partly: the two-stage logic (model the expected result from content and context first, then credit the presentation with the residual) fits in a spreadsheet, but a one-creator catalogue has no repeated-content sets.
+SOURCE: [PEER-REVIEWED] Lakkaraju, McAuley, Leskovec, "What's in a name? Understanding the Interplay between Titles, Content, and Communities in Social Media", ICWSM 2013. https://cseweb.ucsd.edu/~jmcauley/pdfs/icwsm13.pdf
+SEPARATED FROM TOPIC? Yes for content, because the identical image is the control. Partly for time and community, which are modelled rather than randomized.
+
+
+2. SAME AUTHOR, SAME LINK, DIFFERENT WORDING, WITH AN IDENTICAL-PAIR PLACEBO (Tan, Lee, Pang 2014)
+Design: "we take advantage of the surprising fact that there are many pairs of tweets containing the same url and written by the same user but employing different wording." The URL fixes the topic and the author fixes the audience.
+Placebo, the most transferable idea here: "We use the 632K TAC pairs wherein t1 and t2 are identical to check for such confounding effects ... since if wording were the only explanatory factor, the retweet rates for identical tweets ought to be equal." The authors kept only the conditions where identical posts came out equal: "when t2 occurs within 12 hours after t1 and the author has more than 5,000 followers."
+Result: 11,404 filtered pairs. "humans achieved an average accuracy of 61.3%". The model reached "66.5% cross-validation accuracy and 65.6% held-out accuracy". The authors' summary of the human result is "not that high, but better than chance". The wording effect is real but small compared with author and topic.
+Copyable at a few hundred videos? The placebo is: if the requester ever posts the same cut twice (re-upload or cross-post), the gap between the identical posts is the noise floor that any difference between two edits has to beat. The pair-mining step at a scale of 11,404 pairs is not copyable.
+SOURCE: [PEER-REVIEWED] Tan, Lee, Pang, "The effect of wording on message propagation: Topic- and author-controlled natural experiments on Twitter", ACL 2014. https://aclanthology.org/P14-1017.pdf
+SEPARATED FROM TOPIC? Yes. Topic is fixed by the same URL and creator by the same author, and the time window was calibrated on identical pairs. Ordering effects between the first and second post remain only partly controlled.
+
+
+3. YOUTUBE CLONE SETS: SAME VIDEO, MANY UPLOADERS (Borghol, Ardon, Carlsson, Eager, Mahanti 2012)
+Design: "Popularity differences among clones can only be due to content-agnostic factors." The authors "manually identified 48 clone sets, each of which contain between 17 and 94 clones, with a median size of 29.5. In total, we identified 1,761 videos." Regression is run with and without clone-set identity.
+Why topic control matters: without clone-set identity, "the relative importance of factors such as video age and the number of followers of the uploader would be significantly overestimated."
+Channel share: "already at upload, approximately 64% of the variation in views can be explained by the uploader view count alone". The fetched text does not make clear whether this figure comes from the aggregate model or the clone-controlled one. Treat it as an order of magnitude only.
+First mover: "the winner was uploaded first among the videos in the clone set in 27.1% of the observed cases". The winner was the first found through search in 66.7% of cases.
+Copyable at a few hundred videos? The public clone dataset (about 1,761 rows) is laptop-sized and free from the authors' page. It holds only metadata, so the requester cannot measure an edit with it. A single creator cannot build clone sets.
+SOURCE: [PEER-REVIEWED] Borghol et al., "The Untold Story of the Clones: Content-agnostic Factors that Impact YouTube Video Popularity", KDD 2012. https://arxiv.org/abs/1311.6526 (dataset: https://www.ida.liu.se/~nikca89/papers/kdd12.html)
+SEPARATED FROM TOPIC? Yes. Content is identical by construction. For the same reason the edit is held fixed too, so this design measures everything except content and editing.
+
+
+4. IDENTICAL PHOTO, INDEPENDENT CASCADES: HOW MUCH LUCK REMAINS (Cheng, Adamic, Dow, Kleinberg, Leskovec 2014)
+Design: "We used an image matching algorithm to identify copies of the same image and place their corresponding cascades into clusters (983 clusters". The task is to predict which upload of the same photo becomes largest.
+Negative result for content: "even the same photo uploaded at different times by different users can fare dramatically differently". "The average Gini coefficient, a measure of inequality, is 0.787 (σ = 0.104) within clusters."
+What separates identical uploads: against a 10% random baseline, "we can identify the most popular cascade nearly half the time (accuracy 0.497)". "Essentially, if one upload of the photo is initially spreading more rapidly than other uploads of the same photo, that cascade is also likely to grow to be the largest."
+For the edit question: identical content produces very unequal outcomes, and the early spreading rate, not the content, tells the copies apart. A single pair of videos compared on final views is therefore mostly a comparison of early distribution.
+Copyable at a few hundred videos? No, the design needs Facebook-internal cascade data. The lesson does transfer: compare edits on early per-impression metrics, not on final totals.
+SOURCE: [PREPRINT] Cheng, Adamic, Dow, Kleinberg, Leskovec, "Can Cascades be Predicted?", arXiv 1403.4608 (2014). The venue was not verified in this session. https://arxiv.org/abs/1403.4608
+SEPARATED FROM TOPIC? Yes. The photo is identical, and the remaining variation is uploader, network and timing, which is exactly what this design measures.
+
+
+5. TIME-MATCHED PAIRS IN THE SAME COMMUNITY (Hessel, Lee, Mimno 2017)
+Design: "we focus on ranking pairs of submissions posted to the same community in quick succession, e.g., within 30 seconds". For the largest communities, "sampled pairs are submitted 15 seconds apart on average." Author features are then compared with image and caption features.
+Human ceiling: annotators who guessed the more popular post of a pair scored 60.0 to 72.7% accuracy across the communities studied (Table 3).
+What the authors admit they could not control: author identity. If they paired posts by the same author, "we would lose—at the very minimum—the 75% of submissions made to pics by users who have deleted their accounts or who only submit a single time." They "focus on quantifying the performance of user features instead."
+Negative result: "we observed a case in RedditLaqueristas where our intuitions proved to be incorrect: celebrity-status/social features were more predictive than content in that subreddit."
+Scale limit: "in other settings there might not be enough posts to warrant such a sampling technique."
+Copyable at a few hundred videos? The time-matching is not copyable, because one creator never posts two videos 15 seconds apart. The pairwise framing (ask which of two videos won, not how many views each got) is copyable.
+SOURCE: [PEER-REVIEWED] Hessel, Lee, Mimno, "Cats and Captions vs. Creators and the Clock: Comparing Multimodal Content to Context in Predicting Relative Popularity", WWW 2017. https://arxiv.org/abs/1703.01725
+SEPARATED FROM TOPIC? Partly. Time and community are controlled. Author is only measured, and topic is not controlled.
+
+
+6. RANDOMIZED A/B ARCHIVE: 32,487 PRESENTATION EXPERIMENTS (Upworthy Research Archive)
+Design: "Each experiment tested variations in a headline and image “package,” recording how many randomly-assigned viewers selected each variation." Scale: "the archive includes 32,487 experiments, 150,817 experiment arms, and 538,272,878 participant assignments." It is split into exploratory, confirmatory and hold-out sets for pre-registered analysis.
+Design flaws the authors disclose: for one period, "we believe the website was verifiably randomizing experiment arms, but that the web cache that handled high volume requests was only serving one arm at a time." Editors decided when to stop each test, and "Editors sometimes exercised their judgment to choose a package other than the best performing one." "all experiments in this dataset should be considered “intent-to-treat” studies."
+For the edit question: this is the largest public body of real randomized presentation tests. It tests the packaging (headline and image), not the content body. Nothing comparable was found for the video body.
+Copyable at a few hundred videos? Yes as a learning resource: the data are about 150,817 arm-level rows and fit on one machine. It contains no video.
+SOURCE: [DATASET] Matias, Munger, Le Quere, Ebersole, "The Upworthy Research Archive, a time series of 32,487 experiments in U.S. media", Scientific Data 2021. https://www.nature.com/articles/s41597-021-00934-7
+SEPARATED FROM TOPIC? Yes. Arms share the same article and are randomized, apart from the cache period and editor stopping noted above.
+
+
+7. NEGATIVE RESULT: EVEN WITH RANDOMIZATION, PRESENTATION FEATURES BARELY BEAT A COIN (Gligorić, Lifchits, West, Anderson 2023)
+Design: a pre-registered analysis of the Upworthy archive. Pairs were built so that "any headline pair under consideration has the same article ID and image ID, and was tested in the same week." In the authors' words, the setup "allows us to control for factors that could otherwise have important confounding effects on headline success."
+Result: "prediction accuracy on the Confirmatory Dataset is 54.42%", against 50% for random guessing. Several features came out significant, for example negative-emotion words (β = 0.18) and first-person singular pronouns (β = 0.24). Others failed their pre-registered tests, for example readability: "We do not find evidence in favour of this hypothesis".
+Why it matters: once topic and content are truly fixed, the measurable features of the presentation predict the winning variant only a few points above chance. Expect edit effects measured cleanly to be similarly small, and to need many comparisons before they show.
+Copyable at a few hundred videos? The pre-register, explore, then confirm workflow is copyable: decide the edit hypothesis on half the catalogue and test it on the other half. A requester with a few hundred videos will only detect effects much larger than these.
+SOURCE: [PEER-REVIEWED] Gligorić, Lifchits, West, Anderson, "Linguistic effects on news headline success: Evidence from thousands of online field experiments (Registered Report)", PLOS ONE 2023. https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0281682
+SEPARATED FROM TOPIC? Yes. Same article, same image, same week, randomized arms.
+
+
+8. YOUTUBE'S OWN A/B TEST: WHAT IT MEASURES AND WHAT IT CANNOT TEST
+What it tests: "Creators can test and compare up to 3 different titles and thumbnails. At the end of the test, the title or combination of title and thumbnail with the highest watch time will be shown to all viewers."
+How variants are shown: "YouTube’s A/B tests are true, concurrent A/B/C tests. This means all variations are shown to viewers at the same time." Control group: "The video performance from the control group is excluded from the experiment calculations."
+Metric: "we optimize tests for overall watch time over other metrics, like click-through-rate."
+Exclusions: "You are not able to A/B test Shorts, Scheduled Lives, and Premiere videos at this time."
+Why sequential (before/after) tests mislead: "Test results may also vary due to natural changes in a video’s audience composition over time. For example, early impressions are more likely to come from viewers who are already familiar with your channel, while later impressions are more likely to include viewers who haven't yet watched your channel." "Many third-party tools run A/B tests sequentially and may generate different results."
+Expect null results: "It's normal not to receive a “Winner” test result."
+NOT FOUND (sub-question: platform A/B tests of the edit itself): the page lists only titles and thumbnails, so there is no documented way to randomize two cuts of a video body, and no testing at all for Shorts. The page also does not say whether the unit of assignment is the viewer or the impression.
+Copyable at a few hundred videos? Yes for titles and thumbnails on long-form videos. No for Shorts, and no for the edit.
+SOURCE: [PLATFORM DOC] YouTube Help, "A/B test titles & thumbnails". https://support.google.com/youtube/answer/13861714
+SEPARATED FROM TOPIC? Yes for title and thumbnail, because variants are randomized at the same time within one video. It does nothing to separate the edit.
+
+
+9. CHANNEL VS CONTENT DECOMPOSITION: PAST SUCCESS DOMINATES, AND CONTENT ADDS ALMOST NOTHING (Bakshy et al. 2011; Martin et al. 2016)
+Bakshy (74 million diffusion events on Twitter): after adding content features, "none of the content features were informative relative to the seed user features ... nor was the model fit (R2 = 0.31) improved by the addition of the content features." The user-only model was well calibrated on averages but "relatively poor (R2 = 0.34)" for individual events.
+Martin (the follow-up with richer features): "content-based features alone perform poorly ... both basic content and topic features for a tweet lead to a negligibly low R2. Even after including past success of tweets, R2 stays well below 0.05." "a model with only basic user features achieves R2 close to 0.2". With past success, "R2 increases to 0.42 on the unrestricted dataset, and up to 0.48 on the restricted dataset." "a single feature (past user success) performs almost as well on both datasets as all features combined." The best model leaves "more than half of the variance in cascade sizes unexplained."
+Approximate shares: content under 0.05, the sharer's track record 0.42 to 0.48, and more than 0.5 unexplained. This is Twitter, not video.
+Caveat: the content features were crude (crowd-worker ratings and topics). "Content adds nothing" may partly reflect how poorly content was measured.
+Copyable at a few hundred videos? Yes as a control: use the channel's own recent median performance as the expected value, and judge each video's edit against that expectation rather than against raw views.
+SOURCE: [PEER-REVIEWED] Bakshy, Hofman, Mason, Watts, "Everyone's an Influencer: Quantifying Influence on Twitter", WSDM 2011, https://snap.stanford.edu/class/cs224w-readings/bakshy11influencers.pdf ; Martin, Hofman, Sharma, Anderson, Watts, "Exploring Limits to Prediction in Complex Social Systems", WWW 2016, https://arxiv.org/abs/1602.01013
+SEPARATED FROM TOPIC? No. This is a variance decomposition, not a separation, and topic is one of the weak content features.
+
+
+10. VIDEO-SPECIFIC DECOMPOSITION: SWITCH THE OUTCOME FROM VIEWS TO DURATION-CALIBRATED WATCH PERCENTAGE (Wu, Rizoiu, Xie 2018)
+Why the outcome matters: engagement measures "are stable over time, thus separating the concerns for modeling engagement and those for popularity – the latter is known to be unstable over time and driven by external promotions."
+Duration confound: "duration alone explains more than 58% of the variance of watch percentage." Their fix, relative engagement, is "the rank percentile of video in its duration bin."
+Decomposition (5.3M YouTube videos; outcome is relative engagement): "Context (C) and Freebase topics (T) alone are weak predictors, explaining 0.04 and 0.19 variance". "Channel reputation (R) is the strongest feature, achieving R2=0.42". Within a channel: "video relative engagement tends to be stable within the same channel".
+What the within-channel baseline misses: "the prediction performance varies considerably even for videos from the same channel and identically labeled". In their example, the outliers were videos whose titles explicitly listed conspiracy theories. Subscriber count could not be used because "the value when a video is uploaded can not be retrospectively obtained."
+NOT FOUND (sub-question: share of YouTube view variance due to channel versus video): no fetched study reports a between-channel versus within-channel variance share (for example an intraclass correlation) for YouTube views. The closest figures are 0.42 R2 for channel reputation on engagement here, and the roughly 64% uploader figure in section 3.
+Copyable at a few hundred videos? Yes, if the requester uses their own YouTube Studio watch-percentage data, which public numbers lack. Ranking within duration bands is spreadsheet work, and the authors say their code and data are public.
+SOURCE: [PEER-REVIEWED] Wu, Rizoiu, Xie, "Beyond Views: Measuring and Predicting Engagement in Online Videos", ICWSM 2018. https://arxiv.org/abs/1709.02541
+SEPARATED FROM TOPIC? Partly. Duration and the channel baseline are removed. Topic is only partly captured (0.19).
+
+
+11. WITHIN-CHANNEL COMPARISON FAILS WHEN FORMAT DIFFERS: SHORTS VS REGULAR VIDEOS FROM THE SAME CHANNEL (Violot, Elmas, Bilogrevic, Humbert 2024)
+Design: 70k channels that posted at least one Short. For each channel and semester, the authors compute the ratio of mean views for Shorts to regular videos, using only channels that posted both.
+Result: "Shorts consistently draw significantly more views than RVs from the same channel –80 times more for top 1 channels and 111 times more for bottom 99 channels, on average over the two-year period."
+Second confound inside the same channel: "Shorts target mostly entertainment categories, while regular videos cover a wide variety of categories."
+Selection, as the authors admit: "we focused on channels who took an interest in Shorts and posted at least one Short."
+For the edit question: a within-channel comparison removes the channel but not format or category, and format alone moves views by about two orders of magnitude. Any edit comparison has to be made inside one format and one duration band (see section 10), or format will swamp it.
+Copyable at a few hundred videos? Yes. Stratifying a few hundred videos by format and duration band before comparing edits needs only the public metadata.
+SOURCE: [PEER-REVIEWED] Violot, Elmas, Bilogrevic, Humbert, "Shorts vs. Regular Videos on YouTube: A Comparative Analysis of User Engagement and Content Creation Trends", ACM WebSci 2024 (per the arXiv comment). https://arxiv.org/abs/2403.00454
+SEPARATED FROM TOPIC? No. This study shows what within-channel comparison leaves uncontrolled: format and category mix.
+
+
+12. LUCK AND SOCIAL INFLUENCE: THE CEILING ON WHAT ANY EDIT MEASUREMENT CAN SHOW (Salganik, Dodds, Watts 2006; Muchnik, Aral, Taylor 2013)
+Salganik (randomized "multiple worlds" music market, 14,341 participants): "Increasing the strength of social influence increased both inequality and unpredictability of success. Success was also only partly determined by quality: The best songs rarely did poorly, and the worst rarely did well, but any other result was possible."
+Muchnik (randomized manipulation of first votes on a news aggregator; quoted from the abstract only, via PubMed): "positive social influence increased the likelihood of positive ratings by 32% and created accumulating positive herding that increased final ratings by 25% on average."
+For the edit question: one video's outcome is one draw from a path-dependent process. Early random advantages compound, so a single pair of videos (edit A against edit B) cannot tell an edit effect from herding. Only repeated comparisons average luck out.
+Copyable at a few hundred videos? The experiments are not copyable, because they need control of the platform. The implication is: treat each video as one noisy draw, and compare groups of videos, never two.
+SOURCE: [PEER-REVIEWED] Salganik, Dodds, Watts, "Experimental Study of Inequality and Unpredictability in an Artificial Cultural Market", Science 2006, https://www.princeton.edu/~mjs3/salganik_dodds_watts06_full.pdf ; Muchnik, Aral, Taylor, "Social Influence Bias: A Randomized Experiment", Science 2013 (abstract only), https://pubmed.ncbi.nlm.nih.gov/23929980/
+SEPARATED FROM TOPIC? Yes. Both are randomized, but what they separate is luck and social influence from quality, not the edit.
+
+
+13. CLOSEST MATCH ON SHORT VIDEO: EDITING VARIABLES WITH AN ACCOUNT-LEVEL CONTROL ON TIKTOK (Paekivi, Karjus 2026, preprint)
+Design: "about 10,000 TikTok videos of brand and organizational accounts from Estonia". A multimodal LLM codes 77 variables, editing pace among them. "Account-level grouping is enforced in every train/test split so that videos from the same account never appear in both training and test partitions." This is followed by mixed models "with effect (sum) coding and an account random intercept".
+Result: "Relative to controls-only models, the annotation variables add between 0.056 and 0.078 R2 across those engagement outcomes." Editing pace has the largest editing contrast. Its cells read 34, 31, 41 and 39 (likes, comments, shares, saves). The table defines each cell as "the contrast between the highest-performing common level of that variable and the mean of its remaining common levels after adjustment for follower count, video age, and account differences", expressed as a percentage of the adjusted mean.
+Caveats the authors state: "the analysis is associational rather than causal." The editing labels are only moderately reliable: "The editing block (α = 0.45, 72% accuracy, macF1 = 0.52)". "Most annotated variables were not associated with platform success". Topics were deliberately left out of the coding. The outcomes are likes, comments, shares and saves; views are not modelled.
+NOT FOUND (sub-question: creator fixed-effects regression of YouTube or TikTok views on edit variables): no study was found with this exact design. This preprint, which uses a random intercept and engagement outcomes, is the nearest.
+Copyable at a few hundred videos? Partly. A mixed model on a few hundred videos runs on a laptop. A single creator has no between-account variation, so the model collapses to a within-channel comparison, and the LLM coding step has reliability limits.
+SOURCE: [PREPRINT] Paekivi, Karjus, "Modeling Engagement with Brand and Organizational TikTok Videos Using Machine-Assisted Theory-Ensemble Annotation", arXiv 2606.16053 (2026). https://arxiv.org/abs/2606.16053
+SEPARATED FROM TOPIC? No. Account and follower count are controlled, but topic is explicitly not coded, so the editing-pace contrast can still carry topic and format.
+
+
+14. NEGATIVE RESULT: WITHIN-CREATOR CONTROL, NO STYLE EFFECT ON VIEWS (Kleinberg, Mozes, van der Vegt 2018)
+Design: 27,333 vlogs, clustered into seven sentiment-trajectory styles. "We used a linear mixed effects model to test for an effect of the clusters on the view count ... we included the vlogger as a random effect in the model."
+Result: "there was no significant difference in the corrected view count between the clusters ... p = .360." "Thus, it is not statistically justified to argue that one particular narrative style attracted more views than others."
+Admitted gaps: "the sample consisted of YouTubers that already are successful concerning subscriber count". The authors also say they "did not look at the use of visual aspects in the vlogs." Their proposed next step is the matched design this job asks about: finding "vlog-twins" so that "the effects of individual variables (e.g., a change in vlogging style) can be isolated".
+Unverified lead: the paper repeats an earlier finding that "Videos from a cluster with highly edited, active vlogs received more views than simple conversational videos" (Aran et al. 2014). That source was NOT fetched in this session, so the claim is not used here.
+Copyable at a few hundred videos? Yes. A creator random effect, or for one creator a within-channel comparison, on a few hundred videos is laptop-scale.
+SOURCE: [PEER-REVIEWED] Kleinberg, Mozes, van der Vegt, "Identifying the sentiment styles of YouTube's vloggers", EMNLP 2018. https://arxiv.org/abs/1808.09722
+SEPARATED FROM TOPIC? Partly. The creator baseline is controlled by the random effect. Topic is not controlled, and the variable is narrative style, not the edit.
+
+
+15. BROADCAST SIZE, NOT CHAINS OF RESHARES, DRIVES POPULARITY (Goel, Anderson, Hofman, Watts 2016)
+Design: structural virality measured on "a billion diffusion events on Twitter, including the propagation of news stories, videos, images, and petitions."
+Result: "we find that structural virality is typically low, and remains so independent of size, suggesting that popularity is largely driven by the size of the largest broadcast."
+For the edit question: if most reach comes from one large broadcast (the channel's own audience, or a single recommendation burst), then raw view totals mostly measure that broadcast, not how people reacted to the edit. This supports judging edits by per-viewer metrics (sections 4 and 10) rather than totals.
+Copyable at a few hundred videos? No, the design needs full diffusion trees. The implication costs nothing to apply.
+SOURCE: [PEER-REVIEWED] Goel, Anderson, Hofman, Watts, "The Structural Virality of Online Diffusion", Management Science 62(1) 2016. http://5harad.com/papers/twiral.pdf
+SEPARATED FROM TOPIC? No. This study describes how diffusion is structured and does not attempt to separate content from reach.
+
+
+16. WHAT THE DESIGNS ADD UP TO FOR ONE CREATOR WITH A FEW HUNDRED VIDEOS (synthesis; every step is tied to a fetched quote above)
+Step 1, outcome: use duration-calibrated watch percentage, not views. Views are "unstable over time and driven by external promotions", while engagement is "stable over time" (Wu 2018, section 10).
+Step 2, baseline: set each video's expected result from the channel's own past performance, because "a single feature (past user success) performs almost as well on both datasets as all features combined" (Martin 2016, section 9).
+Step 3, strata: compare edits only within the same format and duration band. Within one channel, Shorts drew "80 times more" to "111 times more" views than regular videos (Violot 2024, section 11).
+Step 4, noise floor: where identical or near-identical posts exist, measure their gap first. Tan 2014 calibrated on posts where "the retweet rates for identical tweets ought to be equal" (section 2).
+Step 5, expected effect size: with randomization and topic fixed, presentation features picked the winner only "54.42%" of the time (Gligorić 2023, section 7). Edit effects are likely small, and a few hundred videos will only detect large ones.
+Step 6, what stays uncontrolled: topic within the channel (no fetched design fixes it without repeated content), herding and luck (section 12), and audience drift over a video's life ("early impressions are more likely to come from viewers who are already familiar with your channel", YouTube doc, section 8).
+NOT FOUND (sub-question: the Netflix artwork A/B test design): the Netflix tech-blog page returned 403 on both URLs tried, so it is not used.
+Copyable at a few hundred videos? Yes. Steps 1 to 4 need only Studio exports and a spreadsheet, and step 5 sets realistic expectations for that sample size.
+SOURCE: [PEER-REVIEWED] Wu et al. ICWSM 2018 https://arxiv.org/abs/1709.02541 ; Martin et al. WWW 2016 https://arxiv.org/abs/1602.01013 ; Violot et al. WebSci 2024 https://arxiv.org/abs/2403.00454 ; Tan et al. ACL 2014 https://aclanthology.org/P14-1017.pdf ; Gligorić et al. PLOS ONE 2023 https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0281682
+SEPARATED FROM TOPIC? Partly. Channel, duration, format and noise are handled. Topic within the creator's own catalogue remains the main uncontrolled confound.

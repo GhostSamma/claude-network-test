@@ -1,0 +1,185 @@
+JOB 7
+TOPIC: on-screen text and captions, measured (effects on watching, comprehension, attention to the picture; sound-off share; reading-time numbers)
+DATE: 2026-10-03
+SECTIONS: 19
+NOT FOUND SUB-QUESTIONS: 7 (listed in the last section)
+
+Reading guide: "edit" here means the editor's choices (captions on/off, how long text stays up, how many words, how many lines). Almost nothing below measures "watch-through" or "completion". Most measures are comprehension, recall, or where the eyes go. That gap is stated in each section.
+
+=====
+1. Gernsbacher 2015: "more than 100 studies", but the paper gives no effect sizes
+
+The most-cited review says captions help everyone. Fetched text of the open PMC copy: "More than 100 empirical studies document that captioning a video improves comprehension of, attention to, and memory for the video." I looked for effect sizes, percentages, and any mention of noise, mute, or sound-off viewing. The fetched article body gave none of these: the numeric results are NOT FOUND in it. It is a narrative review, not a meta-analysis. Its designs are mostly experiments with random assignment to the captioned or uncaptioned version of the same video, for example: "Second and third graders were randomly assigned either to watch videos with audio but without captions or to watch videos with audio and with captions" (Linebarger et al., 2010, as cited). That does isolate the caption itself. But the review pools mostly children, second-language learners, deaf/hard-of-hearing and college samples, and the outcome is learning, not whether people keep watching. The only limitation quoted: "captions generated via automated speech recognition are not yet without interfering error". An outside critique (Learning and the Brain blog, not peer reviewed, not used as a source) argues the evidence is mostly foreign-language or non-typical learners; I did not verify that independently.
+
+SOURCE: [PEER-REVIEWED] Gernsbacher, M.A. (2015). Video Captions Benefit Everyone. Policy Insights from the Behavioral and Brain Sciences 2(1):195-202. https://pmc.ncbi.nlm.nih.gov/articles/PMC5214590/
+SEPARATED FROM TOPIC? partly - the underlying studies mostly randomize captions on/off on the same video (so the edit is isolated), but outcomes are comprehension/memory in learning populations, not watch-through, and the review reports no effect sizes.
+
+=====
+2. Subtitles pull the eyes whether or not you need them (measured by eye tracking)
+
+d'Ydewalle et al. 1991 abstract: "When foreign movies are subtitled in the local language, reading subtitles is more or less obligatory. Our previous studies have shown that knowledge of the foreign language or switching off the sound track does not affect the total time spent in the subtitled area." In Experiment 1 American subjects watching an American movie with English subtitles "spent considerable time in the subtitled area." Bisson et al. 2014 abstract: "participants read the subtitles irrespective of the subtitling condition", and they discuss "the saliency of subtitles and automatic reading behavior." Szarkowska and Gerber-Moron (2018) repeat the point: "subtitles are great gaze attractors" and "reading subtitles is automatic", so "people automatically look at them." So if you put words on screen, the eyes go there. This is a measured fact about gaze, not about whether the viewer stays.
+
+Design: in all of these the subtitle condition (standard vs reversed vs intralingual; sound track known vs unknown) was varied inside one experiment with the same film material, so text presence/language is separated from content. Small lab samples of volunteers watching film clips, not short-form feeds.
+
+SOURCE: [PEER-REVIEWED] d'Ydewalle, Praet, Verfaillie, Van Rensbergen (1991) Watching Subtitled Television, Communication Research, abstract via Crossref https://api.crossref.org/works/10.1177/009365091018005005 ; Bisson, Van Heuven, Conklin, Tunney (2014) Applied Psycholinguistics 35(2) https://doi.org/10.1017/s0142716412000434 ; Szarkowska & Gerber-Moron (2018) PLOS ONE https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0199331
+SEPARATED FROM TOPIC? yes for gaze (text condition manipulated within the same film); no for watch-through (not measured).
+
+=====
+3. The "85% of Facebook video is watched without sound" number: traced, and it is publisher self-report, not Facebook data
+
+Original: Digiday, Sahil Patel, May 17, 2016. Fetched text: "As much as 85 percent of video views happen with the sound off, according to multiple publishers." Named sources: LittleThings ("Eighty-five percent of its viewership is occurring without users turning the sound on"), Mic ("85 percent of its 30-second views are without sound"), and PopSugar: "its silent video views range between 50 and 80 percent." The article quotes no Facebook statement and no method. It also notes "Facebook counts a view at three seconds", so the base is 3-second views of two publishers' own videos (feed autoplay is muted by default), not all viewing. No platform has confirmed it in anything I could fetch. Class: trade-press report of publisher-supplied numbers.
+
+What this implies, carefully: muted autoplay in the feed is the default, so many views start silent. It does not say how many viewers would turn sound on, nor that captions make them stay.
+
+SOURCE: [VENDOR] Digiday (Patel, 2016) https://digiday.com/media/silent-world-facebook-video/
+SEPARATED FROM TOPIC? no - descriptive share of silent views for two publishers; no comparison of edited vs unedited versions.
+
+=====
+4. Facebook's own statements: "most video ads... viewed without sound", "41% meaningless without sound", "captions +12% view time" (no method given)
+
+Meta business page "Capture Attention with Updated Features for Video Ads" (fetched, 2016 era): "Since most video ads in mobile feed are viewed without sound, make sure to express your message visually. In one study of Facebook video ads, 41% of videos were basically meaningless without sound." And: "Internal tests show that captioned video ads increase video view time by an average of 12%". A&W Canada testimonial on the same page: "Adding captions increased watch time by 25%." Neither number comes with sample size, test design, control group, or what "view time" means; the page marks the 12% with a footnote number whose text was not in the fetched page. "Most" is not quantified by Facebook. The page also says it added a metric: "Advertisers are now able to see the percentage of people who have viewed their videos with sound in Page Insights", so Facebook measures silent share, but I found no public number from it.
+
+The 12% is the closest thing to a platform "captions raise watch time" claim, and it cannot be audited. Treat as a marketing claim, not a result.
+
+SOURCE: [PLATFORM DOC] Meta for Business, Capture Attention with Updated Features for Video Ads https://www.facebook.com/business/news/updated-features-for-video-ads
+SEPARATED FROM TOPIC? unknown - "internal tests" implies captioned vs not, but design is undisclosed; advertiser anecdote (25%) is not separated at all.
+
+=====
+5. Verizon Media / Publicis Media 2019: "92% sound off on mobile", "80% more likely to watch entire video" are survey answers
+
+Trade-press summary (Next TV, May 14, 2019): "A survey of U.S. consumers found that 92% view videos with the sound off on mobile and 83% watch with sound off, according to a new report from Verizon Media and ad buyer Publicis Media." Also "80% of consumers are more likely to watch an entire video when captions are available" and captions "contributing to an 8% lift in ad recall, a 10% lift in ad memory quality and a 13% lift in brand linkage." Sample size and method were not in that article. Another trade piece (3Play) gave "5,616 U.S. adults age 18 to 54 conducted in April 2019" and noted no link to the original and no question wording. The "92%" has no stated frequency (it is not "92% of viewing"; it looks like "ever"). The "80% more likely" is a stated intention in a survey, not measured completion. The ad-lift figures' method (exposure experiment vs survey) is not stated in what I fetched. The original Verizon/Publicis report: NOT FOUND (not located in this session).
+
+Do not read "92%" as share of time. It is share of people who say they sometimes do it.
+
+SOURCE: [VENDOR] Next TV https://www.nexttv.com/news/mobile-videos-often-watched-without-audio-study-finds ; 3Play Media https://www.3playmedia.com/blog/verizon-media-and-publicis-media-find-viewers-want-captions/ (both secondary; original report not found)
+SEPARATED FROM TOPIC? no - self-reported opinion survey; the ad-lift numbers' design is unknown.
+
+=====
+6. Instagram and TikTok: no number from the platform on captions and retention found
+
+TikTok newsroom, "Introducing auto captions": fetched and checked for any sentence claiming captions improve watching, retention or engagement or giving a sound-off number. Result: none. It is an accessibility announcement. Meta's Reels ads page (facebook.com/business/ads/facebook-instagram-reels-ads): no statement about sound or captions with numbers. Claims circulating on blogs ("head of Instagram said about 50% watch without sound"; "80% of Reels are watched with sound on") traced only to social posts and marketing blogs in search results; I could not reach a primary Instagram/Meta source for either, so neither goes in. They also contradict each other, which is itself a warning.
+
+SOURCE: [PLATFORM DOC] TikTok Newsroom https://newsroom.tiktok.com/en-us/introducing-auto-captions ; Meta Reels ads page https://www.facebook.com/business/ads/facebook-instagram-reels-ads (both fetched: NOT FOUND for any retention/sound-off number)
+SEPARATED FROM TOPIC? n/a - NOT FOUND.
+
+=====
+7. YouTube captions and views (+7.32%): a captioning vendor's case study, one network, uncaptioned videos as control
+
+3Play Media case study of Discovery Digital Networks: "Discovery Digital Networks transcribed 125 of 334 videos... across 8 of their channels." Control: "measuring the data obtained from the 125 transcribed videos against the remaining 209 uncaptioned videos." Result: "Views on captioned videos saw an overall increase of 7.32%", 13.48% in the first 14 days. Notes: the outcome is view count (not retention or watch-through); the captioned videos were not randomly chosen (the network chose them); the page claims day-by-day normalization for age and virality but says nothing on channel growth, promotion, or search changes. Captions here also add searchable transcript text, so a view lift may come from search discovery, not from what is on screen. Written by the company that sells the service.
+
+SOURCE: [VENDOR] 3Play Media, Discovery Digital Networks case study https://www.3playmedia.com/why-3play/case-studies/discovery-digital-networks/
+SEPARATED FROM TOPIC? partly - captioned vs uncaptioned videos compared, but non-random selection and transcript/search effect are mixed with the on-screen effect.
+
+=====
+8. Sound off in a controlled test: small comprehension loss, more complete subtitle reading, no change in glances to the picture
+
+Szarkowska et al. 2024, PLOS ONE: 161 participants (43 British, 53 Australian, 65 Polish) each watched two roughly 6-minute Netflix clips from The Chair, one with sound, one without, both with English subtitles, order counterbalanced (within-subject). Comprehension: 81.30% with sound vs 77.70% without; the authors say the effect is small: "the magnitude of these findings was relatively modest, as indicated by the small effect size." Cognitive load rose and immersion and enjoyment fell without sound. Gaze (verified in the paper text): total subtitle reading time was "shorter with sound (... TRT M ON = 996 ms) than without (... TRT M OFF = 1253 ms)", and subtitle skipping was less frequent without sound (0.055 with sound vs 0.023 without). Crossovers between picture and subtitle did NOT differ significantly: "In the crossover analysis, unlike in all other analyses, no main effect of Sound was found" (2.03 with sound vs 1.96 without); the authors say participants "shifted attention between the subtitles and the images in comparable amounts in both sound conditions." So with sound off the text is read more thoroughly, while glances to the picture stayed about the same. Understanding stayed high (about 78%). Subtitles were on in both conditions, so this isolates sound, not text.
+
+Implication for an editor: for viewers who are silent, the on-screen text carries more of the story and is read more completely; this study did not find that they looked at the picture less.
+
+SOURCE: [PEER-REVIEWED] Szarkowska, Ragni, Szkriba, Black, Orrego-Carmona, Kruger (2024) PLOS ONE 19(10): e0306251 https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0306251
+SEPARATED FROM TOPIC? yes for sound (same people, same clip, sound toggled); no for the caption edit (subtitles present in both conditions).
+
+=====
+9. NEGATIVE RESULT: adding subtitles to muted ads did not help brand memory
+
+Bellman, Arismendez, Varan (2021), SN Business & Economics. Abstract (fetched): three conditions, "(1) normal (audio), (2) muted, and (3) muted with subtitles." "The lab-study results showed that muted ads had lower free brand recall, cued brand recall, and brand recognition than normal ads and adding subtitles did not improve effectiveness on these measures." Also: "Muted ads were just as effective as normal ads and subtitled ads, in a mobile social media environment, on every measure except brand recognition... These results suggest that muting makes little difference to the effectiveness of video ads seen in social media on smartphones." The muting loss appeared "only for ads with high amounts of information (speech and audio branding) in their soundtracks", and "Two visual strategies (visual storytelling, and referencing shared understandings) counteracted the effects of muting". Sample sizes not in the abstract I could fetch.
+
+This cuts against the "captions fix sound-off" story for ad recall: what helped was a visual that carries the message, not text added over a message that lived in the audio.
+
+SOURCE: [PEER-REVIEWED] Bellman, Arismendez, Varan (2021) https://link.springer.com/article/10.1007/s43546-020-00030-9
+SEPARATED FROM TOPIC? yes - randomized between conditions normal/muted/muted+subtitles on the same ads; outcomes are memory measures, not watch-through.
+
+=====
+10. Same-language subtitles on TV ads (sound on): memory gain, and the text takes a disproportionate share of attention
+
+Brasel & Gips (2014), Journal of the Academy of Marketing Science. Abstract: "A preliminary eye-tracker study shows that same-language subtitles capture disproportionate visual attention, and a first study highlights that same-language commercial subtitles can increase brand recall and memory of other verbal ad information. Three further studies using 12 additional ads reinforce the positive effects of subtitles and show how same-language subtitle effectiveness varies with changes in visual and verbal ad complexity." Also "subtitles can lead to negative effects in the uncommon situation that brand information is missing from the audio." So text duplicating the audio can raise verbal memory while it pulls attention away from the picture. Sample sizes not in the abstract. Contrast with Bellman 2021 (section 9): here the audio was on and the subtitles repeated it; there the audio was off and subtitles did not help. Different ads and outcome measures; the two studies were not designed to be compared.
+
+SOURCE: [PEER-REVIEWED] Brasel & Gips (2014) https://link.springer.com/article/10.1007/s11747-013-0358-1
+SEPARATED FROM TOPIC? yes - subtitle vs no-subtitle versions of the same ads were compared experimentally; outcomes are memory and intent, not watch-through.
+
+=====
+11. Does text compete with the picture? Mayer's redundancy effect: on-screen text duplicating narration made learning worse
+
+Mayer, Heiser & Lonn (2001), J. Educational Psychology 93(1). Abstract (fetched via OpenAlex): "In 4 experiments, college students viewed an animation and listened to concurrent narration explaining the formation of lightning. When students also received concurrent on-screen text that summarized (Experiment 1) or duplicated (Experiment 2) the narration, they performed worse on tests of retention and transfer than did students who received no on-screen text. This redundancy effect is consistent with a dual-channel theory of multimedia learning in which adding on-screen text can overload the visual information-processing channel, causing learners to split their visual attention between 2 sources." The edit (text on/off) was the only difference between groups, with the same animation and narration. Limits: a 140-second science animation, college students, a learning test, system-paced; not entertainment, not a feed, and no measure of whether people keep watching.
+
+SOURCE: [PEER-REVIEWED] Mayer, Heiser, Lonn (2001) https://doi.org/10.1037/0022-0663.93.1.187 (abstract text retrieved from https://api.openalex.org/works/doi:10.1037/0022-0663.93.1.187)
+SEPARATED FROM TOPIC? yes - randomized text vs no text with identical animation and narration; outcome is learning, not retention of viewers.
+
+=====
+12. Meta-analysis says the redundancy penalty is conditional: text+speech beats speech alone, except when there is a picture
+
+Adesope & Nesbit (2012), J. Educational Psychology, 57 independent studies. Abstract (fetched via OpenAlex): "outcomes comparing spoken-written and written-only presentations did not differ, but students who learned from spoken-written presentations outperformed those who learned from spoken-only presentations. This effect was dependent on learners' prior knowledge, pacing of presentation, and inclusion of animation or diagrams. Specifically, the advantages of spoken-written presentations over spoken-only presentations were found for low prior knowledge learners, system-paced learning materials, and picture-free materials." Also: "presentations displaying key terms extracted from spoken narrations were associated with better learning outcomes and accounted for much of the advantage of spoken-written over spoken-only." So the benefit of word-for-word text vanishes when there are animations or diagrams to look at (which short video always has), and key words beat full transcripts. The abstract gives no effect size; I could not fetch the full text (APA paywalled).
+
+Caution: learning outcomes, mostly postsecondary students, not entertainment viewing.
+
+SOURCE: [PEER-REVIEWED] Adesope & Nesbit (2012) https://doi.org/10.1037/a0026147 (abstract via https://api.openalex.org/works/doi:10.1037/a0026147; abstract-only, full text not fetched)
+SEPARATED FROM TOPIC? yes - meta-analysis of experiments where only the text/speech format varies; learning outcomes only.
+
+=====
+13. TV news clutter: crawls and graphics cost about 10% of facts; the effect depends on the format
+
+Bergen, Grimes & Potter (2005), Human Communication Research 31(3): four experiments on CNN Headline News style screens, simple condition (graphics and crawl removed) vs complex. Via the ScienceDaily write-up of the paper (the paper's own abstract was not fetchable): "people tend to remember about 10 percent fewer facts than when you don't have it on the screen"; and "people were splitting their attention into too many parts to understand any of the content." Follow-ups: Brechman et al. (2015, abstract fetched via Crossref) found "better recognition of both types of news content when tickers updated rather than scrolled" and "no differences in perceived clutter or program liking". Hensellek (2025, abstract via Crossref) found a more complex screen "did significantly affect the distribution of fixations and gaze duration across screen elements" but its "effect on information recall was found to be not significant." So text can move gaze away from the picture without always hurting recall.
+
+SOURCE: [PEER-REVIEWED] Bergen, Grimes, Potter (2005) https://doi.org/10.1111/j.1468-2958.2005.tb00874.x (quotes taken from press write-up https://www.sciencedaily.com/releases/2005/04/050429130701.htm; paper abstract not fetched); Brechman et al. (2015) https://doi.org/10.1177/1077699015604851 ; Hensellek (2025) https://doi.org/10.1177/14703572251335839
+SEPARATED FROM TOPIC? yes - clutter on/off or ticker format varied across randomized groups; outcomes are recall and fixations in TV news, not short vertical video or watch-through.
+
+=====
+14. How long does subtitle text need to be up? The professional rules and what they rest on
+
+BBC Subtitle Guidelines (fetched): "Based on the recommended rate of 160-180 words per minute, you should aim to leave a subtitle on screen for a minimum period of around 0.3 seconds per word (e.g. 1.2 seconds for a 4-word subtitle). However, timings are ultimately an editorial decision..." Gaps: "this must be a minimum of one second, preferably a second and a half." Lines: "For landscape or square (16:9, 4:3 or 1:1) video, a maximum subtitle length of two lines is recommended. For vertical (9:16) video, a maximum subtitle length of three lines is recommended." More time: "When there is a lot happening in the picture... allow viewers enough time both to read the subtitle and to take in the visuals" and "Aim for longer timing if your subtitle crosses one shot or more, as viewers will need longer to read it." On cuts: "It is likely to be less tiring for the viewer if shot changes and subtitle changes occur at the same time." Netflix (fetched): "Minimum duration: 5/6 (five-sixths) of a second per subtitle event", "Maximum duration: 7 seconds per subtitle event", "2 lines maximum"; English guide: "Adult programs: Up to 20 characters per second", "Children's programs: Up to 17 characters per second", "42 characters per line".
+
+These are industry rules. The BBC page cites no study for 160-180 wpm or for the cut-matching advice, and the sentence about being "less tiring" is an assertion, not a measurement.
+
+SOURCE: [PLATFORM DOC] BBC Subtitle Guidelines https://www.bbc.co.uk/accessibility/forproducts/guides/subtitles ; Netflix Timed Text Style Guide https://partnerhelp.netflixstudios.com/hc/en-us/articles/215758617-Timed-Text-Style-Guide-General-Requirements and https://partnerhelp.netflixstudios.com/hc/en-us/articles/217350977-English-Timed-Text-Style-Guide
+SEPARATED FROM TOPIC? no - standards, no outcome data attached.
+
+=====
+15. Reading speed ceiling for ordinary text: 238 wpm silent, non-fiction (meta-analysis)
+
+Brysbaert (2019), Journal of Memory and Language 109. Abstract (fetched from a PDF copy): "Based on the analysis of 190 studies (18,573 participants), we estimate that the average silent reading rate for adults in English is 238 words per minute (wpm) for non-fiction and 260 wpm for fiction... Reading rates are lower for children, old adults, and readers with English as second language... For silent reading of English non-fiction most adults fall in the range of 175-300 wpm; for fiction the range is 200-320 wpm." That is reading text alone with nothing else to watch. Subtitle standards (160-180 wpm BBC) sit below this, which fits splitting time between text and picture. Rule of thumb implied by the numbers (my arithmetic, not from the paper): at 238 wpm a 10-word overlay needs about 2.5 seconds of reading alone. At 160-180 wpm it is 3.3-3.8 seconds.
+
+Not tested here: kinetic or word-by-word text, stylized fonts, or text on busy backgrounds.
+
+SOURCE: [PEER-REVIEWED] Brysbaert (2019) https://doi.org/10.1016/j.jml.2019.104047 (read from https://gwern.net/doc/psychology/linguistics/2019-brysbaert.pdf)
+SEPARATED FROM TOPIC? yes for reading rate alone; no for reading while also watching a picture.
+
+=====
+16. How fast is too fast? Mixed lab evidence: 20 characters per second fine, 28 hurts
+
+Szarkowska & Gerber-Moron (2018), PLOS ONE, 74 participants, within-subject speeds of 12, 16, 20 cps (Experiment 1) and 12, 20 cps (Experiment 2). Results: "Subtitle speed did not have an effect on comprehension, F (2,140) = 0.114, p = .892", and "Contrary to expectations, scene recognition was not affected by speed." Gaze: viewers spent "about 50% of the subtitle display time reading slow subtitles... and about 60% on reading fast subtitles." The paper cites a prediction (about 80% of time on subtitles at 200 wpm) and says: "These predictions were not confirmed in the current study." Opposite result at higher speed: Kruger, Wisniewska & Liao (2021), 12, 20, 28 cps: "comprehension declined as speed increased" and "faster subtitles resulted in more incomplete reading of subtitles". Szarkowska & Bogucka (2019), 53 Polish viewers: "viewers were looking at subtitles for only about 30% of the subtitle display time." So ~20 cps (Netflix's adult ceiling) holds up in these tests; 28 cps does not.
+
+The same clip was shown at different speeds, so speed is separated from content. Participants were adults in lab sessions; none was a feed.
+
+SOURCE: [PEER-REVIEWED] https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0199331 ; Kruger, Wisniewska, Liao (2021) https://doi.org/10.1017/S0142716421000503 ; Szarkowska & Bogucka (2019) https://doi.org/10.1075/tcb.00022.sza
+SEPARATED FROM TOPIC? yes - speed manipulated within-subject on the same clips; outcomes are comprehension and gaze, not watch-through.
+
+=====
+17. Vertical video: two-line captions draw more gaze than one-line, even per character
+
+Li (2026), Applied Cognitive Psychology. Abstract (fetched via Crossref): "A total of 211 participants watched a TikTok video with either one-line or two-line subtitles while their eye movements were recorded. Two-line subtitles attracted greater visual attention than one-line subtitles, with longer total fixation time, more revisits, lower skipping probability, and longer time to first fixation. After statistically controlling for character count, two-line subtitles still elicited longer total fixation time, suggesting that the format difference cannot be fully attributed to text length alone." Method: "webcam eye tracking", one TikTok video, between-subjects. Same pattern in older TV work: d'Ydewalle & De Bruycker (2007) "a single text line is often redundant to the information in the picture, and accordingly less reading of one-line text was apparent", and d'Ydewalle 1991: "The proportion of time spent reading subtitles is consistently larger with two-line subtitles than with one-line subtitles." The only caption-layout study I found on a TikTok-style video, and it measures gaze, not whether anyone watches longer. One video, so layout is confounded with that video's content.
+
+SOURCE: [PEER-REVIEWED] Li (2026) https://doi.org/10.1002/acp.70262 ; d'Ydewalle & De Bruycker (2007) European Psychologist https://doi.org/10.1027/1016-9040.12.3.196 (abstracts via Crossref)
+SEPARATED FROM TOPIC? partly - lines manipulated between groups on one video; no outcome beyond fixations.
+
+=====
+18. Platform-published reading rule vs. the experiment: where editors have guidance, none is tied to retention
+
+Putting sections 14-17 side by side: guidelines (BBC 160-180 wpm; Netflix 20 cps, 5/6 s minimum) match what lab studies find tolerable (20 cps no comprehension loss; 28 cps loss; 30-60% of subtitle time actually spent on the words). No source found links any of these numbers to a viewer staying longer. The numbers protect comprehension of dialogue, not retention. BBC says "think about much more than the number of words on the screen; this would be an unacceptably crude approach." Measured fact an editor can use: viewers look at the text for roughly 30-60% of the time it is on screen, so the picture is still seen during the rest. Not measured: whether text over dense footage, or text not tied to speech (labels, hooks, titles), is read in the same time. BBC: "Allow an extra second for labels where possible."
+
+SOURCE: [PLATFORM DOC] BBC Subtitle Guidelines https://www.bbc.co.uk/accessibility/forproducts/guides/subtitles ; with PLOS ONE paper above https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0199331 [PEER-REVIEWED]
+SEPARATED FROM TOPIC? no - synthesis of the standards and lab sections; no study ties text timing to retention.
+
+=====
+19. NOT FOUND list (checked, not located or not supported by fetched text)
+
+1. Effect sizes in Gernsbacher 2015: none in the fetched article body.
+2. Original Verizon Media / Publicis Media 2019 report (method, question wording, ad-lift design): not located; only trade-press summaries.
+3. Any Instagram/Meta number on captions or sound-off share from a primary source (Mosseri "about 50%" and "80% of Reels with sound" appear only in blogs and social posts).
+4. A controlled or randomized study of captions on watch-through/completion/retention time for short-form social video: not found. Only an uncontrolled vendor case study (+7.32% views), a Facebook "internal test" (+12% view time, undisclosed design), and a survey intent (80%).
+5. Any measured threshold for how much on-screen text (words per frame) can sit over footage before people stop looking at the picture, for non-subtitle overlay text.
+6. Controlled test of caption style (word-by-word highlight, size, position, font) on retention: only vendor blog claims turned up; none fetched as evidence.
+7. A platform-published, measured silent-viewing share (Facebook added a "viewed with sound" metric but I found no published value).
+
+SOURCE: [PLATFORM DOC] checked, no figure present: https://newsroom.tiktok.com/en-us/introducing-auto-captions , https://www.facebook.com/business/ads/facebook-instagram-reels-ads (no Instagram help page or YouTube doc page was fetched for this question)
+SEPARATED FROM TOPIC? n/a - NOT FOUND.
